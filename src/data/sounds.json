@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Rain",
+    "dataKey": "rain",
+    "imgsrc": "rain.png"
+  },
+  {
+    "title": "Thunderstorm",
+    "dataKey": "thunderstorm",
+    "imgsrc": "thunderstorm.png"
+  },
+  {
+    "title": "Wind",
+    "dataKey": "wind",
+    "imgsrc": "wind.png"
+  },
+  {
+    "title": "Forest",
+    "dataKey": "forest",
+    "imgsrc": "forest.png"
+  },
+  {
+    "title": "Leaves",
+    "dataKey": "leaves",
+    "imgsrc": "leaves.png"
+  },
+  {
+    "title": "Waterstream",
+    "dataKey": "waterstream",
+    "imgsrc": "waterstream.png"
+  },
+  {
+    "title": "Seaside",
+    "dataKey": "seaside",
+    "imgsrc": "seaside.png"
+  },
+  {
+    "title": "Water",
+    "dataKey": "water",
+    "imgsrc": "water.png"
+  },
+  {
+    "title": "Fire",
+    "dataKey": "fire",
+    "imgsrc": "fire.png"
+  },
+  {
+    "title": "Coffee",
+    "dataKey": "coffee",
+    "imgsrc": "coffee.png"
+  },
+  {
+    "title": "Summernight",
+    "dataKey": "summernight",
+    "imgsrc": "summernight.png"
+  },
+  {
+    "title": "Train",
+    "dataKey": "train",
+    "imgsrc": "train.png"
+  },
+  {
+    "title": "Fan",
+    "dataKey": "fan",
+    "imgsrc": "fan.png"
+  },
+  {
+    "title": "Whitenoise",
+    "dataKey": "whitenoise",
+    "imgsrc": "whitenoise.png"
+  },
+  {
+    "title": "Pinknoise",
+    "dataKey": "pinknoise",
+    "imgsrc": "pinknoise.png"
+  },
+  {
+    "title": "Brownnoise",
+    "dataKey": "brownnoise",
+    "imgsrc": "brownnoise.png"
+  }
+]

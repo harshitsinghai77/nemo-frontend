@@ -1,0 +1,90 @@
+html,
+body {
+  height: 100%;
+  min-width: 100vh;
+}
+
+body {
+  background-color: #232323;
+  border-color: transparent;
+  color: white;
+  font-family: Raleway;
+  transition: background 5s;
+}
+
+img {
+  width: 100px;
+  padding: 50px;
+  opacity: 0.5;
+}
+
+h1 {
+  font-size: 50px;
+  text-transform: uppercase;
+}
+
+button {
+  background: rgba(255, 255, 255, 0.25);
+  border-style: none;
+  border-radius: 25px;
+  color: inherit;
+  font-size: 20px;
+  padding: 0.5em 1.2em;
+  outline: none;
+  margin: auto 1em;
+  opacity: 0.5;
+}
+
+button:hover,
+button:active,
+img:hover,
+img:active {
+  cursor: pointer;
+}
+
+input[type="range"] {
+  visibility: hidden;
+}
+
+input[type="range"].slider-active {
+  visibility: visible;
+}
+
+.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sound-types {
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  max-width: 100vh;
+  min-height: 100vh;
+}
+
+.welcome-text {
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 2em;
+}
+
+.btn-mute {
+  text-align: center;
+  font-size: 2em;
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+a {
+  color: inherit;
+}
