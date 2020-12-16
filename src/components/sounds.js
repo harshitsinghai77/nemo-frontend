@@ -13,6 +13,7 @@ function Sounds(props) {
       currentAudio.loop = true;
       audioDict[dataKey] = currentAudio;
     });
+
     setAudioSound(audioDict);
   };
 
@@ -21,13 +22,18 @@ function Sounds(props) {
   }, []);
 
   const onImageClick = (title, dataKey) => {
-    const { myAudio } = props;
     setImageActive({
       ...imageActive,
       [title]: imageActive[title] ? !imageActive[title] : true,
     });
 
-    const audio = myAudio[dataKey];
+    playAudio(dataKey);
+  };
+
+  const playAudio = (datakey) => {
+    const { myAudio } = props;
+
+    const audio = myAudio[datakey];
     if (audio) audio.paused ? audio.play() : audio.pause();
   };
 
@@ -55,7 +61,9 @@ function Sounds(props) {
                 title={title}
                 onClick={() => onImageClick(title, dataKey)}
                 className={
-                  imageActive[title] ? "flex-item active" : "flex-item"
+                  imageActive[title]
+                    ? "flex-item active sound-img"
+                    : "flex-item sound-img"
                 }
               />
               <input
@@ -63,7 +71,9 @@ function Sounds(props) {
                 min="0"
                 max="100"
                 className={
-                  imageActive[title] ? "flex-item slider-active" : "flex-item"
+                  imageActive[title]
+                    ? "flex-item slider-active dashboard-input"
+                    : "flex-item dashboard-input"
                 }
                 onChange={(event) => onSliderChange(event, dataKey)}
               />

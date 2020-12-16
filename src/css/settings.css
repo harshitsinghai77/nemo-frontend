@@ -1,0 +1,52 @@
+.settings {
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  max-width: 390px;
+  position: relative;
+  color: black;
+  background-color: red;
+}
+
+@media (min-width: 992px) {
+  .settings-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 768px) {
+  .settings-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 576px) {
+  .settings-container {
+    max-width: 540px;
+  }
+}
+
+.settings-form-container {
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 3px;
+}
+
+.settings-form-text {
+  flex: 1 1 0%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.settings-form-input {
+  width: 60%;
+}

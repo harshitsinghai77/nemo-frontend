@@ -11,10 +11,10 @@ function getRandomColor() {
 
 function changeBackgroundColor() {
   const randomColor = getRandomColor();
-  const timerHeader = document.getElementById("#timer-header");
-  document.body.style.backgroundColor = randomColor;
-  if (timerHeader) {
-    timerHeader.style.backgroundColor = randomColor;
+  const dashboard = document.getElementById("#dashboard");
+
+  if (dashboard) {
+    dashboard.style.backgroundColor = randomColor;
   }
 }
 

@@ -1,14 +1,15 @@
 import { memo } from "react";
+import { Header } from "grommet";
+import "../css/header.css";
 
-const Header = () => (
-  <div className="flex-item welcome-text">
-    <p>
-      Noisli is your digital place for <strong>focus</strong>.
-    </p>
-    <p>
-      Noisli helps you boost your motivation and help you think more creatively.
-    </p>
-  </div>
+const HeaderContainer = ({ children }) => (
+  <Header>
+    <div className="header-container" id="#timer-header">
+      <div>Noisli</div>
+      <div className="header-container-center">{children}</div>
+      <div></div>
+    </div>
+  </Header>
 );
 
-export default memo(Header);
+export default memo(HeaderContainer);
