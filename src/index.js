@@ -1,14 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { Grommet } from "grommet";
+
+import App from "./App";
+import { StateProvider } from "./context";
+import { theme } from "./themes";
+import reportWebVitals from "./reportWebVitals";
 import "./css/noisly.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Grommet>
-      <App />
+    <Grommet theme={theme}>
+      <StateProvider>
+        <App />
+      </StateProvider>
     </Grommet>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "../components/header";
-import AlertBox from "./alertbox";
+import AlertBox from "./Alertbox";
 import "../css/timer.css";
 
 const pokemonAudio = new Audio(require(`../sounds/pokemon.mp3`).default);
@@ -13,6 +12,8 @@ const Timer = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [counter, setCounter] = useState(3);
   const [showAlert, setShowAlert] = useState(false);
+
+  const { onMuteClickToggle, onMusicStop } = props;
 
   useEffect(() => {
     let intervalId;
@@ -35,6 +36,7 @@ const Timer = (props) => {
   }, [isActive, counter]);
 
   const reset = () => {
+    onMuteClickToggle();
     playPokemonAudio();
     setCycle((cycle) => cycle + 1);
     setCounter(3);
@@ -45,7 +47,10 @@ const Timer = (props) => {
   };
 
   const playPokemonAudio = () => {
-    if (pokemonAudio) pokemonAudio.play();
+    if (pokemonAudio) {
+      pokemonAudio.volume = 20 / 100;
+      pokemonAudio.play();
+    }
   };
 
   const stopPokemonAudio = () => {
@@ -55,10 +60,8 @@ const Timer = (props) => {
     }
   };
 
-  const { onMuteClickToggle } = props;
-
   return (
-    <Header>
+    <>
       <div className="timer-container-left">
         <div className="timer-container-total-cycle">{cycle}/4</div>
       </div>
@@ -118,10 +121,10 @@ const Timer = (props) => {
         onClose={() => {
           setShowAlert(false);
           stopPokemonAudio();
-          onMuteClickToggle();
+          onMusicStop();
         }}
       />
-    </Header>
+    </>
   );
 };
 

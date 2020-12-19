@@ -1,24 +1,42 @@
-import { useState } from "react";
-import Timer from "../components/timer";
-import Sounds from "../components/sounds";
-import Introduction from "../components/introduction";
-import Footer from "../components/footer";
-import "../js/noisli";
+import { useContext } from "react";
+
+import { store } from "../context";
+import Header from "../components/Header";
+import Timer from "../components/Timer";
+import Sounds from "../components/Sounds";
+import Introduction from "../components/Introduction";
+import Footer from "../components/Footer";
 
 function Dashboard() {
-  const [myAudio, setMyAudio] = useState({});
-  const [mute, setMute] = useState(false);
+  const globalState = useContext(store);
+  const mute = globalState.state.audioMute || false;
+  const myAudio = globalState.state.myAudio;
 
   const onMuteClickToggle = () => {
-    setMute(!mute);
+    const { dispatch } = globalState;
+    dispatch({ type: "toggle mute" });
+
     for (const [key, audio] of Object.entries(myAudio)) {
       audio.muted = !audio.muted;
     }
   };
 
+  const onMusicStop = () => {
+    if (myAudio) {
+      for (const [key, audio] of Object.entries(myAudio)) {
+        audio.muted = true;
+      }
+    }
+  };
+
   return (
     <div id="#dashboard" className="dashboard">
-      <Timer onMuteClickToggle={onMuteClickToggle} />
+      <Header>
+        <Timer
+          onMuteClickToggle={onMuteClickToggle}
+          onMusicStop={onMusicStop}
+        />
+      </Header>
       <div className="flex-container">
         <h1>Noisli</h1>
 
@@ -34,10 +52,7 @@ function Dashboard() {
           onClick={() => onMuteClickToggle()}
         ></button>
 
-        <Sounds
-          setAudioSound={(audio) => setMyAudio(audio)}
-          myAudio={myAudio}
-        />
+        <Sounds />
         {/* <div id="buttons" className="flex-item">
         <button id="btn-random">Random</button>
         <button id="btn-productivity">Productivity</button>
