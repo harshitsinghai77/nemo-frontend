@@ -5,8 +5,7 @@ import SoundData from "../data/sounds.json";
 
 function Sounds() {
   const globalState = useContext(store);
-  const myAudio = globalState.state.myAudio;
-  const activeImage = globalState.state.imageActive;
+  const { myAudio, myImages } = globalState.state;
 
   const onImageClick = (title, dataKey) => {
     const { dispatch } = globalState;
@@ -27,38 +26,33 @@ function Sounds() {
   };
 
   return (
-    <>
-      <div className="flex-container flex-item sound-types">
-        {SoundData.map((el, index) => {
-          const { imgsrc, dataKey, title } = el;
-          return (
-            <div
-              key={index}
-              data-key={dataKey}
-              className="flex-container flex-item"
-            >
-              <img
-                src={require(`../images/${imgsrc}`).default}
-                alt={title}
-                title={title}
-                onClick={() => onImageClick(title, dataKey)}
-                className={
-                  activeImage[title]
-                    ? "flex-item active sound-img"
-                    : "flex-item sound-img"
-                }
-              />
-              <RangeInput
-                min="0"
-                max="100"
-                className={
-                  activeImage[title]
-                    ? "flex-item slider-active dashboard-input"
-                    : "flex-item dashboard-input"
-                }
-                onChange={(event) => onSliderChange(event, dataKey)}
-              />
-              {/* <input
+    <div className="flex-container sound-types">
+      {SoundData.map((el, index) => {
+        const { imgsrc, dataKey, title } = el;
+        return (
+          <div
+            key={index}
+            data-key={dataKey}
+            className="flex-container sound-container"
+          >
+            <img
+              src={require(`../images/${imgsrc}`).default}
+              alt={title}
+              title={title}
+              onClick={() => onImageClick(title, dataKey)}
+              className={myImages[title] ? "active sound-img" : "sound-img"}
+            />
+            <RangeInput
+              min="0"
+              max="100"
+              className={
+                myImages[title]
+                  ? "dashboard-input slider-active "
+                  : "dashboard-input"
+              }
+              onChange={(event) => onSliderChange(event, dataKey)}
+            />
+            {/* <input
                 type="range"
                 min="0"
                 max="100"
@@ -69,11 +63,10 @@ function Sounds() {
                 }
                 onChange={(event) => onSliderChange(event, dataKey)}
               /> */}
-            </div>
-          );
-        })}
-      </div>
-    </>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 

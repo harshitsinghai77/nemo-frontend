@@ -4,7 +4,14 @@ const initialState = {
   defaultValue: "Harshit is the default value",
   audioMute: false,
   myAudio: {},
-  imageActive: {},
+  myImages: {},
+  settings: {
+    timer: "",
+    timeEndNotification: false,
+    showTimerOnBrowser: false,
+    webNotification: false,
+    sessions: 4,
+  },
 };
 const store = createContext(initialState);
 const { Provider } = store;
@@ -21,12 +28,42 @@ const StateProvider = ({ children }) => {
       case "set audio":
         return { ...state, myAudio: action.payload };
 
+      case "set timer":
+        return {
+          ...state,
+          settings: { ...state.settings, timer: action.value },
+        };
+
+      case "set time end notification":
+        return {
+          ...state,
+          settings: { ...state.settings, timeEndNotification: action.value },
+        };
+
+      case "set timer on browser":
+        return {
+          ...state,
+          settings: { ...state.settings, showTimerOnBrowser: action.value },
+        };
+
+      case "set web notification":
+        return {
+          ...state,
+          settings: { ...state.settings, webNotification: action.value },
+        };
+
+      case "set sessions":
+        return {
+          ...state,
+          settings: { ...state.settings, sessions: action.value },
+        };
+
       case "toggle activate image":
         return {
           ...state,
-          imageActive: {
-            ...state.imageActive,
-            [action.title]: !state.imageActive[action.title],
+          myImages: {
+            ...state.myImages,
+            [action.title]: !state.myImages[action.title],
           },
         };
       default:

@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-
+import { useContext } from "react";
 import { Box, CheckBox, TextInput } from "grommet";
 
+import { store } from "../context";
 import Header from "../components/Header";
 import MaskedInput from "../components/Inputs/maskedInput";
-import TabTitle from "../components/TitleComponent";
 import { ParagraphTitle } from "../components/Heading";
 
 const Settings = () => {
-  const [checkBox, setCheckBox] = useState(true);
-  const [maskedInput, setMaskedInput] = useState("");
-  const [sessions, setSessions] = useState("4");
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+  const {
+    timer,
+    timeEndNotification,
+    showTimerOnBrowser,
+    webNotification,
+    sessions,
+  } = globalState.state.settings;
 
   const content = [
     <Box key="type" align="center" gap="small" direction="column">
@@ -38,8 +43,13 @@ const Settings = () => {
             "11",
             "12",
           ]}
-          value={maskedInput}
-          onChange={(event) => setMaskedInput(event.target.value)}
+          value={timer}
+          onChange={(event) =>
+            dispatch({
+              type: "set timer",
+              value: event.target.value,
+            })
+          }
         />
       </Box>
       <Box
@@ -51,10 +61,15 @@ const Settings = () => {
       >
         <ParagraphTitle content="Time End Notification" />
         <CheckBox
-          name="toggle"
+          name="time end notification toggle"
           toggle
-          checked={checkBox}
-          onChange={(event) => setCheckBox(event.target.checked)}
+          checked={timeEndNotification}
+          onChange={() =>
+            dispatch({
+              type: "set time end notification",
+              value: !timeEndNotification,
+            })
+          }
         />
       </Box>
       <Box
@@ -66,10 +81,15 @@ const Settings = () => {
       >
         <ParagraphTitle content="Show Timer on Browser Tab" />
         <CheckBox
-          name="toggle"
+          name="show timer on browser toggle"
           toggle
-          checked={checkBox}
-          onChange={(event) => setCheckBox(event.target.checked)}
+          checked={showTimerOnBrowser}
+          onChange={() =>
+            dispatch({
+              type: "set timer on browser",
+              value: !showTimerOnBrowser,
+            })
+          }
         />
       </Box>
       <Box
@@ -81,10 +101,15 @@ const Settings = () => {
       >
         <ParagraphTitle content="Web Notification" />
         <CheckBox
-          name="toggle"
+          name="web notification toggle"
           toggle
-          checked={checkBox}
-          onChange={(event) => setCheckBox(event.target.checked)}
+          checked={webNotification}
+          onChange={() =>
+            dispatch({
+              type: "set web notification",
+              value: !webNotification,
+            })
+          }
         />
       </Box>
       <Box
@@ -102,7 +127,12 @@ const Settings = () => {
           textAlign="center"
           size="small"
           value={sessions}
-          onChange={(event) => setSessions(event.target.value)}
+          onChange={(event) =>
+            dispatch({
+              type: "set sessions",
+              value: event.target.value,
+            })
+          }
         />
       </Box>
     </Box>,
@@ -110,7 +140,6 @@ const Settings = () => {
 
   return (
     <>
-      <TabTitle title="Fuck me" />
       <Header textcolor />
       <div
         style={{

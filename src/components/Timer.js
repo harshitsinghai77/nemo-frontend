@@ -1,16 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+import TitleComponent from "./TitleComponent";
 import AlertBox from "./Alertbox";
 import "../css/timer.css";
+import { store } from "../context";
 
 const pokemonAudio = new Audio(require(`../sounds/pokemon.mp3`).default);
 
 const Timer = (props) => {
+  const globalState = useContext(store);
+
+  const { sessions, showTimerOnBrowser } = globalState.state.settings;
+
   const [cycle, setCycle] = useState(0);
   const [second, setSecond] = useState(0);
   const [minute, setMinute] = useState(45);
   const [started, setStarted] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [counter, setCounter] = useState(3);
+  const [counter, setCounter] = useState(2700);
   const [showAlert, setShowAlert] = useState(false);
 
   const { onMuteClickToggle, onMusicStop } = props;
@@ -62,12 +69,21 @@ const Timer = (props) => {
 
   return (
     <>
+      <TitleComponent
+        title={
+          showTimerOnBrowser && isActive
+            ? `Time remaining ${minute}:${second}`
+            : "Noisli"
+        }
+      />
       <div className="timer-container-left">
-        <div className="timer-container-total-cycle">{cycle}/4</div>
+        <div className="timer-container-total-cycle">
+          {cycle}/{sessions}
+        </div>
       </div>
       <div className="timer-container-center">
         <div className="timer-container-countdown">
-          {minute} : {second == 0 ? "00" : second}
+          {minute} : {second === 0 ? "00" : second}
         </div>
       </div>
       <div

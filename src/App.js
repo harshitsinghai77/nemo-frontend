@@ -9,6 +9,7 @@ import "./js/noisli";
 
 function App() {
   const globalState = useContext(store);
+
   useEffect(() => {
     const { dispatch } = globalState;
     const audioDict = LoadSound();

@@ -1,8 +1,8 @@
 import Helmet from "react-helmet";
 
-const TabTitle = ({ title }) => (
+const TitleComponent = ({ title }) => (
   <Helmet>
     <title>{title ? title : "Noisli"}</title>
   </Helmet>
 );
-export default TabTitle;
+export default TitleComponent;

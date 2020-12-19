@@ -54,7 +54,27 @@ a {
 
 .dashboard-input[type="range"].slider-active {
   visibility: visible;
+}
+
+.sound-container {
+  display: inline-flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
   width: 110px;
+  height: 84px;
+  margin: 60px 24px 72px;
+  transition: opacity 0.2s ease-in-out 0s;
+  cursor: pointer;
+  position: relative;
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .sound-container {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
 }
 
 .active {

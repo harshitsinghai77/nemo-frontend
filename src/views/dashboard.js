@@ -45,8 +45,8 @@ function Dashboard() {
         <button
           className={
             mute
-              ? "flex-item fa fa-volume-off active btn-mute dashboard-button"
-              : "flex-item fa fa-volume-up active btn-mute dashboard-button"
+              ? "fa fa-volume-off active btn-mute dashboard-button"
+              : "fa fa-volume-up active btn-mute dashboard-button"
           }
           title="Mute/Unmute"
           onClick={() => onMuteClickToggle()}

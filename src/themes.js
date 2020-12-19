@@ -7,10 +7,18 @@ export const theme = {
     },
     checkBox: {
       color: themePrimaryColor,
+      border: {
+        color: themePrimaryColor,
+      },
       hover: {
         border: {
           color: themePrimaryColor,
         },
+      },
+    },
+    control: {
+      border: {
+        radius: "25px",
       },
     },
   },
