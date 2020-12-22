@@ -1,16 +1,17 @@
 import { createContext, useReducer } from "react";
 
 const initialState = {
-  defaultValue: "Harshit is the default value",
   audioMute: false,
   myAudio: {},
   myImages: {},
   settings: {
-    timer: "",
-    timeEndNotification: false,
-    showTimerOnBrowser: false,
+    timer: "45 : 00",
+    countdownValue: 2700,
+    timeEndNotification: true,
+    showTimerOnBrowser: true,
     webNotification: false,
-    sessions: 4,
+    currentSession: 0,
+    totalSessions: 4,
   },
 };
 const store = createContext(initialState);
@@ -52,10 +53,22 @@ const StateProvider = ({ children }) => {
           settings: { ...state.settings, webNotification: action.value },
         };
 
-      case "set sessions":
+      case "set total session":
         return {
           ...state,
-          settings: { ...state.settings, sessions: action.value },
+          settings: { ...state.settings, totalSessions: action.value },
+        };
+
+      case "set current session":
+        return {
+          ...state,
+          settings: { ...state.settings, currentSession: action.value },
+        };
+
+      case "set countdown":
+        return {
+          ...state,
+          settings: { ...state.settings, countdownValue: action.value },
         };
 
       case "toggle activate image":

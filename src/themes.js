@@ -5,22 +5,6 @@ export const theme = {
     colors: {
       brand: themePrimaryColor,
     },
-    checkBox: {
-      color: themePrimaryColor,
-      border: {
-        color: themePrimaryColor,
-      },
-      hover: {
-        border: {
-          color: themePrimaryColor,
-        },
-      },
-    },
-    control: {
-      border: {
-        radius: "25px",
-      },
-    },
   },
   rangeInput: {
     thumb: {
@@ -38,6 +22,17 @@ export const theme = {
     },
     extend: {
       boxShadow: "none",
+    },
+  },
+  checkBox: {
+    color: themePrimaryColor,
+    border: {
+      color: themePrimaryColor,
+    },
+    hover: {
+      border: {
+        color: themePrimaryColor,
+      },
     },
   },
 };

@@ -1,16 +1,30 @@
 import { memo } from "react";
 import { MaskedInput } from "grommet";
 
-const Masked = ({ options, value, onChange }) => (
+const Masked = ({ value, onChange }) => (
   <MaskedInput
     mask={[
-      {
-        length: [1, 2],
-        options: options,
-        regexp: /^1[1-2]$|^[0-9]$/,
-        placeholder: "hh",
-      },
-      { fixed: " : " },
+      // {
+      //   length: [1, 2],
+      //   options: [
+      //     "00",
+      //     "01",
+      //     "02",
+      //     "03",
+      //     "04",
+      //     "05",
+      //     "06",
+      //     "07",
+      //     "08",
+      //     "09",
+      //     "10",
+      //     "11",
+      //     "12",
+      //   ],
+      //   regexp: /^1[1-2]$|^[0-9]$/,
+      //   placeholder: "hh",
+      // },
+      // { fixed: " : " },
       {
         length: 2,
         regexp: /^[0-5][0-9]$|^[0-9]$/,

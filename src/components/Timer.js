@@ -1,26 +1,33 @@
 import { useState, useEffect, useContext } from "react";
 
+import { store } from "../store/store";
+import { webNotifyMe } from "../js/notification";
+import { numberToMinute, numberToSeconds } from "../js/utils";
 import TitleComponent from "./TitleComponent";
 import AlertBox from "./Alertbox";
+
 import "../css/timer.css";
-import { store } from "../context";
 
 const pokemonAudio = new Audio(require(`../sounds/pokemon.mp3`).default);
 
 const Timer = (props) => {
   const globalState = useContext(store);
+  const { dispatch } = globalState;
+  const { onMusicStop } = props;
 
-  const { sessions, showTimerOnBrowser } = globalState.state.settings;
+  const {
+    showTimerOnBrowser,
+    countdownValue,
+    timer,
+    currentSession,
+    totalSessions,
+  } = globalState.state.settings;
 
-  const [cycle, setCycle] = useState(0);
   const [second, setSecond] = useState(0);
   const [minute, setMinute] = useState(45);
-  const [started, setStarted] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [counter, setCounter] = useState(2700);
+  const [counter, setCounter] = useState(countdownValue || 2700);
   const [showAlert, setShowAlert] = useState(false);
-
-  const { onMuteClickToggle, onMusicStop } = props;
 
   useEffect(() => {
     let intervalId;
@@ -31,8 +38,8 @@ const Timer = (props) => {
           return;
         }
 
-        const secondCounter = counter % 60;
-        const minuteCounter = Math.floor(counter / 60);
+        const secondCounter = numberToSeconds(counter);
+        const minuteCounter = numberToMinute(counter);
         setSecond(secondCounter);
         setMinute(minuteCounter);
         setCounter((counter) => counter - 1);
@@ -42,15 +49,38 @@ const Timer = (props) => {
     return () => clearInterval(intervalId);
   }, [isActive, counter]);
 
+  useEffect(() => {
+    setDefaultTimer();
+  }, []);
+
+  const setDefaultTimer = () => {
+    try {
+      const globalTimer = timer.split(" : ");
+      const globalTimerMin = globalTimer[0];
+      const globalTimerSec = globalTimer[1];
+      setMinute(globalTimerMin);
+      setSecond(globalTimerSec);
+    } catch (e) {
+      setMinute(45);
+      setSecond(0);
+    }
+  };
+
   const reset = () => {
-    onMuteClickToggle();
     playPokemonAudio();
-    setCycle((cycle) => cycle + 1);
-    setCounter(3);
     setIsActive(false);
-    setMinute(45);
-    setSecond(0);
+    setDefaultTimer();
+    setCounter(countdownValue || 2700);
     setShowAlert(true);
+    webNotifyMe();
+    setSessions();
+  };
+
+  const setSessions = () => {
+    dispatch({
+      type: "set current session",
+      value: currentSession + 1,
+    });
   };
 
   const playPokemonAudio = () => {
@@ -67,18 +97,19 @@ const Timer = (props) => {
     }
   };
 
+  const getHeaderTitle = () => {
+    if (counter < 2) return "Time's up";
+    else if (showTimerOnBrowser && isActive)
+      return `${minute}:${second} Remaining`;
+    return "";
+  };
+
   return (
     <>
-      <TitleComponent
-        title={
-          showTimerOnBrowser && isActive
-            ? `Time remaining ${minute}:${second}`
-            : "Noisli"
-        }
-      />
+      <TitleComponent title={getHeaderTitle()} />
       <div className="timer-container-left">
         <div className="timer-container-total-cycle">
-          {cycle}/{sessions}
+          {currentSession}/{totalSessions}
         </div>
       </div>
       <div className="timer-container-center">
@@ -88,14 +119,7 @@ const Timer = (props) => {
       </div>
       <div
         className="timer-container-right-reset"
-        onClick={() => {
-          if (started) {
-            onMuteClickToggle();
-          } else {
-            setStarted(true);
-          }
-          setIsActive((prevState) => !prevState);
-        }}
+        onClick={() => setIsActive((prevState) => !prevState)}
       >
         {isActive ? (
           <svg

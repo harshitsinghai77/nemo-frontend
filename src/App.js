@@ -1,10 +1,11 @@
 import { useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { store } from "./context";
+import { store } from "./store/store";
 import Dashboard from "./views/dashboard";
 import Settings from "./views/settings";
-import { LoadSound } from "./js/loadsound";
+import { LoadSound } from "./js/utils";
+import { PageView, initGA } from "./tracking/tracking";
 import "./js/noisli";
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
     const audioDict = LoadSound();
 
     dispatch({ type: "set audio", payload: audioDict });
+
+    initGA("UA-183777353-1");
+    PageView();
   }, []);
 
   return (

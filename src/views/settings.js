@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { Box, CheckBox, TextInput } from "grommet";
 
-import { store } from "../context";
+import { store } from "../store/store";
+import { browserSupportsNotification } from "../js/notification";
 import Header from "../components/Header";
 import MaskedInput from "../components/Inputs/maskedInput";
-import { ParagraphTitle } from "../components/Heading";
+import { Title, ParagraphTitle } from "../components/Elements";
 
 const Settings = () => {
   const globalState = useContext(store);
@@ -14,42 +15,68 @@ const Settings = () => {
     timeEndNotification,
     showTimerOnBrowser,
     webNotification,
-    sessions,
+    totalSessions,
   } = globalState.state.settings;
 
-  const content = [
-    <Box key="type" align="center" gap="small" direction="column">
+  const askForNotification = () => {
+    if (browserSupportsNotification()) {
+      let customNotification = false;
+      if (Notification.permission === "granted") {
+        customNotification = true && !webNotification;
+      } else if (!webNotification) {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            customNotification = true;
+            dispatch({
+              type: "set web notification",
+              value: customNotification && !webNotification,
+            });
+          }
+        });
+      }
+
+      dispatch({
+        type: "set web notification",
+        value: customNotification,
+      });
+    }
+  };
+
+  const setTimerValue = (timerValue) => {
+    if (timerValue.length === 7) {
+      const splitValue = timerValue.split(" : ");
+      dispatch({
+        type: "set countdown",
+        value: parseInt(splitValue[0]) * 60 + parseInt(splitValue[1]),
+      });
+    }
+    dispatch({
+      type: "set timer",
+      value: timerValue,
+    });
+  };
+
+  const setSessionValue = (sessionValue) => {
+    dispatch({
+      type: "set total session",
+      value: sessionValue.replace(/[^0-9]/g, ""),
+    });
+  };
+
+  const content = (
+    <>
       <Box
         key="time"
         align="center"
-        gap="large"
         direction="row"
-        alignContent="between"
+        alignSelf="stretch"
+        justify="between"
+        gap="40%"
       >
-        <ParagraphTitle content="Time" />
+        <ParagraphTitle text="Time" />
         <MaskedInput
-          options={[
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-          ]}
           value={timer}
-          onChange={(event) =>
-            dispatch({
-              type: "set timer",
-              value: event.target.value,
-            })
-          }
+          onChange={(event) => setTimerValue(event.target.value)}
         />
       </Box>
       <Box
@@ -59,7 +86,7 @@ const Settings = () => {
         alignSelf="stretch"
         justify="between"
       >
-        <ParagraphTitle content="Time End Notification" />
+        <ParagraphTitle text="Time End Notification" />
         <CheckBox
           name="time end notification toggle"
           toggle
@@ -79,7 +106,7 @@ const Settings = () => {
         alignSelf="stretch"
         justify="between"
       >
-        <ParagraphTitle content="Show Timer on Browser Tab" />
+        <ParagraphTitle text="Show Timer on Browser Tab" />
         <CheckBox
           name="show timer on browser toggle"
           toggle
@@ -99,17 +126,12 @@ const Settings = () => {
         alignSelf="stretch"
         justify="between"
       >
-        <ParagraphTitle content="Web Notification" />
+        <ParagraphTitle text="Web Notification" />
         <CheckBox
           name="web notification toggle"
           toggle
           checked={webNotification}
-          onChange={() =>
-            dispatch({
-              type: "set web notification",
-              value: !webNotification,
-            })
-          }
+          onChange={() => askForNotification()}
         />
       </Box>
       <Box
@@ -120,38 +142,36 @@ const Settings = () => {
         justify="between"
         gap="40%"
       >
-        <ParagraphTitle content="Sessions" />
+        <ParagraphTitle text="Sessions" />
         <TextInput
           a11yTitle="Sessions"
           placeholder="Sessions"
           textAlign="center"
           size="small"
-          value={sessions}
-          onChange={(event) =>
-            dispatch({
-              type: "set sessions",
-              value: event.target.value,
-            })
-          }
+          value={totalSessions}
+          onChange={(event) => setSessionValue(event.target.value)}
         />
       </Box>
-    </Box>,
-  ];
+    </>
+  );
 
   return (
     <>
       <Header textcolor />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          color: "rgb(102, 102, 102)",
-        }}
+      <Box
+        flex
+        align="center"
+        justify="center"
+        alignContent="center"
+        pad="medium"
+        responsive={true}
+        margin="auto"
+        width="medium"
+        style={{ color: "rgb(102, 102, 102)" }}
       >
-        <Box flex align="center" justify="center" pad="medium">
-          {content}
-        </Box>
-      </div>
+        <Title title="Settings" color alignSelf="start" />
+        {content}
+      </Box>
     </>
   );
 };

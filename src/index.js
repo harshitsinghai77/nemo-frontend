@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Grommet } from "grommet";
 
 import App from "./App";
-import { StateProvider } from "./context";
+import { StateProvider } from "./store/store";
 import { theme } from "./themes";
 import reportWebVitals from "./reportWebVitals";
 import "./css/noisly.css";

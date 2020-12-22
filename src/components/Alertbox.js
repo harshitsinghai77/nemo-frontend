@@ -1,5 +1,5 @@
-import { Box, Button, Layer, Image, Heading } from "grommet";
-import { themePrimaryColor } from "../themes";
+import { Box, Layer, Image, Paragraph } from "grommet";
+import { PrimaryButton } from "./Elements";
 import HurrayGif from "../images/giphy.webp";
 import "../css/alertbox.css";
 
@@ -8,18 +8,22 @@ function AlertBox(props) {
   return (
     <Box>
       {show && (
-        <Layer onEsc={onClose} onClickOutside={onClose} animation="slide">
-          <Heading level={3} margin="medium" alignSelf="center">
-            Yeah, you did it. Take 15 min break...
-          </Heading>
+        <Layer
+          onEsc={onClose}
+          onClickOutside={onClose}
+          animation="slide"
+          position="center"
+          responsive={true}
+        >
           <Image fit="cover" src={HurrayGif} className="alertbox-img" />
-          <Button
+          <Paragraph
             alignSelf="center"
-            margin="medium"
-            label="I'm taking a break"
-            onClick={onClose}
-            color={themePrimaryColor}
-          />
+            textAlign="center"
+            className="alertbox-heading"
+          >
+            Yeah, you did it. Take 15 min break...
+          </Paragraph>
+          <PrimaryButton label="I'm taking a break" onClick={onClose} />
         </Layer>
       )}
     </Box>
