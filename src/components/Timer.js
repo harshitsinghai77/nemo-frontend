@@ -85,7 +85,6 @@ const Timer = (props) => {
 
   const playPokemonAudio = () => {
     if (pokemonAudio) {
-      pokemonAudio.volume = 20 / 100;
       pokemonAudio.play();
     }
   };
@@ -161,7 +160,6 @@ const Timer = (props) => {
         onClose={() => {
           setShowAlert(false);
           stopPokemonAudio();
-          onMusicStop();
         }}
       />
     </>

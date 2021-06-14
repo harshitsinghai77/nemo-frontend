@@ -1,6 +1,7 @@
 import { useContext } from "react";
 
 import { store } from "../store/store";
+import { APP_NAME } from "../js/utils";
 import Header from "../components/Header";
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
@@ -35,7 +36,7 @@ function Dashboard() {
         <Timer onMusicStop={onMusicStop} />
       </Header>
       <div className="flex-container">
-        <h1>Noisli</h1>
+        <h1>{APP_NAME}</h1>
 
         <Introduction />
 

@@ -23,7 +23,7 @@ function AlertBox(props) {
           >
             Yeah, you did it. Take 15 min break...
           </Paragraph>
-          <PrimaryButton label="I'm taking a break" onClick={onClose} />
+          <PrimaryButton label="Take a break" onClick={onClose} />
         </Layer>
       )}
     </Box>

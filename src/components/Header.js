@@ -4,13 +4,14 @@ import { Header } from "grommet";
 
 import { themePrimaryColor } from "../themes";
 import { Title } from "./Elements";
+import { APP_NAME } from "../js/utils";
 import "../css/header.css";
 
 const HeaderContainer = ({ textcolor, children }) => (
   <Header>
     <div className="header-container" id="#timer-header">
       <Link to="/">
-        <Title title="Noisli" color={textcolor} />
+        <Title title={APP_NAME} color={textcolor} />
       </Link>
       <div className="header-container-center">{children}</div>
 

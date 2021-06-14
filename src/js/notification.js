@@ -17,10 +17,8 @@ export const webNotifyMe = () => {
 
 export const showNotification = () => {
   const options = {
-    body:
-      "You did good. Take a break and come back for another pomodoro cycle.",
-    icon:
-      "https://cdn.pixabay.com/photo/2018/01/21/01/46/architecture-3095716_1280.jpg",
+    body: "You did good. Take a break and come back for another pomodoro.",
+    icon: "https://cdn.pixabay.com/photo/2018/01/21/01/46/architecture-3095716_1280.jpg",
     dir: "ltr",
     badge:
       "https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",

@@ -20,3 +20,5 @@ export function numberToMinute(num) {
 export function numberToSeconds(num) {
   return num % 60;
 }
+
+export const APP_NAME = "Noisli";
