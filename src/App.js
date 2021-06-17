@@ -2,8 +2,11 @@ import { useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { store } from "./store/store";
+import { SET_AUDIO } from "./store/types";
+
 import Dashboard from "./views/dashboard";
-import Settings from "./views/settings";
+import Settings from "./views/settings/settings";
+import GoogleSignIn from "./views/google_signin";
 import { LoadSound } from "./js/utils";
 import "./js/noisli";
 
@@ -13,7 +16,7 @@ function App() {
   useEffect(() => {
     const { dispatch } = globalState;
     const audioDict = LoadSound();
-    dispatch({ type: "set audio", payload: audioDict });
+    dispatch({ type: SET_AUDIO, payload: audioDict });
   }, []);
 
   return (
@@ -21,6 +24,9 @@ function App() {
       <Switch>
         <Route path="/settings">
           <Settings />
+        </Route>
+        <Route path="/login">
+          <GoogleSignIn />
         </Route>
         <Route path="/">
           <Dashboard />

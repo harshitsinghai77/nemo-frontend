@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { RangeInput } from "grommet";
+
 import { store } from "../store/store";
+import { TOGGLE_ACTIVATE_IMAGE } from "../store/types";
+
 import SoundData from "../data/sounds.json";
 
 function Sounds() {
@@ -9,7 +12,7 @@ function Sounds() {
 
   const onImageClick = (title, dataKey) => {
     const { dispatch } = globalState;
-    dispatch({ type: "toggle activate image", title });
+    dispatch({ type: TOGGLE_ACTIVATE_IMAGE, title });
 
     playAudio(dataKey);
   };

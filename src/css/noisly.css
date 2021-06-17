@@ -5,9 +5,6 @@ body {
   height: 100%;
   min-width: 100vh;
   margin: 0;
-}
-
-body {
   color: white;
   font-family: Raleway;
 }
@@ -115,12 +112,6 @@ a {
   .sound-types {
     max-width: 640px;
   }
-}
-
-.welcome-text {
-  font-size: 20px;
-  text-align: center;
-  padding-bottom: 2em;
 }
 
 .dashboard-btn-mute {

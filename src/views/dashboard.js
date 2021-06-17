@@ -36,8 +36,6 @@ function Dashboard() {
         <Timer onMusicStop={onMusicStop} />
       </Header>
       <div className="flex-container">
-        <h1>{APP_NAME}</h1>
-
         <Introduction />
 
         <button

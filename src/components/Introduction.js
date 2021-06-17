@@ -2,9 +2,10 @@ import { memo } from "react";
 import { APP_NAME } from "../js/utils";
 
 const Introduction = () => (
-  <div className="flex-item welcome-text">
+  <div className="flex-item text-center	text-lg mb-10">
+    <h1 className="text-2<h1>{APP_NAME}</h1>l">{APP_NAME}</h1>
     <p>
-      {APP_NAME} is your digital place for <strong>focus</strong>.
+      Your digital place for <strong>focus</strong>.
     </p>
     <p>
       <strong>{APP_NAME}</strong> helps you boost your motivation and help you
