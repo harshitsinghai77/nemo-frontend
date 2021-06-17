@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 
 import { store } from "../store/store";
+import { SET_CURRENT_SESSION } from "../store/types";
 import { webNotifyMe } from "../js/notification";
 import { numberToMinute, numberToSeconds } from "../js/utils";
 import TitleComponent from "./TitleComponent";
@@ -78,7 +79,7 @@ const Timer = (props) => {
 
   const setSessions = () => {
     dispatch({
-      type: "set current session",
+      type: SET_CURRENT_SESSION,
       value: currentSession + 1,
     });
   };

@@ -8,16 +8,21 @@ import Dashboard from "./views/dashboard";
 import Settings from "./views/settings/settings";
 import GoogleSignIn from "./views/google_signin";
 import { LoadSound } from "./js/utils";
-import "./js/noisli";
+import { run } from "./js/noisli";
 
 function App() {
   const globalState = useContext(store);
+  const { dispatch } = globalState;
+  const { currentColor } = globalState.state.settings;
 
   useEffect(() => {
-    const { dispatch } = globalState;
     const audioDict = LoadSound();
     dispatch({ type: SET_AUDIO, payload: audioDict });
   }, []);
+
+  useEffect(() => {
+    run(currentColor);
+  }, [currentColor]);
 
   return (
     <Router>

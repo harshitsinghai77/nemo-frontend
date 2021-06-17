@@ -19,6 +19,7 @@ const initialState = {
     totalSessions: 4,
     autoStart: false,
     breakEndNotification: false,
+    currentColor: "rainbow",
   },
   user: {
     username: "",
@@ -120,7 +121,11 @@ const StateProvider = ({ children }) => {
           ...state,
           settings: { ...state.settings, breakEndNotification: action.value },
         };
-
+      case types.SET_BACKGROUND_COLOR:
+        return {
+          ...state,
+          settings: { ...state.settings, currentColor: action.value },
+        };
       case types.SET_USERNAME:
         return {
           ...state,

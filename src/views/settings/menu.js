@@ -2,7 +2,7 @@ import { Tabs, Tab } from "grommet";
 
 import Timer from "./timer";
 import Account from "./account";
-// import Preferences from "./preferences";
+import Preferences from "./preferences";
 
 const Menu = () => {
   return (
@@ -13,10 +13,9 @@ const Menu = () => {
       <Tab title="Account">
         <Account />
       </Tab>
-      {/*
       <Tab title="Preferences">
         <Preferences />
-      </Tab> */}
+      </Tab>
     </Tabs>
   );
 };

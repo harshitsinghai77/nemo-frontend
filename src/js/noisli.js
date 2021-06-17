@@ -1,3 +1,5 @@
+var background_interval;
+
 function getRandomColorChannel() {
   return Math.floor(Math.random() * 256);
 }
@@ -9,22 +11,30 @@ function getRandomColor() {
   return `rgb(${red},${green},${blue})`;
 }
 
-function changeBackgroundColor() {
-  const randomColor = getRandomColor();
-  const dashboard = document.getElementById("#dashboard");
-
-  if (dashboard) {
-    dashboard.style.backgroundColor = randomColor;
+function changeBackgroundColor(color) {
+  const dashboardElement = document.getElementById("#dashboard");
+  if (dashboardElement) {
+    dashboardElement.style.backgroundColor = color;
   }
 }
 
-function setBackgroundChange() {
-  changeBackgroundColor();
-  setInterval(changeBackgroundColor, 10000);
+function setRandomColor() {
+  const randomColor = getRandomColor();
+  changeBackgroundColor(randomColor);
 }
 
-function run() {
-  setBackgroundChange();
+function randomColor() {
+  changeBackgroundColor("rgb(92, 229, 180)");
+  background_interval = setInterval(setRandomColor, 10000);
 }
 
-run();
+export function run(currentColor) {
+  if (currentColor === "rainbow") {
+    randomColor();
+  } else {
+    clearInterval(background_interval);
+    background_interval = setInterval(() => {
+      changeBackgroundColor(currentColor);
+    }, 10000);
+  }
+}
