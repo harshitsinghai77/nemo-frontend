@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { store } from "../../store/store";
 import { SET_BACKGROUND_COLOR } from "../../store/types";
 
-import { Box, TextInput } from "grommet";
+import { Box, TextInput, Spinner } from "grommet";
 
 import { ParagraphTitle, CustomBox } from "../../components/Elements";
 import { colorPallete } from "../../js/utils";

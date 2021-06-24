@@ -1,4 +1,4 @@
-import { Heading, Paragraph, Button } from "grommet";
+import { Heading, Paragraph, Button, Box, Spinner } from "grommet";
 import { themePrimaryColor } from "../themes";
 import "../css/elements.css";
 
@@ -40,4 +40,10 @@ export const CustomBox = ({ children }) => (
   <div className="flex flex-wrap items-center justify-between mb-5 text-gray-500">
     {children}
   </div>
+);
+
+export const CustomerSpinner = (
+  <Box align="center" className="my-24">
+    <Spinner size="small" />
+  </Box>
 );

@@ -7,25 +7,26 @@ const initialState = {
   myAudio: {},
   myImages: {},
   settings: {
-    timer: "45 : 00",
+    timer_time: "45 : 00",
     countdownValue: 2700,
-    timeEndNotification: true,
-    showTimerOnBrowser: true,
-    webNotification: false,
-    workInSession: false,
+    timer_end_notification: false,
+    timer_show_timer_on_browser_tab: false,
+    timer_web_notification: false,
+    timer_sessions: false,
     shortBreak: "00:05:00",
     longBreak: "00:15:00",
     currentSession: 0,
-    totalSessions: 4,
-    autoStart: false,
-    breakEndNotification: false,
-    currentColor: "rainbow",
+    timer_sessions: 4,
+    timer_auto_start: false,
+    timer_break_end_notification: false,
+    preference_background_color: "rainbow",
+    timer_settings_loaded_from_backend: true,
   },
-  user: {
+  userAccount: {
     username: "",
     email: "",
-    firstName: "",
-    lastName: "",
+    family_name: "",
+    given_name: "",
   },
 };
 const store = createContext(initialState);
@@ -52,25 +53,31 @@ const StateProvider = ({ children }) => {
       case types.TOGGLE_TIME_END_NOTIFICION:
         return {
           ...state,
-          settings: { ...state.settings, timeEndNotification: action.value },
+          settings: {
+            ...state.settings,
+            timer_end_notification: action.value,
+          },
         };
 
       case types.TOGGLE_TIMER_ON_BROWSER:
         return {
           ...state,
-          settings: { ...state.settings, showTimerOnBrowser: action.value },
+          settings: {
+            ...state.settings,
+            timer_show_timer_on_browser_tab: action.value,
+          },
         };
 
       case types.TOGGLE_WEB_NOTIFICATION:
         return {
           ...state,
-          settings: { ...state.settings, webNotification: action.value },
+          settings: { ...state.settings, timer_web_notification: action.value },
         };
 
       case types.SET_TOTAL_SESSION:
         return {
           ...state,
-          settings: { ...state.settings, totalSessions: action.value },
+          settings: { ...state.settings, timer_sessions: action.value },
         };
 
       case types.SET_CURRENT_SESSION:
@@ -114,40 +121,67 @@ const StateProvider = ({ children }) => {
       case types.TOGGLE_AUTO_START:
         return {
           ...state,
-          settings: { ...state.settings, autoStart: action.value },
+          settings: { ...state.settings, timer_auto_start: action.value },
         };
       case types.TOGGLE_BREAK_END_NOTIFICATION:
         return {
           ...state,
-          settings: { ...state.settings, breakEndNotification: action.value },
+          settings: {
+            ...state.settings,
+            timer_break_end_notification: action.value,
+          },
         };
+      case types.SET_SETTING_LOADED_FROM_BACKEND:
+        return {
+          ...state,
+          settings: {
+            ...state.settings,
+            timer_settings_loaded_from_backend: action.value,
+          },
+        };
+
       case types.SET_BACKGROUND_COLOR:
         return {
           ...state,
-          settings: { ...state.settings, currentColor: action.value },
+          settings: {
+            ...state.settings,
+            preference_background_color: action.value,
+          },
         };
       case types.SET_USERNAME:
         return {
           ...state,
-          user: { ...state.user, username: action.value },
+          userAccount: { ...state.userAccount, username: action.value },
         };
 
       case types.SET_EMAIL:
         return {
           ...state,
-          user: { ...state.user, email: action.value },
+          userAccount: { ...state.userAccount, email: action.value },
         };
 
-      case types.SET_FIRST_NAME:
+      case types.SET_FAMILY_NAME:
         return {
           ...state,
-          user: { ...state.user, firstName: action.value },
+          userAccount: { ...state.userAccount, family_name: action.value },
         };
 
-      case types.SET_LAST_NAME:
+      case types.SET_GIVEN_NAME:
         return {
           ...state,
-          user: { ...state.user, lastName: action.value },
+          userAccount: { ...state.userAccount, given_name: action.value },
+        };
+
+      case types.SET_SETTINGS:
+        return {
+          ...state,
+          settings: action.value,
+        };
+
+      case types.SET_USER_ACCOUNT:
+        return {
+          ...state,
+          userAccount: action.value,
         };
 
       default:

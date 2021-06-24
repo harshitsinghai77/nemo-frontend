@@ -1,24 +1,59 @@
-import { useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Box, TextInput, Button } from "grommet";
 
+import { client } from "../../apiClient";
 import { store } from "../../store/store";
 import {
   SET_USERNAME,
   SET_EMAIL,
-  SET_FIRST_NAME,
-  SET_LAST_NAME,
+  SET_FAMILY_NAME,
+  SET_GIVEN_NAME,
+  SET_USER_ACCOUNT,
 } from "../../store/types";
-
 import {
   ParagraphTitle,
   BorderLine,
   CustomBox,
+  CustomerSpinner,
 } from "../../components/Elements";
 
 const AccountSettings = () => {
+  const [loader, setLoader] = useState(true);
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { username, email, firstName, lastName } = globalState.state.user;
+  const { username, email, given_name, family_name } =
+    globalState.state.userAccount;
+
+  const fetchData = async () => {
+    const res = await client.get("/get-account");
+    const { data } = res;
+
+    dispatch({
+      type: SET_USER_ACCOUNT,
+      value: data,
+    });
+
+    setLoader(false);
+  };
+
+  useEffect(() => {
+    if (!email || !given_name || !family_name) {
+      fetchData();
+    } else {
+      setLoader(false);
+    }
+  }, []);
+
+  const onSubmit = async () => {
+    const updated = {
+      given_name: given_name,
+      family_name: family_name,
+      username: username,
+      email: email,
+    };
+    const resp = await client.patch("/get-account", updated);
+    console.log(resp);
+  };
 
   const onChangeUsername = (value) =>
     dispatch({
@@ -34,14 +69,16 @@ const AccountSettings = () => {
 
   const onChangeFirstName = (value) =>
     dispatch({
-      type: SET_FIRST_NAME,
+      type: SET_GIVEN_NAME,
       value: value,
     });
-  const onChangeLastName = (value) =>
+
+  const onChangeLastName = (value) => {
     dispatch({
-      type: SET_LAST_NAME,
+      type: SET_FAMILY_NAME,
       value: value,
     });
+  };
 
   const content = (
     <div className="mt-10">
@@ -50,7 +87,7 @@ const AccountSettings = () => {
         <Box>
           <TextInput
             placeholder="username"
-            value={username}
+            value={username || ""}
             size="xsmall"
             onChange={(event) => onChangeUsername(event.target.value)}
           />
@@ -72,7 +109,7 @@ const AccountSettings = () => {
         <Box>
           <TextInput
             placeholder="type here"
-            value={firstName}
+            value={given_name}
             size="xsmall"
             onChange={(event) => onChangeFirstName(event.target.value)}
           />
@@ -83,7 +120,7 @@ const AccountSettings = () => {
         <Box>
           <TextInput
             placeholder="type here"
-            value={lastName}
+            value={family_name}
             size="xsmall"
             onChange={(event) => onChangeLastName(event.target.value)}
           />
@@ -91,7 +128,7 @@ const AccountSettings = () => {
       </CustomBox>
 
       <CustomBox>
-        <Button secondary label="Update" />
+        <Button secondary label="Update" onClick={onSubmit} />
       </CustomBox>
 
       <BorderLine />
@@ -105,7 +142,7 @@ const AccountSettings = () => {
     </div>
   );
 
-  return content;
+  return loader ? CustomerSpinner : content;
 };
 
 export default AccountSettings;
