@@ -1,17 +1,20 @@
 import { useContext } from "react";
 
 import { store } from "../store/store";
-import { APP_NAME } from "../js/utils";
+
 import Header from "../components/Header";
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
 import Introduction from "../components/Introduction";
 import Footer from "../components/Footer";
+import { CustomSpinner } from "../components/Elements";
 
 function Dashboard() {
   const globalState = useContext(store);
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
+  const { timer_settings_loaded_from_backend } = globalState.state.settings;
+  console.log(timer_settings_loaded_from_backend);
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;
@@ -33,7 +36,11 @@ function Dashboard() {
   return (
     <div id="#dashboard" className="dashboard">
       <Header>
-        <Timer onMusicStop={onMusicStop} />
+        {timer_settings_loaded_from_backend ? (
+          <CustomSpinner color="white" />
+        ) : (
+          <Timer onMusicStop={onMusicStop} />
+        )}
       </Header>
       <div className="flex-container">
         <Introduction />

@@ -14,7 +14,7 @@ import {
   ParagraphTitle,
   BorderLine,
   CustomBox,
-  CustomerSpinner,
+  CustomSpinner,
 } from "../../components/Elements";
 
 const AccountSettings = () => {
@@ -25,7 +25,7 @@ const AccountSettings = () => {
     globalState.state.userAccount;
 
   const fetchData = async () => {
-    const res = await client.get("/get-account");
+    const res = await client.get("/account");
     const { data } = res;
 
     dispatch({
@@ -51,7 +51,7 @@ const AccountSettings = () => {
       username: username,
       email: email,
     };
-    const resp = await client.patch("/get-account", updated);
+    const resp = await client.patch("/account", updated);
     console.log(resp);
   };
 
@@ -142,7 +142,7 @@ const AccountSettings = () => {
     </div>
   );
 
-  return loader ? CustomerSpinner : content;
+  return loader ? <CustomSpinner /> : content;
 };
 
 export default AccountSettings;

@@ -1,4 +1,3 @@
-import { type } from "language-tags";
 import { createContext, useReducer } from "react";
 import * as types from "./types";
 
@@ -7,8 +6,9 @@ const initialState = {
   myAudio: {},
   myImages: {},
   settings: {
-    timer_time: "45 : 00",
-    countdownValue: 2700,
+    // timer_time: "45 : 00",
+    timer_time: 2700,
+    display_time: "45 : 00",
     timer_end_notification: false,
     timer_show_timer_on_browser_tab: false,
     timer_web_notification: false,
@@ -19,6 +19,7 @@ const initialState = {
     timer_sessions: 4,
     timer_auto_start: false,
     timer_break_end_notification: false,
+    preference_shuffle_time: 10,
     preference_background_color: "rainbow",
     timer_settings_loaded_from_backend: true,
   },
@@ -47,7 +48,13 @@ const StateProvider = ({ children }) => {
       case types.SET_TIMER:
         return {
           ...state,
-          settings: { ...state.settings, timer: action.value },
+          settings: { ...state.settings, timer_time: action.value },
+        };
+
+      case types.SET_TIMER_DISPLAY:
+        return {
+          ...state,
+          settings: { ...state.settings, display_time: action.value },
         };
 
       case types.TOGGLE_TIME_END_NOTIFICION:
@@ -84,12 +91,6 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           settings: { ...state.settings, currentSession: action.value },
-        };
-
-      case types.SET_COUNTDOWN:
-        return {
-          ...state,
-          settings: { ...state.settings, countdownValue: action.value },
         };
 
       case types.TOGGLE_ACTIVATE_IMAGE:
@@ -146,6 +147,15 @@ const StateProvider = ({ children }) => {
           settings: {
             ...state.settings,
             preference_background_color: action.value,
+          },
+        };
+
+      case types.SET_BACKGROUND_SHUFFLE_TIME:
+        return {
+          ...state,
+          settings: {
+            ...state.settings,
+            preference_shuffle_time: action.value,
           },
         };
       case types.SET_USERNAME:

@@ -35,4 +35,16 @@ export const theme = {
       },
     },
   },
+  tab: {
+    color: "black",
+    active: {
+      color: themePrimaryColor,
+    },
+    border: {
+      color: "black",
+      active: {
+        color: themePrimaryColor,
+      },
+    },
+  },
 };

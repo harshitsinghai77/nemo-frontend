@@ -11,15 +11,14 @@ import "../css/timer.css";
 
 const pokemonAudio = new Audio(require(`../sounds/pokemon.mp3`).default);
 
-const Timer = (props) => {
+const Timer = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { onMusicStop } = props;
 
   const {
     showTimerOnBrowser,
-    countdownValue,
-    timer,
+    timer_time,
+    display_time,
     currentSession,
     totalSessions,
   } = globalState.state.settings;
@@ -27,7 +26,7 @@ const Timer = (props) => {
   const [second, setSecond] = useState(0);
   const [minute, setMinute] = useState(45);
   const [isActive, setIsActive] = useState(false);
-  const [counter, setCounter] = useState(countdownValue || 2700);
+  const [counter, setCounter] = useState(timer_time || 2700);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
@@ -56,7 +55,7 @@ const Timer = (props) => {
 
   const setDefaultTimer = () => {
     try {
-      const globalTimer = timer.split(" : ");
+      const globalTimer = display_time.split(" : ");
       const globalTimerMin = globalTimer[0];
       const globalTimerSec = globalTimer[1];
       setMinute(globalTimerMin);
@@ -71,7 +70,7 @@ const Timer = (props) => {
     playPokemonAudio();
     setIsActive(false);
     setDefaultTimer();
-    setCounter(countdownValue || 2700);
+    setCounter(timer_time || 2700);
     setShowAlert(true);
     webNotifyMe();
     setSessions();
@@ -114,7 +113,8 @@ const Timer = (props) => {
       </div>
       <div className="timer-container-center">
         <div className="timer-container-countdown">
-          {minute} : {second === 0 ? "00" : second}
+          {minute.toString().length < 2 ? `0${minute}` : minute} :{" "}
+          {second.toString().length < 2 ? `0${second}` : second}
         </div>
       </div>
       <div

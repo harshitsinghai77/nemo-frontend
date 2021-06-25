@@ -21,6 +21,27 @@ export function numberToSeconds(num) {
   return num % 60;
 }
 
+export function secondsToMinutes(sec) {
+  const minutes = Math.floor(sec / 60);
+  const seconds = sec - minutes * 60;
+  let timeValue = minutes.toString() + " : ";
+  if (seconds === 0) {
+    timeValue += "00";
+  }
+  return timeValue;
+}
+
+export function minuteToSeconds(min, seconds) {
+  return parseInt(min) * 60 + parseInt(seconds);
+}
+
+export function stringToSeconds(str) {
+  const splitValue = str.split(" : ");
+  const minutes = splitValue[0];
+  const seconds = splitValue[1] || 0;
+  return minuteToSeconds(minutes, seconds);
+}
+
 export const colorPallete = [
   "rgb(20, 97, 75)",
   "rgb(255, 206, 26)",

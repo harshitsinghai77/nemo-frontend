@@ -1,25 +1,40 @@
 import { useContext } from "react";
 
 import { store } from "../../store/store";
-import { SET_BACKGROUND_COLOR } from "../../store/types";
+import {
+  SET_BACKGROUND_COLOR,
+  SET_BACKGROUND_SHUFFLE_TIME,
+} from "../../store/types";
+import { updateSettings } from "./utils";
 
-import { Box, TextInput, Spinner } from "grommet";
+import { Box, TextInput } from "grommet";
 
 import { ParagraphTitle, CustomBox } from "../../components/Elements";
 import { colorPallete } from "../../js/utils";
 import { rainbow } from "../../components/rainbow";
 
-import "../../css/elements.css";
-
 const PreferencesSettings = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
+
+  const { preference_shuffle_time } = globalState.state.settings;
 
   const onColorChange = (bgColor) => {
     dispatch({
       type: SET_BACKGROUND_COLOR,
       value: bgColor,
     });
+  };
+
+  const onShuffleTimeChange = (value) => {
+    const shuffle = value.replace(/[^0-9]/g, "");
+    dispatch({
+      type: SET_BACKGROUND_SHUFFLE_TIME,
+      value: shuffle,
+    });
+    if (shuffle) {
+      updateSettings({ preference_shuffle_time: shuffle });
+    }
   };
 
   const content = (
@@ -29,9 +44,9 @@ const PreferencesSettings = () => {
         <Box>
           <TextInput
             placeholder="type here"
-            value={10}
+            value={preference_shuffle_time}
             size="small"
-            //   onChange={(event) => setValue(event.target.value)}
+            onChange={(event) => onShuffleTimeChange(event.target.value)}
           />
         </Box>
       </CustomBox>

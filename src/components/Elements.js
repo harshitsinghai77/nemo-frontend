@@ -42,8 +42,8 @@ export const CustomBox = ({ children }) => (
   </div>
 );
 
-export const CustomerSpinner = (
+export const CustomSpinner = ({ color }) => (
   <Box align="center" className="my-24">
-    <Spinner size="small" />
+    <Spinner align="center" color={color} size="small" />
   </Box>
 );
