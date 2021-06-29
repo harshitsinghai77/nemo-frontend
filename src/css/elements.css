@@ -2,16 +2,6 @@
   color: rgb(102, 102, 102);
 }
 
-.color-pallete {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  margin: 6px;
-  position: relative;
-  cursor: pointer;
-  opacity: 0.5;
-}
-
 .color-pallete-box {
   width: 266px;
   margin-top: -6px;
@@ -19,4 +9,21 @@
   margin-left: auto;
   display: flex;
   flex-wrap: wrap;
+}
+
+.color-pallete {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  margin: 6px;
+  position: relative;
+  cursor: pointer;
+}
+
+.color-pallete-check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
 }

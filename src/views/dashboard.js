@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
+import apiClient from "../apiClient";
 import { store } from "../store/store";
+import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS } from "../store/types";
 
 import Header from "../components/Header";
 import Timer from "../components/Timer";
@@ -11,10 +13,33 @@ import { CustomSpinner } from "../components/Elements";
 
 function Dashboard() {
   const globalState = useContext(store);
+  const { dispatch } = globalState;
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
   const { timer_settings_loaded_from_backend } = globalState.state.settings;
-  console.log(timer_settings_loaded_from_backend);
+
+  const getSettings = async () => {
+    const res = await apiClient.get_settings();
+    const { data } = res;
+    if (data) {
+      dispatch({
+        type: SET_SETTINGS,
+        value: data,
+      });
+      dispatch({
+        type: SET_SETTING_LOADED_FROM_BACKEND,
+        value: !timer_settings_loaded_from_backend,
+      });
+    }
+  };
+
+  useEffect(() => {
+    // if settings not loaded from backend
+    if (timer_settings_loaded_from_backend) {
+      getSettings();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timer_settings_loaded_from_backend]);
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;

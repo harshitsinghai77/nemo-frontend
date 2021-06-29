@@ -1,10 +1,27 @@
+export const selectedColor = (
+  <div className="color-pallete-check">
+    <svg
+      width="14"
+      height="10"
+      viewBox="0 0 14 10"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.594.383c-.524-.51-1.433-.51-1.958 0L5.13 6.735 2.365 4.037c-.525-.512-1.438-.509-1.959 0a1.328 1.328 0 0 0 0 1.912l3.745 3.656c.26.255.61.395.979.395s.718-.14.978-.396l7.488-7.308c.54-.527.54-1.385-.002-1.913"
+        fill="currentColor"
+        fillRule="evenodd"
+      ></path>
+    </svg>
+  </div>
+);
+
 export const rainbow = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="26"
     height="26"
     viewBox="0 0 26 26"
-    className="m-1.5 cursor-pointer"
+    className="cursor-pointer"
   >
     <g fill="none" fillRule="evenodd">
       <path

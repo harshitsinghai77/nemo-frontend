@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import { Box, TextInput, Button } from "grommet";
 
-import { client } from "../../apiClient";
+import apiClient from "../../apiClient";
 import { store } from "../../store/store";
 import {
   SET_USERNAME,
@@ -9,6 +9,7 @@ import {
   SET_FAMILY_NAME,
   SET_GIVEN_NAME,
   SET_USER_ACCOUNT,
+  SET_USER_SETTING_LOADED_FROM_BACKEND,
 } from "../../store/types";
 import {
   ParagraphTitle,
@@ -21,38 +22,49 @@ const AccountSettings = () => {
   const [loader, setLoader] = useState(true);
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { username, email, given_name, family_name } =
-    globalState.state.userAccount;
+  const {
+    username,
+    email,
+    given_name,
+    family_name,
+    user_account_loaded_from_backend,
+  } = globalState.state.userAccount;
 
   const fetchData = async () => {
-    const res = await client.get("/account");
+    const res = await apiClient.get_account();
     const { data } = res;
-
     dispatch({
       type: SET_USER_ACCOUNT,
       value: data,
     });
-
+    dispatch({
+      type: SET_USER_SETTING_LOADED_FROM_BACKEND,
+      value: !user_account_loaded_from_backend,
+    });
     setLoader(false);
   };
 
   useEffect(() => {
-    if (!email || !given_name || !family_name) {
+    if (user_account_loaded_from_backend) {
       fetchData();
     } else {
       setLoader(false);
     }
-  }, []);
+  }, [user_account_loaded_from_backend]);
 
   const onSubmit = async () => {
-    const updated = {
+    const account = {
       given_name: given_name,
       family_name: family_name,
       username: username,
       email: email,
     };
-    const resp = await client.patch("/account", updated);
-    console.log(resp);
+    const resp = await apiClient.update_account(account);
+    const { data } = resp;
+    dispatch({
+      type: SET_USER_ACCOUNT,
+      value: data,
+    });
   };
 
   const onChangeUsername = (value) =>
@@ -97,6 +109,7 @@ const AccountSettings = () => {
         <ParagraphTitle text="Email" />
         <Box>
           <TextInput
+            disabled
             placeholder="type here"
             value={email}
             size="xsmall"

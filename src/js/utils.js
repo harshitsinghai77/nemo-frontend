@@ -63,7 +63,6 @@ export const colorPallete = [
   "rgb(26, 188, 156)",
   "rgb(92, 229, 180)",
   "rgb(52, 87, 115)",
-  "all",
 ];
 
 export const APP_NAME = "Noisli";

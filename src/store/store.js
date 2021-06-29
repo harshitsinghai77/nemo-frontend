@@ -28,6 +28,7 @@ const initialState = {
     email: "",
     family_name: "",
     given_name: "",
+    user_account_loaded_from_backend: true,
   },
 };
 const store = createContext(initialState);
@@ -158,6 +159,7 @@ const StateProvider = ({ children }) => {
             preference_shuffle_time: action.value,
           },
         };
+
       case types.SET_USERNAME:
         return {
           ...state,
@@ -192,6 +194,15 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           userAccount: action.value,
+        };
+
+      case types.SET_USER_SETTING_LOADED_FROM_BACKEND:
+        return {
+          ...state,
+          userAccount: {
+            ...state.userAccount,
+            user_account_loaded_from_backend: action.value,
+          },
         };
 
       default:

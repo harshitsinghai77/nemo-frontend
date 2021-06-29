@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Box, CheckBox, TextInput } from "grommet";
 
 import { store } from "../../store/store";
@@ -12,8 +12,10 @@ import {
   TOGGLE_WORK_IN_SESSION,
   TOGGLE_AUTO_START,
   TOGGLE_BREAK_END_NOTIFICATION,
+  SET_SETTING_LOADED_FROM_BACKEND,
+  SET_SETTINGS,
 } from "../../store/types";
-import { updateSettings } from "./utils";
+import apiClient from "../../apiClient";
 
 import MaskedInput from "../../components/Inputs/maskedInput";
 import {
@@ -41,6 +43,29 @@ const TimerSettings = () => {
     timer_settings_loaded_from_backend,
   } = globalState.state.settings;
 
+  const getSettings = async () => {
+    const res = await apiClient.get_settings();
+    const { data } = res;
+    if (data) {
+      dispatch({
+        type: SET_SETTINGS,
+        value: data,
+      });
+      dispatch({
+        type: SET_SETTING_LOADED_FROM_BACKEND,
+        value: !timer_settings_loaded_from_backend,
+      });
+    }
+  };
+
+  useEffect(() => {
+    // if settings not loaded from backend
+    if (timer_settings_loaded_from_backend) {
+      getSettings();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timer_settings_loaded_from_backend]);
+
   const askForNotification = () => {
     if (browserSupportsNotification()) {
       let customNotification = false;
@@ -56,7 +81,9 @@ const TimerSettings = () => {
               type: TOGGLE_WEB_NOTIFICATION,
               value: notification_value,
             });
-            updateSettings({ timer_web_notification: notification_value });
+            apiClient.update_settings({
+              timer_web_notification: notification_value,
+            });
           }
         });
       }
@@ -65,7 +92,7 @@ const TimerSettings = () => {
         type: TOGGLE_WEB_NOTIFICATION,
         value: customNotification,
       });
-      updateSettings({ timer_web_notification: customNotification });
+      apiClient.update_settings({ timer_web_notification: customNotification });
     }
   };
 
@@ -74,7 +101,9 @@ const TimerSettings = () => {
       type: TOGGLE_TIME_END_NOTIFICION,
       value: !timer_end_notification,
     });
-    updateSettings({ timer_end_notification: !timer_end_notification });
+    apiClient.update_settings({
+      timer_end_notification: !timer_end_notification,
+    });
   };
 
   const setWorkInSession = () => {
@@ -89,7 +118,7 @@ const TimerSettings = () => {
       type: TOGGLE_AUTO_START,
       value: !timer_auto_start,
     });
-    updateSettings({ timer_auto_start: !timer_auto_start });
+    apiClient.update_settings({ timer_auto_start: !timer_auto_start });
   };
 
   const setBreakEndNotification = () => {
@@ -97,7 +126,7 @@ const TimerSettings = () => {
       type: TOGGLE_BREAK_END_NOTIFICATION,
       value: !timer_break_end_notification,
     });
-    updateSettings({
+    apiClient.update_settings({
       timer_break_end_notification: !timer_break_end_notification,
     });
   };
@@ -107,7 +136,7 @@ const TimerSettings = () => {
       type: TOGGLE_TIMER_ON_BROWSER,
       value: !timer_show_timer_on_browser_tab,
     });
-    updateSettings({
+    apiClient.update_settings({
       timer_show_timer_on_browser_tab: !timer_show_timer_on_browser_tab,
     });
   };
@@ -124,7 +153,7 @@ const TimerSettings = () => {
     });
 
     if (totalTime && timerValue) {
-      updateSettings({
+      apiClient.update_settings({
         timer_time: totalTime.toString(),
         display_time: timerValue,
       });
@@ -137,7 +166,7 @@ const TimerSettings = () => {
       type: SET_TOTAL_SESSION,
       value: session,
     });
-    updateSettings({ timer_sessions: session });
+    apiClient.update_settings({ timer_sessions: session });
   };
 
   const content = (

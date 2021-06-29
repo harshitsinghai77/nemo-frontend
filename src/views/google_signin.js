@@ -1,12 +1,11 @@
 import GoogleLogin from "react-google-login";
 import { setToken } from "../tokenStorage";
-import { client } from "../apiClient";
+import apiClient from "../apiClient";
 
 const responseGoogle = async (response) => {
   const id_token = response.getAuthResponse().id_token;
-  const res = await client.post("/login", { google_token: id_token });
+  const res = await apiClient.user_login({ google_token: id_token });
   const { data } = res;
-  console.log(data);
   setToken(data["access_token"]);
 };
 
