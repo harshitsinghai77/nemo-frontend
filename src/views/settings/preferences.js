@@ -20,24 +20,24 @@ const PreferencesSettings = () => {
   const { preference_shuffle_time, preference_background_color } =
     globalState.state.settings;
 
-  const onColorChange = (bgColor) => {
+  const onColorChange = async (bgColor) => {
     dispatch({
       type: SET_BACKGROUND_COLOR,
       value: bgColor,
     });
     if (bgColor) {
-      apiClient.update_settings({ preference_background_color: bgColor });
+      await apiClient.update_settings({ preference_background_color: bgColor });
     }
   };
 
-  const onShuffleTimeChange = (value) => {
+  const onShuffleTimeChange = async (value) => {
     const shuffle = value.replace(/[^0-9]/g, "");
     dispatch({
       type: SET_BACKGROUND_SHUFFLE_TIME,
       value: shuffle,
     });
     if (shuffle) {
-      apiClient.update_settings({ preference_shuffle_time: shuffle });
+      await apiClient.update_settings({ preference_shuffle_time: shuffle });
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 
 import { store } from "../store/store";
+import apiClient from "../apiClient";
 import { SET_CURRENT_SESSION } from "../store/types";
 import { webNotifyMe } from "../js/notification";
 import { numberToMinute, numberToSeconds } from "../js/utils";
@@ -16,11 +17,11 @@ const Timer = () => {
   const { dispatch } = globalState;
 
   const {
-    showTimerOnBrowser,
+    timer_show_timer_on_browser_tab,
     timer_time,
     display_time,
-    currentSession,
-    totalSessions,
+    current_session,
+    timer_sessions,
   } = globalState.state.settings;
 
   const [second, setSecond] = useState(0);
@@ -53,6 +54,13 @@ const Timer = () => {
     setDefaultTimer();
   }, []);
 
+  const save_analytics = async () => {
+    const analytics = {
+      duration: Number(timer_time)
+    }
+    await apiClient.save_analytics(analytics)
+  }
+
   const setDefaultTimer = () => {
     try {
       const globalTimer = display_time.split(" : ");
@@ -74,12 +82,13 @@ const Timer = () => {
     setShowAlert(true);
     webNotifyMe();
     setSessions();
+    save_analytics();
   };
 
   const setSessions = () => {
     dispatch({
       type: SET_CURRENT_SESSION,
-      value: currentSession + 1,
+      value: current_session + 1,
     });
   };
 
@@ -98,7 +107,7 @@ const Timer = () => {
 
   const getHeaderTitle = () => {
     if (counter < 2) return "Time's up";
-    else if (showTimerOnBrowser && isActive)
+    else if (timer_show_timer_on_browser_tab && isActive)
       return `${minute}:${second} Remaining`;
     return "";
   };
@@ -108,7 +117,7 @@ const Timer = () => {
       <TitleComponent title={getHeaderTitle()} />
       <div className="timer-container-left">
         <div className="timer-container-total-cycle">
-          {currentSession}/{totalSessions}
+          {current_session}/{timer_sessions}
         </div>
       </div>
       <div className="timer-container-center">

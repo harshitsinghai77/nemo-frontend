@@ -23,18 +23,20 @@ function setRandomColor() {
   changeBackgroundColor(randomColor);
 }
 
-function randomColor() {
+function randomColor(shuffleTime) {
   changeBackgroundColor("rgb(92, 229, 180)");
-  background_interval = setInterval(setRandomColor, 10000);
+  background_interval = setInterval(setRandomColor, shuffleTime);
 }
 
-export function run(currentColor) {
+export function run(currentColor, shuffle) {
+  let shuffleTime = shuffle > 4 ? shuffle : 10
+  shuffleTime = shuffleTime * 1000
   if (currentColor === "rainbow") {
-    randomColor();
+    randomColor(shuffleTime);
   } else {
     clearInterval(background_interval);
     background_interval = setInterval(() => {
       changeBackgroundColor(currentColor);
-    }, 10000);
+    }, shuffleTime);
   }
 }

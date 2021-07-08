@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 
 import apiClient from "../apiClient";
 import { store } from "../store/store";
-import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS } from "../store/types";
+import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS, TOGGLE_MUTE } from "../store/types";
 
 import Header from "../components/Header";
 import Timer from "../components/Timer";
@@ -43,16 +43,16 @@ function Dashboard() {
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;
-    dispatch({ type: "toggle mute" });
+    dispatch({ type: TOGGLE_MUTE });
 
-    for (const [key, audio] of Object.entries(myAudio)) {
+    for (const audio of Object.values(myAudio)) {
       audio.muted = !audio.muted;
     }
   };
 
   const onMusicStop = () => {
     if (myAudio) {
-      for (const [key, audio] of Object.entries(myAudio)) {
+      for (const audio of Object.values(myAudio)) {
         audio.muted = true;
       }
     }

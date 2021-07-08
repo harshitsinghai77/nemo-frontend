@@ -13,7 +13,7 @@ import { run } from "./js/noisli";
 function App() {
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { preference_background_color } = globalState.state.settings;
+  const { preference_background_color, preference_shuffle_time } = globalState.state.settings;
 
   useEffect(() => {
     const audioDict = LoadSound();
@@ -21,8 +21,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    run(preference_background_color);
-  }, [preference_background_color]);
+    run(preference_background_color, preference_shuffle_time);
+  }, [preference_background_color, preference_shuffle_time]);
 
   return (
     <Router>

@@ -9,7 +9,6 @@ import {
   SET_TOTAL_SESSION,
   TOGGLE_TIME_END_NOTIFICION,
   TOGGLE_TIMER_ON_BROWSER,
-  TOGGLE_WORK_IN_SESSION,
   TOGGLE_AUTO_START,
   TOGGLE_BREAK_END_NOTIFICATION,
   SET_SETTING_LOADED_FROM_BACKEND,
@@ -36,7 +35,6 @@ const TimerSettings = () => {
     timer_end_notification,
     timer_show_timer_on_browser_tab,
     timer_web_notification,
-    workInSession,
     timer_auto_start,
     timer_sessions,
     timer_break_end_notification,
@@ -66,13 +64,13 @@ const TimerSettings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer_settings_loaded_from_backend]);
 
-  const askForNotification = () => {
+  const askForNotification = async () => {
     if (browserSupportsNotification()) {
       let customNotification = false;
       if (Notification.permission === "granted") {
         customNotification = true && !timer_web_notification;
       } else if (!timer_web_notification) {
-        Notification.requestPermission().then(function (permission) {
+        Notification.requestPermission().then(async function (permission) {
           if (permission === "granted") {
             customNotification = true;
             const notification_value =
@@ -81,7 +79,7 @@ const TimerSettings = () => {
               type: TOGGLE_WEB_NOTIFICATION,
               value: notification_value,
             });
-            apiClient.update_settings({
+            await apiClient.update_settings({
               timer_web_notification: notification_value,
             });
           }
@@ -92,51 +90,51 @@ const TimerSettings = () => {
         type: TOGGLE_WEB_NOTIFICATION,
         value: customNotification,
       });
-      apiClient.update_settings({ timer_web_notification: customNotification });
+      await apiClient.update_settings({ timer_web_notification: customNotification });
     }
   };
 
-  const setTimeEndNotification = () => {
+  const setTimeEndNotification = async() => {
     dispatch({
       type: TOGGLE_TIME_END_NOTIFICION,
       value: !timer_end_notification,
     });
-    apiClient.update_settings({
+    await apiClient.update_settings({
       timer_end_notification: !timer_end_notification,
     });
   };
 
-  const setWorkInSession = () => {
-    dispatch({
-      type: TOGGLE_WORK_IN_SESSION,
-      value: !workInSession,
-    });
-  };
+  // const setWorkInSession = () => {
+  //   dispatch({
+  //     type: TOGGLE_WORK_IN_SESSION,
+  //     value: !workInSession,
+  //   });
+  // };
 
-  const setAutoStart = () => {
+  const setAutoStart = async () => {
     dispatch({
       type: TOGGLE_AUTO_START,
       value: !timer_auto_start,
     });
-    apiClient.update_settings({ timer_auto_start: !timer_auto_start });
+    await apiClient.update_settings({ timer_auto_start: !timer_auto_start });
   };
 
-  const setBreakEndNotification = () => {
+  const setBreakEndNotification = async () => {
     dispatch({
       type: TOGGLE_BREAK_END_NOTIFICATION,
       value: !timer_break_end_notification,
     });
-    apiClient.update_settings({
+    await apiClient.update_settings({
       timer_break_end_notification: !timer_break_end_notification,
     });
   };
 
-  const setToggleOnBrowser = () => {
+  const setToggleOnBrowser = async () => {
     dispatch({
       type: TOGGLE_TIMER_ON_BROWSER,
       value: !timer_show_timer_on_browser_tab,
     });
-    apiClient.update_settings({
+    await apiClient.update_settings({
       timer_show_timer_on_browser_tab: !timer_show_timer_on_browser_tab,
     });
   };
@@ -153,20 +151,21 @@ const TimerSettings = () => {
     });
 
     if (totalTime && timerValue) {
-      apiClient.update_settings({
+      await apiClient.update_settings({
         timer_time: totalTime.toString(),
         display_time: timerValue,
       });
     }
   };
 
-  const setSessionValue = (sessionValue) => {
+  const setSessionValue = async (sessionValue) => {
     const session = sessionValue.replace(/[^0-9]/g, "");
+
     dispatch({
       type: SET_TOTAL_SESSION,
       value: session,
     });
-    apiClient.update_settings({ timer_sessions: session });
+    await apiClient.update_settings({ timer_sessions: Number(session) });
   };
 
   const content = (

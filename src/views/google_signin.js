@@ -21,18 +21,10 @@ const googleButton = (
   />
 );
 
-const customOnClick = async () => {
-  const res = await client.get("/get-settings");
-  console.log(res);
-};
-
 const GoogleSignIn = () => {
   return (
     <>
       {googleButton}
-      <button onClick={customOnClick} style={{ color: "red" }}>
-        clike me
-      </button>
     </>
   );
 };

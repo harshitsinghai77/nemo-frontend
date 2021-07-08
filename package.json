@@ -5,6 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.1.2",
     "axios": "^0.21.1",
+    "date-fns": "^2.22.1",
     "grommet": "^2.17.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

@@ -2,9 +2,13 @@ import APIClient from "./client";
 
 const client = new APIClient("http://127.0.0.1:8000/noisli").client;
 
-export default {
+const endpoints = {
   user_login(user_token) {
-    return client.get("/login", user_token);
+    return client.post("/login", user_token);
+  },
+
+  save_analytics(analytics){
+    return client.post("/analytics", analytics)
   },
 
   get_settings() {
@@ -23,3 +27,5 @@ export default {
     return client.patch("/settings", settings);
   },
 };
+
+export default endpoints

@@ -12,10 +12,9 @@ const initialState = {
     timer_end_notification: false,
     timer_show_timer_on_browser_tab: false,
     timer_web_notification: false,
-    timer_sessions: false,
     shortBreak: "00:05:00",
     longBreak: "00:15:00",
-    currentSession: 0,
+    current_session: 0,
     timer_sessions: 4,
     timer_auto_start: false,
     timer_break_end_notification: false,
@@ -91,7 +90,7 @@ const StateProvider = ({ children }) => {
       case types.SET_CURRENT_SESSION:
         return {
           ...state,
-          settings: { ...state.settings, currentSession: action.value },
+          settings: { ...state.settings, current_session: action.value },
         };
 
       case types.TOGGLE_ACTIVATE_IMAGE:
@@ -187,7 +186,7 @@ const StateProvider = ({ children }) => {
       case types.SET_SETTINGS:
         return {
           ...state,
-          settings: action.value,
+          settings: {...state.settings, ...action.value},
         };
 
       case types.SET_USER_ACCOUNT:
