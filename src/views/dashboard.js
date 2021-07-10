@@ -1,5 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import { getToken } from "../tokenStorage";
 import apiClient from "../apiClient";
 import { store } from "../store/store";
 import {
@@ -12,7 +13,6 @@ import Header from "../components/Header";
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
 import Introduction from "../components/Introduction";
-import Footer from "../components/Footer";
 import { CustomSpinner } from "../components/Elements";
 
 function Dashboard() {
@@ -21,6 +21,7 @@ function Dashboard() {
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
   const { timer_settings_loaded_from_backend } = globalState.state.settings;
+  const [loader, setLoader] = useState(true);
 
   const getSettings = async () => {
     const res = await apiClient.get_settings();
@@ -34,16 +35,22 @@ function Dashboard() {
         type: SET_SETTING_LOADED_FROM_BACKEND,
         value: !timer_settings_loaded_from_backend,
       });
+      setLoader(false);
     }
   };
 
   useEffect(() => {
     // if settings not loaded from backend
-    if (timer_settings_loaded_from_backend) {
+    if (!getToken() || !timer_settings_loaded_from_backend) {
+      setLoader(false);
+      return;
+    }
+    if (getToken() && timer_settings_loaded_from_backend) {
       getSettings();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timer_settings_loaded_from_backend]);
+  }, []);
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;
@@ -65,8 +72,8 @@ function Dashboard() {
   return (
     <div id="#dashboard" className="dashboard">
       <Header>
-        {timer_settings_loaded_from_backend ? (
-          <CustomSpinner color="white" />
+        {loader ? (
+          <CustomSpinner color="#ffffff" />
         ) : (
           <Timer onMusicStop={onMusicStop} />
         )}

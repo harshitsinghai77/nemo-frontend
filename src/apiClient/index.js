@@ -1,34 +1,32 @@
-import APIClient from "./client";
-
-const client = new APIClient("http://127.0.0.1:8000/noisli").client;
+import { axiosInstance } from "./client";
 
 const endpoints = {
   user_login(user_token) {
-    return client.post("/login", user_token);
+    return axiosInstance.post("/login", user_token);
   },
 
   save_analytics(analytics) {
-    return client.post("/analytics", analytics);
+    return axiosInstance.post("/analytics", analytics);
   },
 
   get_analytics() {
-    return client.get("/analytics");
+    return axiosInstance.get("/analytics");
   },
 
   get_settings() {
-    return client.get("/settings");
+    return axiosInstance.get("/settings");
   },
 
   get_account() {
-    return client.get("/account");
+    return axiosInstance.get("/account");
   },
 
   update_account(account) {
-    return client.patch("/account", account);
+    return axiosInstance.patch("/account", account);
   },
 
   update_settings(settings) {
-    return client.patch("/settings", settings);
+    return axiosInstance.patch("/settings", settings);
   },
 };
 

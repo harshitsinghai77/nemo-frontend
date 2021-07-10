@@ -9,16 +9,23 @@ import {
 
 import { Box, TextInput } from "grommet";
 
-import { ParagraphTitle, CustomBox } from "../../components/Elements";
+import {
+  ParagraphTitle,
+  CustomBox,
+  CustomSpinner,
+} from "../../components/Elements";
 import { colorPallete } from "../../js/utils";
-import { rainbow, selectedColor } from "../../components/rainbow";
+import { rainbow, selectedColor } from "../../components/svg";
 
 const PreferencesSettings = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
 
-  const { preference_shuffle_time, preference_background_color } =
-    globalState.state.settings;
+  const {
+    preference_shuffle_time,
+    preference_background_color,
+    timer_settings_loaded_from_backend,
+  } = globalState.state.settings;
 
   const onColorChange = async (bgColor) => {
     dispatch({
@@ -81,7 +88,7 @@ const PreferencesSettings = () => {
     </div>
   );
 
-  return content;
+  return timer_settings_loaded_from_backend ? <CustomSpinner /> : content;
 };
 
 export default PreferencesSettings;

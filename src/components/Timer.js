@@ -7,6 +7,7 @@ import { webNotifyMe } from "../js/notification";
 import { numberToMinute, numberToSeconds } from "../js/utils";
 import TitleComponent from "./TitleComponent";
 import AlertBox from "./Alertbox";
+import { play, pause } from "../components/svg";
 
 import "../css/timer.css";
 
@@ -52,7 +53,7 @@ const Timer = () => {
 
   useEffect(() => {
     setDefaultTimer();
-  }, []);
+  }, [display_time]);
 
   const save_analytics = async () => {
     const analytics = {
@@ -136,39 +137,7 @@ const Timer = () => {
         className="timer-container-right-reset"
         onClick={() => setIsActive((prevState) => !prevState)}
       >
-        {isActive ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-          >
-            <g fill="none" fillRule="evenodd">
-              <path
-                fill="currentColor"
-                fillRule="nonzero"
-                d="M3 1a1 1 0 1 1 2 0v12a1 1 0 0 1-2 0V1zm6 0a1 1 0 1 1 2 0v12a1 1 0 0 1-2 0V1z"
-              ></path>
-              <path d="M0 0h14v14H0z"></path>
-            </g>
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-          >
-            <g fill="none" fillRule="evenodd">
-              <path
-                fill="currentColor"
-                fillRule="nonzero"
-                d="M5 2.869v8.262L11.197 7 5 2.869zm8.555 4.963l-9 6A1 1 0 0 1 3 13V1A1 1 0 0 1 4.555.168l9 6a1 1 0 0 1 0 1.664z"
-              ></path>
-              <path d="M0 0h14v14H0z"></path>
-            </g>
-          </svg>
-        )}
+        {isActive ? play : pause}
       </div>
 
       <AlertBox

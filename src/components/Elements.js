@@ -33,7 +33,7 @@ export const PrimaryButton = ({ label, onClick }) => (
 );
 
 export const BorderLine = () => (
-  <div className="mt-10	pt-10 border-t border-solid"></div>
+  <div className="mt-10	pt-10 border-t border-solid text-light"></div>
 );
 
 export const CustomBox = ({ children }) => (

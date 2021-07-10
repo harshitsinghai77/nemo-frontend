@@ -17,6 +17,7 @@ import {
   CustomBox,
   CustomSpinner,
 } from "../../components/Elements";
+import { APP_NAME } from "../../js/utils";
 
 const AccountSettings = () => {
   const [loader, setLoader] = useState(true);
@@ -147,7 +148,9 @@ const AccountSettings = () => {
       <BorderLine />
 
       <Box margin={{ vertical: "small" }}>
-        <ParagraphTitle text="Want to permanently delete your Noisli account?" />
+        <ParagraphTitle
+          text={`Want to permanently delete your ${APP_NAME} account?`}
+        />
       </Box>
       <div className="mb-20">
         <Button label="Delete" color="red" />
