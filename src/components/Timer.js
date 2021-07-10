@@ -56,18 +56,18 @@ const Timer = () => {
 
   const save_analytics = async () => {
     const analytics = {
-      duration: Number(timer_time)
-    }
-    await apiClient.save_analytics(analytics)
-  }
+      duration: Number(timer_time),
+    };
+    await apiClient.save_analytics(analytics);
+  };
 
   const setDefaultTimer = () => {
     try {
-      const globalTimer = display_time.split(" : ");
-      const globalTimerMin = globalTimer[0];
-      const globalTimerSec = globalTimer[1];
-      setMinute(globalTimerMin);
-      setSecond(globalTimerSec);
+      const displayTimer = display_time.split(" : ");
+      const displayTimerMin = displayTimer[0];
+      const displayTimerSec = displayTimer[1];
+      setMinute(displayTimerMin);
+      setSecond(displayTimerSec);
     } catch (e) {
       setMinute(45);
       setSecond(0);
@@ -86,9 +86,15 @@ const Timer = () => {
   };
 
   const setSessions = () => {
+    let sessionValue;
+    if (current_session + 1 >= timer_sessions) {
+      sessionValue = 0;
+    } else {
+      sessionValue = current_session + 1;
+    }
     dispatch({
       type: SET_CURRENT_SESSION,
-      value: current_session + 1,
+      value: sessionValue,
     });
   };
 

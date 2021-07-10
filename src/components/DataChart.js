@@ -1,35 +1,39 @@
-import { DataChart } from "grommet";
+import { Bar } from "react-chartjs-2";
 
-const DataChartComponent = () => {
-  const data = [
-    { date: "Mon", amount: 28 },
-    { date: "Tues", amount: 41 },
-    { date: "Wed", amount: 47 },
-    { date: "Thu", amount: 57 },
-    { date: "Fri", amount: 43 },
-    { date: "Sat", amount: 53 },
-    { date: "Sun", amount: 33 },
-  ];
+const DataChartComponent = (props) => {
+  const data = {
+    labels: props.labels,
+    datasets: [
+      {
+        label: "# of hrs",
+        data: props.data,
+        backgroundColor: "rgb(92, 229, 180)",
+        borderColor: "rgb(92, 229, 180)",
+        borderWidth: 1,
+      },
+    ],
+  };
 
-  return (
-    <DataChart
-      data={data}
-      series={["date", "amount"]}
-      chart={[
+  const options = {
+    scales: {
+      xAxes: [
         {
-          property: "amount",
-          type: "bar",
-          thickness: "medium",
+          gridLines: {
+            display: false,
+          },
         },
-      ]}
-      axis={{
-        x: { property: "date", granularity: "fine", color: "red" },
-        y: { property: "amount", granularity: "fine" },
-      }}
-      guide={{ y: { granularity: "fine" } }}
-      style={{ color: "black" }}
-    />
-  );
+      ],
+      yAxes: [
+        {
+          gridLines: {
+            display: true,
+          },
+        },
+      ],
+    },
+  };
+
+  return <Bar width={551} height={350} data={data} options={options} />;
 };
 
 export default DataChartComponent;

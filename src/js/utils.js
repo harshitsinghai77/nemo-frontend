@@ -31,6 +31,13 @@ export function secondsToMinutes(sec) {
   return timeValue;
 }
 
+export function secondsToHms(sec) {
+  sec = Number(sec);
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  return parseFloat(`${h}.${m}`);
+}
+
 export function minuteToSeconds(min, seconds) {
   return parseInt(min) * 60 + parseInt(seconds);
 }

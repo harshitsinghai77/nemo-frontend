@@ -7,8 +7,12 @@ const endpoints = {
     return client.post("/login", user_token);
   },
 
-  save_analytics(analytics){
-    return client.post("/analytics", analytics)
+  save_analytics(analytics) {
+    return client.post("/analytics", analytics);
+  },
+
+  get_analytics() {
+    return client.get("/analytics");
   },
 
   get_settings() {
@@ -28,4 +32,4 @@ const endpoints = {
   },
 };
 
-export default endpoints
+export default endpoints;

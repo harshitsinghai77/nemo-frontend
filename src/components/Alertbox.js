@@ -16,14 +16,7 @@ function AlertBox(props) {
           responsive={true}
         >
           <Image fit="cover" src={HurrayGif} className="alertbox-img" />
-          <Paragraph
-            alignSelf="center"
-            textAlign="center"
-            className="alertbox-heading"
-          >
-            Yeah, you did it. Take 15 min break...
-          </Paragraph>
-          <PrimaryButton label="Take a break" onClick={onClose} />
+          <PrimaryButton label="Time's up take a break" onClick={onClose} />
         </Layer>
       )}
     </Box>

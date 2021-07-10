@@ -3,7 +3,7 @@ import { APP_NAME } from "../js/utils";
 
 const Introduction = () => (
   <div className="flex-item text-center	text-lg mb-10">
-    <h1 className="text-2<h1>{APP_NAME}</h1>l">{APP_NAME}</h1>
+    <h1 className="text-2">{APP_NAME}</h1>
     <p>
       Your digital place for <strong>focus</strong>.
     </p>

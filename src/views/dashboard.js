@@ -2,7 +2,11 @@ import { useContext, useEffect } from "react";
 
 import apiClient from "../apiClient";
 import { store } from "../store/store";
-import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS, TOGGLE_MUTE } from "../store/types";
+import {
+  SET_SETTING_LOADED_FROM_BACKEND,
+  SET_SETTINGS,
+  TOGGLE_MUTE,
+} from "../store/types";
 
 import Header from "../components/Header";
 import Timer from "../components/Timer";
@@ -69,7 +73,6 @@ function Dashboard() {
       </Header>
       <div className="flex-container">
         <Introduction />
-
         <button
           className={
             mute
@@ -79,15 +82,8 @@ function Dashboard() {
           title="Mute/Unmute"
           onClick={() => onMuteClickToggle()}
         ></button>
-
         <Sounds />
-        {/* <div id="buttons" className="flex-item">
-        <button id="btn-random">Random</button>
-        <button id="btn-productivity">Productivity</button>
-        <button id="dbtn-relax">Relax</button>
-      </div> */}
-
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
