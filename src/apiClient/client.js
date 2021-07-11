@@ -2,8 +2,7 @@ import axios from "axios";
 import { getToken } from "../tokenStorage";
 
 export const axiosInstance = axios.create({
-  baseURL:
-    process.env.REACT_APP_NODE_APP_BASE_URL || "http://127.0.0.1:8000/noisli",
+  baseURL: process.env.REACT_APP_SERVER_URL,
   timeout: 60 * 1000,
   headers: {
     "x-auth-token": getToken(),

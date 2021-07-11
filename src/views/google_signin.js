@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { setToken } from "../tokenStorage";
 import apiClient from "../apiClient";
 
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const GoogleSignIn = () => {
   const history = useHistory();
@@ -21,7 +21,7 @@ const GoogleSignIn = () => {
 
   const googleButton = (
     <GoogleLogin
-      clientId={clientId}
+      clientId={CLIENT_ID}
       buttonText="Connect with Google"
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
