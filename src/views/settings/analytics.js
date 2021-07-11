@@ -32,7 +32,14 @@ const Analytics = () => {
       {weeklyData.length > 0 ? (
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
       ) : (
-        !loader && <h1 className="mx-auto text-gray-900">No data found.</h1>
+        !loader && (
+          <>
+            <h1 className="mx-auto text-gray-900">No data found.</h1>
+            <h1 className="mx-auto text-gray-900">
+              Complete a session and come back later.
+            </h1>
+          </>
+        )
       )}
     </Box>
   );

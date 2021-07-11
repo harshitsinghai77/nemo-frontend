@@ -21,6 +21,7 @@ function Dashboard() {
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
   const { timer_settings_loaded_from_backend } = globalState.state.settings;
+  const { profile_pic } = globalState.state.userAccount;
   const [loader, setLoader] = useState(true);
 
   const getSettings = async () => {
@@ -71,7 +72,7 @@ function Dashboard() {
 
   return (
     <div id="#dashboard" className="dashboard">
-      <Header>
+      <Header profile_pic={profile_pic}>
         {loader ? (
           <CustomSpinner color="#ffffff" />
         ) : (

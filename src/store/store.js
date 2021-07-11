@@ -27,6 +27,7 @@ const initialState = {
     email: "",
     family_name: "",
     given_name: "",
+    profile_pic: "",
     user_account_loaded_from_backend: true,
   },
 };
@@ -186,7 +187,7 @@ const StateProvider = ({ children }) => {
       case types.SET_SETTINGS:
         return {
           ...state,
-          settings: {...state.settings, ...action.value},
+          settings: { ...state.settings, ...action.value },
         };
 
       case types.SET_USER_ACCOUNT:

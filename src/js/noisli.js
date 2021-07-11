@@ -29,14 +29,14 @@ function randomColor(shuffleTime) {
 }
 
 export function run(currentColor, shuffle) {
-  let shuffleTime = shuffle > 4 ? shuffle : 10
-  shuffleTime = shuffleTime * 1000
+  let shuffleTime = shuffle > 4 ? shuffle : 10;
+  shuffleTime = shuffleTime * 1000;
   if (currentColor === "rainbow") {
     randomColor(shuffleTime);
   } else {
     clearInterval(background_interval);
     background_interval = setInterval(() => {
       changeBackgroundColor(currentColor);
-    }, shuffleTime);
+    }, 10000);
   }
 }

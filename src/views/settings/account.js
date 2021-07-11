@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Box, TextInput, Button } from "grommet";
 
 import apiClient from "../../apiClient";
@@ -17,9 +18,11 @@ import {
   CustomBox,
   CustomSpinner,
 } from "../../components/Elements";
+import { removeToken } from "../../tokenStorage";
 import { APP_NAME } from "../../js/utils";
 
 const AccountSettings = () => {
+  const history = useHistory();
   const [loader, setLoader] = useState(true);
   const globalState = useContext(store);
   const { dispatch } = globalState;
@@ -93,6 +96,20 @@ const AccountSettings = () => {
     });
   };
 
+  const onLogout = () => {
+    removeToken();
+    history.push("/");
+  };
+
+  const deleteUser = async () => {
+    const res = await apiClient.delete_user();
+    const { success } = res.data;
+    if (success) {
+      removeToken();
+      history.push("/");
+    }
+  };
+
   const content = (
     <div className="mt-10">
       <CustomBox>
@@ -141,9 +158,15 @@ const AccountSettings = () => {
         </Box>
       </CustomBox>
 
-      <CustomBox>
-        <Button secondary label="Update" onClick={onSubmit} />
-      </CustomBox>
+      <div>
+        <Button
+          margin={{ right: "small" }}
+          secondary
+          label="Update"
+          onClick={onSubmit}
+        />
+        <Button secondary label="Logout" onClick={onLogout} />
+      </div>
 
       <BorderLine />
 
@@ -153,7 +176,7 @@ const AccountSettings = () => {
         />
       </Box>
       <div className="mb-20">
-        <Button label="Delete" color="red" />
+        <Button label="Delete Account" color="red" onClick={deleteUser} />
       </div>
     </div>
   );

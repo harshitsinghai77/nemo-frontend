@@ -28,6 +28,10 @@ const endpoints = {
   update_settings(settings) {
     return axiosInstance.patch("/settings", settings);
   },
+
+  delete_user() {
+    return axiosInstance.get("/delete");
+  },
 };
 
 export default endpoints;
