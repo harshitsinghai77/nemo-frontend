@@ -28,6 +28,7 @@ const Masked = ({ value, onChange }) => (
       {
         length: 2,
         options: [
+          "00",
           "05",
           "10",
           "15",
