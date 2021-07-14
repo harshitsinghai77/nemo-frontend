@@ -8,7 +8,7 @@ const initialState = {
   settings: {
     // timer_time: "45 : 00",
     timer_time: 2700,
-    display_time: "45 : 00",
+    display_time: "45 : 00 : 00",
     timer_end_notification: false,
     timer_show_timer_on_browser_tab: false,
     timer_web_notification: false,

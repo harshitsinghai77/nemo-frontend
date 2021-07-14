@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from "react";
+import { Clock } from "grommet";
 
 import { store } from "../store/store";
 import apiClient from "../apiClient";
 import { SET_CURRENT_SESSION } from "../store/types";
 import { webNotifyMe } from "../js/notification";
-import { numberToMinute, numberToSeconds } from "../js/utils";
+import { stringToClock } from "../js/utils";
 import TitleComponent from "./TitleComponent";
 import AlertBox from "./Alertbox";
 import { play, pause } from "../components/svg";
@@ -25,33 +26,18 @@ const Timer = () => {
     timer_sessions,
   } = globalState.state.settings;
 
-  const [second, setSecond] = useState(0);
-  const [minute, setMinute] = useState(45);
+  const [clockTimer, setClockTimer] = useState("T00:45:00");
+  const [tabTitle, setTabTitle] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [counter, setCounter] = useState(timer_time || 2700);
+  const [counter, setCounter] = useState(timer_time);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    let intervalId;
-    if (isActive) {
-      intervalId = setInterval(() => {
-        if (counter === 0) {
-          reset();
-          return;
-        }
+    const setDefaultTimer = () => {
+      const clockString = stringToClock(display_time);
+      setClockTimer(clockString);
+    };
 
-        const secondCounter = numberToSeconds(counter);
-        const minuteCounter = numberToMinute(counter);
-        setSecond(secondCounter);
-        setMinute(minuteCounter);
-        setCounter((counter) => counter - 1);
-      }, 1000);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [isActive, counter]);
-
-  useEffect(() => {
     setDefaultTimer();
   }, [display_time]);
 
@@ -62,28 +48,22 @@ const Timer = () => {
     await apiClient.save_analytics(analytics);
   };
 
-  const setDefaultTimer = () => {
-    try {
-      const displayTimer = display_time.split(" : ");
-      const displayTimerMin = displayTimer[0];
-      const displayTimerSec = displayTimer[1];
-      setMinute(displayTimerMin);
-      setSecond(displayTimerSec);
-    } catch (e) {
-      setMinute(45);
-      setSecond(0);
-    }
+  const reset = () => {
+    setIsActive(false);
+    playPokemonAudio();
+    resetTimer();
+    setTabTitle("");
+    setCounter(timer_time);
+    setShowAlert(true);
+    setSessions();
+    webNotifyMe();
+    save_analytics();
   };
 
-  const reset = () => {
-    playPokemonAudio();
-    setIsActive(false);
-    setDefaultTimer();
-    setCounter(timer_time || 2700);
-    setShowAlert(true);
-    webNotifyMe();
-    setSessions();
-    save_analytics();
+  const resetTimer = () => {
+    const clockString = stringToClock(display_time);
+    setClockTimer("");
+    setClockTimer(clockString);
   };
 
   const setSessions = () => {
@@ -112,16 +92,28 @@ const Timer = () => {
     }
   };
 
-  const getHeaderTitle = () => {
-    if (counter < 2) return "Time's up";
-    else if (timer_show_timer_on_browser_tab && isActive)
-      return `${minute}:${second} Remaining`;
-    return "";
+  const onClockChange = (timer) => {
+    if (timer === "T0:0:0") {
+      reset();
+      return;
+    }
+
+    if (timer_show_timer_on_browser_tab && isActive) {
+      let titleStr = timer.replace("T", "") + " Remaining";
+      setTabTitle(titleStr);
+    }
+  };
+
+  const onChangeActive = () => {
+    if (isActive) {
+      return setIsActive(false);
+    }
+    setIsActive("backward");
   };
 
   return (
     <>
-      <TitleComponent title={getHeaderTitle()} />
+      <TitleComponent title={tabTitle} />
       <div className="timer-container-left">
         <div className="timer-container-total-cycle">
           {current_session}/{timer_sessions}
@@ -129,14 +121,15 @@ const Timer = () => {
       </div>
       <div className="timer-container-center">
         <div className="timer-container-countdown">
-          {minute.toString().length < 2 ? `0${minute}` : minute} :{" "}
-          {second.toString().length < 2 ? `0${second}` : second}
+          <Clock
+            type="digital"
+            run={isActive}
+            time={clockTimer}
+            onChange={onClockChange}
+          />
         </div>
       </div>
-      <div
-        className="timer-container-right-reset"
-        onClick={() => setIsActive((prevState) => !prevState)}
-      >
+      <div className="timer-container-right-reset" onClick={onChangeActive}>
         {isActive ? play : pause}
       </div>
 

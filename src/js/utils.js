@@ -42,11 +42,24 @@ export function minuteToSeconds(min, seconds) {
   return parseInt(min) * 60 + parseInt(seconds);
 }
 
-export function stringToSeconds(str) {
+export function parseString(str) {
   const splitValue = str.split(" : ");
-  const minutes = splitValue[0];
-  const seconds = splitValue[1] || 0;
-  return minuteToSeconds(minutes, seconds);
+  const hrs = splitValue[0] || 0;
+  const minutes = splitValue[1] || 0;
+  const seconds = splitValue[2] || 0;
+
+  return [hrs, minutes, seconds];
+}
+
+export function stringToSeconds(str) {
+  const [hrs, minutes, seconds] = parseString(str);
+  const totalSeconds = +hrs * 60 * 60 + +minutes * 60 + +seconds;
+  return totalSeconds;
+}
+
+export function stringToClock(str) {
+  const [hrs, minutes, seconds] = parseString(str);
+  return `T${hrs}:${minutes}:${seconds}`;
 }
 
 export const colorPallete = [

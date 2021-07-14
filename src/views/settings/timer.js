@@ -90,11 +90,13 @@ const TimerSettings = () => {
         type: TOGGLE_WEB_NOTIFICATION,
         value: customNotification,
       });
-      await apiClient.update_settings({ timer_web_notification: customNotification });
+      await apiClient.update_settings({
+        timer_web_notification: customNotification,
+      });
     }
   };
 
-  const setTimeEndNotification = async() => {
+  const setTimeEndNotification = async () => {
     dispatch({
       type: TOGGLE_TIME_END_NOTIFICION,
       value: !timer_end_notification,
@@ -140,19 +142,18 @@ const TimerSettings = () => {
   };
 
   const setTimerValue = async (timerValue) => {
-    const totalTime = stringToSeconds(timerValue);
+    const totalSeconds = stringToSeconds(timerValue);
     dispatch({
       type: SET_TIMER_DISPLAY,
       value: timerValue,
     });
     dispatch({
       type: SET_TIMER,
-      value: totalTime,
+      value: totalSeconds,
     });
-
-    if (totalTime && timerValue) {
+    if (totalSeconds && timerValue) {
       await apiClient.update_settings({
-        timer_time: totalTime.toString(),
+        timer_time: totalSeconds.toString(),
         display_time: timerValue,
       });
     }
