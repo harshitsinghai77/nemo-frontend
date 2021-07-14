@@ -29,7 +29,6 @@ const Timer = () => {
   const [clockTimer, setClockTimer] = useState("T00:45:00");
   const [tabTitle, setTabTitle] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [counter, setCounter] = useState(timer_time);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
@@ -53,7 +52,6 @@ const Timer = () => {
     playPokemonAudio();
     resetTimer();
     setTabTitle("");
-    setCounter(timer_time);
     setShowAlert(true);
     setSessions();
     webNotifyMe();
