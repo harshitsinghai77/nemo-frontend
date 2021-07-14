@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Box } from "grommet";
 
-import { secondsToHms } from "../../js/utils";
-import apiClient from "../../apiClient";
+import Statistics from "./statistics";
 import DataChartComponent from "../../components/DataChart";
+
+import { secondsToString } from "../../js/utils";
+import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
+import { themePrimaryColor } from "../../themes";
 
 const Analytics = () => {
   const [weeklyData, setWeeklyData] = useState([]);
@@ -17,7 +20,7 @@ const Analytics = () => {
       const { data } = res;
       if (data) {
         const labels = data.map((el) => el.weekday);
-        const secToHrs = data.map((el) => secondsToHms(el.total_count));
+        const secToHrs = data.map((el) => secondsToString(el.total_count));
         setWeeklyData(secToHrs);
         setWeeklyLabels(labels);
         setLoader(false);
@@ -28,6 +31,9 @@ const Analytics = () => {
 
   return (
     <Box alignSelf="center" className="my-12">
+      <h1 className="text-2xl mb-2" style={{ color: themePrimaryColor }}>
+        Last 7 days
+      </h1>
       {loader && <CustomSpinner />}
       {weeklyData.length > 0 ? (
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
@@ -41,6 +47,8 @@ const Analytics = () => {
           </>
         )
       )}
+
+      <Statistics />
     </Box>
   );
 };

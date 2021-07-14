@@ -3,7 +3,7 @@ import { Tabs, Tab } from "grommet";
 import Timer from "./timer";
 import Account from "./account";
 import Preferences from "./preferences";
-import Analytics from "./analytics"
+import Analytics from "./analytics";
 
 const Menu = () => {
   return (

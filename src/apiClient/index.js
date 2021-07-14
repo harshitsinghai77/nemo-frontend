@@ -13,6 +13,10 @@ const endpoints = {
     return axiosInstance.get("/analytics");
   },
 
+  get_stastics() {
+    return axiosInstance.get("/statistics");
+  },
+
   get_settings() {
     return axiosInstance.get("/settings");
   },

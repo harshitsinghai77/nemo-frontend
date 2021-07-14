@@ -21,20 +21,18 @@ export function numberToSeconds(num) {
   return num % 60;
 }
 
-export function secondsToMinutes(sec) {
-  const minutes = Math.floor(sec / 60);
-  const seconds = sec - minutes * 60;
-  let timeValue = minutes.toString() + " : ";
-  if (seconds === 0) {
-    timeValue += "00";
-  }
-  return timeValue;
-}
-
-export function secondsToHms(sec) {
+export function secToHm(sec) {
   sec = Number(sec);
   const h = Math.floor(sec / 3600);
   const m = Math.floor((sec % 3600) / 60);
+  return [h, m];
+}
+
+export function secondsToString(sec) {
+  const [h, m] = secToHm(sec);
+  if (h === 0 && m < 10) {
+    return parseFloat(`${h}.0${m}`);
+  }
   return parseFloat(`${h}.${m}`);
 }
 
