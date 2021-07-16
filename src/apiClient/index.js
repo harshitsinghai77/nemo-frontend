@@ -34,7 +34,7 @@ const endpoints = {
   },
 
   delete_user() {
-    return axiosInstance.get("/delete");
+    return axiosInstance.delete("/delete");
   },
 };
 
