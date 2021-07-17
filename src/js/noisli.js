@@ -32,6 +32,7 @@ export function run(currentColor, shuffle) {
   let shuffleTime = shuffle > 4 ? shuffle : 10;
   shuffleTime = shuffleTime * 1000;
   if (currentColor === "rainbow") {
+    if (background_interval) clearInterval(background_interval);
     randomColor(shuffleTime);
   } else {
     clearInterval(background_interval);

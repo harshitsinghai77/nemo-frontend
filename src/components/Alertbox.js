@@ -1,4 +1,4 @@
-import { Box, Layer, Image, Paragraph } from "grommet";
+import { Box, Layer, Image } from "grommet";
 import { PrimaryButton } from "./Elements";
 import HurrayGif from "../images/giphy.webp";
 import "../css/alertbox.css";
