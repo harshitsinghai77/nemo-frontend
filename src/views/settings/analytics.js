@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box } from "grommet";
 
-import Statistics from "./statistics";
+// import Statistics from "./statistics";
 import DataChartComponent from "../../components/DataChart";
 
 import { secondsToString } from "../../js/utils";
@@ -47,8 +47,6 @@ const Analytics = () => {
           </>
         )
       )}
-
-      <Statistics />
     </Box>
   );
 };
