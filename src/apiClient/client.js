@@ -4,7 +4,7 @@ import { getToken } from "../tokenStorage";
 const env = process.env.REACT_APP_ENVIRONMENT;
 let baseURL = process.env.REACT_APP_SERVER_URL;
 if (env === "dev") {
-  baseURL = "http://localhost:8000/noisli";
+  baseURL = "http://localhost:8000/nemo";
 }
 
 export const axiosInstance = axios.create({

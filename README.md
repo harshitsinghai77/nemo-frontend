@@ -1,5 +1,5 @@
-## Noisli is your digital place for focus.
+## Nemo is your digital place for focus.
 
-## Noisli helps you boost your motivation and help you think more creatively.
+## Nemo helps you boost your motivation and help you think more creatively.
 
-## Demo: https://noisli.netlify.app/
+## Demo: https://nemo-app.netlify.app/

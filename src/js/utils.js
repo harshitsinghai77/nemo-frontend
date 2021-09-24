@@ -83,4 +83,4 @@ export const colorPallete = [
   "rgb(52, 87, 115)",
 ];
 
-export const APP_NAME = "Noisli";
+export const APP_NAME = "Nemo";

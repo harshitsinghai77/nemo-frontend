@@ -10,7 +10,7 @@ import { store } from "./store/store";
 import { SET_AUDIO } from "./store/types";
 import { getToken } from "./tokenStorage";
 import { LoadSound } from "./js/utils";
-import { run } from "./js/noisli";
+import { run } from "./js/nemo";
 
 import Dashboard from "./views/dashboard";
 import Settings from "./views/settings/settings";
