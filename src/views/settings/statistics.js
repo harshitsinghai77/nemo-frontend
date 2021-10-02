@@ -6,7 +6,7 @@ import {
   CustomSpinner,
 } from "../../components/Elements";
 import apiClient from "../../apiClient";
-import { secToHm } from "../../js/utils";
+import { secToHourMinuteSecond } from "../../js/utils";
 import { themePrimaryColor } from "../../themes";
 
 const Statistics = () => {
@@ -17,7 +17,7 @@ const Statistics = () => {
       const res = await apiClient.get_stastics();
       const { data } = res;
       if (data) {
-        const [h, m] = secToHm(data.duration);
+        const [h, m] = secToHourMinuteSecond(data.duration);
         const stats = {
           date: new Date(data.full_date).toDateString(),
           duration: `${h} hrs ${m} min`,

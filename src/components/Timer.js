@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from "react";
-import { Clock } from "grommet";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 import { store } from "../store/store";
 import apiClient from "../apiClient";
 import { SET_CURRENT_SESSION } from "../store/types";
 import { webNotifyMe } from "../js/notification";
-import { stringToClock } from "../js/utils";
 import TitleComponent from "./TitleComponent";
 import AlertBox from "./Alertbox";
 import { play, pause } from "../components/svg";
+import { secToHourMinuteSecond } from "../js/utils";
 
 import "../css/timer.css";
 
@@ -18,64 +17,82 @@ const Timer = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
 
-  const {
-    timer_show_timer_on_browser_tab,
-    timer_time,
-    display_time,
-    current_session,
-    timer_sessions,
-  } = globalState.state.settings;
+  const { timer_time, current_session, timer_sessions } =
+    globalState.state.settings;
 
-  const [clockTimer, setClockTimer] = useState("T00:45:00");
+  const [hours, setHours] = useState(2);
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(5);
+
   const [tabTitle, setTabTitle] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const setDefaultTimer = () => {
-      const clockString = stringToClock(display_time);
-      setClockTimer(clockString);
+    const [hour, min, sec] = secToHourMinuteSecond(timer_time);
+    setHours(hour);
+    setMinutes(min);
+    setSeconds(sec);
+  }, [timer_time]);
+
+  const reset = useCallback(() => {
+    const save_analytics = async () => {
+      const analytics = {
+        duration: Number(timer_time),
+      };
+      await apiClient.save_analytics(analytics);
     };
 
-    setDefaultTimer();
-  }, [display_time]);
-
-  const save_analytics = async () => {
-    const analytics = {
-      duration: Number(timer_time),
+    const setSessions = () => {
+      let sessionValue;
+      if (current_session + 1 >= timer_sessions) {
+        sessionValue = 0;
+      } else {
+        sessionValue = current_session + 1;
+      }
+      dispatch({
+        type: SET_CURRENT_SESSION,
+        value: sessionValue,
+      });
     };
-    await apiClient.save_analytics(analytics);
-  };
 
-  const reset = () => {
     setIsActive(false);
     playPokemonAudio();
-    resetTimer();
+    save_analytics();
     setTabTitle("");
     setShowAlert(true);
     setSessions();
     webNotifyMe();
-    save_analytics();
-  };
+  }, [current_session, dispatch, timer_sessions, timer_time]);
 
-  const resetTimer = () => {
-    const clockString = stringToClock(display_time);
-    setClockTimer("");
-    setClockTimer(clockString);
-  };
+  useEffect(() => {
+    if (!isActive) return;
 
-  const setSessions = () => {
-    let sessionValue;
-    if (current_session + 1 >= timer_sessions) {
-      sessionValue = 0;
-    } else {
-      sessionValue = current_session + 1;
-    }
-    dispatch({
-      type: SET_CURRENT_SESSION,
-      value: sessionValue,
-    });
-  };
+    let interval = setInterval(() => {
+      clearInterval(interval);
+
+      if (seconds === 0) {
+        if (minutes !== 0) {
+          setSeconds(59);
+          setMinutes((minutes) => minutes - 1);
+        } else {
+          let minutes = 59;
+          let seconds = 59;
+
+          setSeconds(seconds);
+          setMinutes(minutes);
+
+          if (hours !== 0) {
+            setHours((hours) => hours - 1);
+          } else {
+            reset();
+          }
+        }
+      } else {
+        setSeconds(seconds - 1);
+      }
+    }, 1000);
+  }, [seconds, minutes, hours, isActive, reset]);
 
   const playPokemonAudio = () => {
     if (pokemonAudio) {
@@ -90,24 +107,16 @@ const Timer = () => {
     }
   };
 
-  const onClockChange = (timer) => {
-    if (timer === "T0:0:0") {
-      reset();
-      return;
-    }
-
-    if (timer_show_timer_on_browser_tab && isActive) {
-      let titleStr = timer.replace("T", "") + " Remaining";
-      setTabTitle(titleStr);
-    }
-  };
-
   const onChangeActive = () => {
     if (isActive) {
       return setIsActive(false);
     }
     setIsActive("backward");
   };
+
+  const timerHours = hours > 0 ? `0${hours}` : "00";
+  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
   return (
     <>
@@ -119,12 +128,7 @@ const Timer = () => {
       </div>
       <div className="timer-container-center">
         <div className="timer-container-countdown">
-          <Clock
-            type="digital"
-            run={isActive}
-            time={clockTimer}
-            onChange={onClockChange}
-          />
+          {timerHours} : {timerMinutes} : {timerSeconds}
         </div>
       </div>
       <div className="timer-container-right-reset" onClick={onChangeActive}>

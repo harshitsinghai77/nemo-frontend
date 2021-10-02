@@ -21,15 +21,17 @@ export function numberToSeconds(num) {
   return num % 60;
 }
 
-export function secToHm(sec) {
+export function secToHourMinuteSecond(sec) {
   sec = Number(sec);
-  const h = Math.floor(sec / 3600);
-  const m = Math.floor((sec % 3600) / 60);
-  return [h, m];
+  const hour = Math.floor(sec / 3600);
+  sec %= 3600;
+  const min = Math.floor(sec / 60);
+  sec = sec % 60;
+  return [hour, min, sec];
 }
 
 export function secondsToString(sec) {
-  const [h, m] = secToHm(sec);
+  const [h, m] = secToHourMinuteSecond(sec);
   if (h === 0 && m < 10) {
     return parseFloat(`${h}.0${m}`);
   }
@@ -53,11 +55,6 @@ export function stringToSeconds(str) {
   const [hrs, minutes, seconds] = parseString(str);
   const totalSeconds = +hrs * 60 * 60 + +minutes * 60 + +seconds;
   return totalSeconds;
-}
-
-export function stringToClock(str) {
-  const [hrs, minutes, seconds] = parseString(str);
-  return `T${hrs}:${minutes}:${seconds}`;
 }
 
 export const colorPallete = [

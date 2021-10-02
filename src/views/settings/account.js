@@ -34,27 +34,27 @@ const AccountSettings = () => {
     user_account_loaded_from_backend,
   } = globalState.state.userAccount;
 
-  const fetchData = async () => {
-    const res = await apiClient.get_account();
-    const { data } = res;
-    dispatch({
-      type: SET_USER_ACCOUNT,
-      value: data,
-    });
-    dispatch({
-      type: SET_USER_SETTING_LOADED_FROM_BACKEND,
-      value: !user_account_loaded_from_backend,
-    });
-    setLoader(false);
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      const res = await apiClient.get_account();
+      const { data } = res;
+      dispatch({
+        type: SET_USER_ACCOUNT,
+        value: data,
+      });
+      dispatch({
+        type: SET_USER_SETTING_LOADED_FROM_BACKEND,
+        value: !user_account_loaded_from_backend,
+      });
+      setLoader(false);
+    };
+
     if (user_account_loaded_from_backend) {
       fetchData();
     } else {
       setLoader(false);
     }
-  }, [user_account_loaded_from_backend]);
+  }, [user_account_loaded_from_backend, dispatch]);
 
   const onSubmit = async () => {
     const account = {
