@@ -11,7 +11,9 @@ import { secToHourMinuteSecond } from "../js/utils";
 
 import "../css/timer.css";
 
-const pokemonAudio = new Audio(require(`../sounds/pokemon.mp3`).default);
+const pokemonAudio = new Audio(
+  "https://nemo-cdn-audio.s3.amazonaws.com/pokemon.mp3"
+);
 
 const Timer = () => {
   const globalState = useContext(store);

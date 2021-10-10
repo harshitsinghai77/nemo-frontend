@@ -10,39 +10,39 @@ function Sounds() {
   const globalState = useContext(store);
   const { myAudio, myImages } = globalState.state;
 
-  const onImageClick = (title, dataKey) => {
+  const onImageClick = (title, stream_url) => {
     const { dispatch } = globalState;
     dispatch({ type: TOGGLE_ACTIVATE_IMAGE, title });
 
-    playAudio(dataKey);
+    playAudio(stream_url);
   };
 
-  const playAudio = (datakey) => {
-    const audio = myAudio[datakey];
+  const playAudio = (stream_url) => {
+    const audio = myAudio[stream_url];
     if (audio) audio.paused ? audio.play() : audio.pause();
   };
 
-  const onSliderChange = (event, dataKey) => {
+  const onSliderChange = (event, stream_url) => {
     const { value, min, max } = event.target;
-    const audio = myAudio[dataKey];
+    const audio = myAudio[stream_url];
     if (audio) audio.volume = value / (max - min);
   };
 
   return (
     <div className="flex-container sound-types">
       {SoundData.map((el, index) => {
-        const { imgsrc, dataKey, title } = el;
+        const { imgsrc, stream_url, title } = el;
         return (
           <div
             key={index}
-            data-key={dataKey}
+            data-key={stream_url}
             className="flex-container sound-container"
           >
             <img
               src={require(`../images/${imgsrc}`).default}
               alt={title}
               title={title}
-              onClick={() => onImageClick(title, dataKey)}
+              onClick={() => onImageClick(title, stream_url)}
               className={myImages[title] ? "active sound-img" : "sound-img"}
             />
             <RangeInput
@@ -53,7 +53,7 @@ function Sounds() {
                   ? "dashboard-input slider-active "
                   : "dashboard-input"
               }
-              onChange={(event) => onSliderChange(event, dataKey)}
+              onChange={(event) => onSliderChange(event, stream_url)}
             />
             {/* <input
                 type="range"

@@ -1,82 +1,82 @@
 [
   {
     "title": "Rain",
-    "dataKey": "rain",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
     "imgsrc": "rain.png"
   },
   {
     "title": "Thunderstorm",
-    "dataKey": "thunderstorm",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/thunderstorm.ogg",
     "imgsrc": "thunderstorm.png"
   },
   {
     "title": "Wind",
-    "dataKey": "wind",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/wind.ogg",
     "imgsrc": "wind.png"
   },
   {
     "title": "Forest",
-    "dataKey": "forest",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/forest.ogg",
     "imgsrc": "forest.png"
   },
   {
     "title": "Leaves",
-    "dataKey": "leaves",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/leaves.ogg",
     "imgsrc": "leaves.png"
   },
   {
     "title": "Waterstream",
-    "dataKey": "waterstream",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/waterstream.ogg",
     "imgsrc": "waterstream.png"
   },
   {
     "title": "Seaside",
-    "dataKey": "seaside",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/seaside.ogg",
     "imgsrc": "seaside.png"
   },
   {
     "title": "Water",
-    "dataKey": "water",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/water.ogg",
     "imgsrc": "water.png"
   },
   {
     "title": "Fire",
-    "dataKey": "fire",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/fire.ogg",
     "imgsrc": "fire.png"
   },
   {
     "title": "Coffee",
-    "dataKey": "coffee",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/coffee.ogg",
     "imgsrc": "coffee.png"
   },
   {
     "title": "Summernight",
-    "dataKey": "summernight",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/summernight.ogg",
     "imgsrc": "summernight.png"
   },
   {
     "title": "Train",
-    "dataKey": "train",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/train.ogg",
     "imgsrc": "train.png"
   },
   {
     "title": "Fan",
-    "dataKey": "fan",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/fan.ogg",
     "imgsrc": "fan.png"
   },
   {
     "title": "Whitenoise",
-    "dataKey": "whitenoise",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/whitenoise.ogg",
     "imgsrc": "whitenoise.png"
   },
   {
     "title": "Pinknoise",
-    "dataKey": "pinknoise",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/pinknoise.ogg",
     "imgsrc": "pinknoise.png"
   },
   {
     "title": "Brownnoise",
-    "dataKey": "brownnoise",
+    "stream_url": "https://nemo-cdn-audio.s3.amazonaws.com/brownnoise.ogg",
     "imgsrc": "brownnoise.png"
   }
 ]

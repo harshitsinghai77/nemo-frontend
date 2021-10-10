@@ -4,10 +4,10 @@ export function LoadSound() {
   const audioDict = {};
 
   SoundData.forEach((el) => {
-    const { dataKey } = el;
-    let currentAudio = new Audio(require(`../sounds/${dataKey}.ogg`).default);
+    const { stream_url } = el;
+    let currentAudio = new Audio(stream_url);
     currentAudio.loop = true;
-    audioDict[dataKey] = currentAudio;
+    audioDict[stream_url] = currentAudio;
   });
 
   return audioDict;
