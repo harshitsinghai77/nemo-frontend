@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from "react";
+import * as workerTimers from "worker-timers";
 
 import { store } from "../store/store";
 import apiClient from "../apiClient";
@@ -22,9 +23,9 @@ const Timer = () => {
   const { timer_time, current_session, timer_sessions } =
     globalState.state.settings;
 
-  const [hours, setHours] = useState(2);
-  const [minutes, setMinutes] = useState(1);
-  const [seconds, setSeconds] = useState(5);
+  const [hours, setHours] = useState(1);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   const [tabTitle, setTabTitle] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -69,9 +70,8 @@ const Timer = () => {
 
   useEffect(() => {
     if (!isActive) return;
-
-    let interval = setInterval(() => {
-      clearInterval(interval);
+    let intervalId = workerTimers.setInterval(() => {
+      workerTimers.clearInterval(intervalId);
 
       if (seconds === 0) {
         if (minutes !== 0) {
