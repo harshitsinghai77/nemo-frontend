@@ -1,11 +1,9 @@
 import axios from "axios";
 import { getToken } from "../tokenStorage";
+import { get_server_url } from "./utils";
 
-const env = process.env.REACT_APP_ENVIRONMENT;
-let baseURL = process.env.REACT_APP_SERVER_URL;
-if (env === "dev") {
-  baseURL = "http://localhost:8000/nemo";
-}
+const baseURL = get_server_url();
+console.log("baseURL: ", baseURL);
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,

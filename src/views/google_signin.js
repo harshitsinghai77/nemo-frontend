@@ -24,12 +24,14 @@ const GoogleSignIn = () => {
     }
   };
 
+  const onFailureResponse = () => {};
+
   const googleButton = (
     <GoogleLogin
       clientId={CLIENT_ID}
       buttonText="Connect with Google"
       onSuccess={responseGoogle}
-      onFailure={responseGoogle}
+      onFailure={onFailureResponse}
       cookiePolicy={"single_host_origin"}
     />
   );
