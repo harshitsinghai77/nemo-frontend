@@ -3,7 +3,6 @@ import { getToken } from "../tokenStorage";
 import { get_server_url } from "./utils";
 
 const baseURL = get_server_url();
-console.log("baseURL: ", baseURL);
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,

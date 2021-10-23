@@ -8,7 +8,7 @@ export const Title = ({ title, color, ...props }) => (
       color: color ? themePrimaryColor : "rgb(255, 255, 255)",
       fontFamily: "Raleway",
     }}
-    className=""
+    className="m-1"
     responsive={true}
     level={3}
     size="small"

@@ -9,30 +9,40 @@ import { Title } from "./Elements";
 import { APP_NAME } from "../js/utils";
 import "../css/header.css";
 
-const HeaderContainer = ({ textcolor, children, profile_pic }) => (
-  <Header>
-    <div className="header-container" id="#timer-header">
-      <Link to="/">
-        <Title title={APP_NAME} color={textcolor} />
-      </Link>
-      <div className="header-container-center">{children}</div>
+const HeaderContainer = ({ textcolor, children, profile_pic }) => {
+  const tokenExist = getToken();
+  const profile = profile_pic && (
+    <Avatar src={profile_pic} margin="xsmall" size="small" />
+  );
 
-      {getToken() ? (
-        <div className="flex flex-row items-baseline">
-          <div className="m-auto">
-            <Link to="/settings">
-              {settingsIcon(textcolor, themePrimaryColor)}
-            </Link>
-          </div>
-          {profile_pic && (
-            <Avatar src={profile_pic} margin="xsmall" size="small" />
-          )}
+  return (
+    <Header>
+      <div className="header-container" id="#timer-header">
+        <div className="md:flex sm:block" style={{ maxWidth: "25%" }}>
+          <Link to="/">
+            <Title title={APP_NAME} color={textcolor} />
+          </Link>
+          <Link to="/lofi">
+            <Title title="Fuck this, I want lofi" color={textcolor} />
+          </Link>
         </div>
-      ) : (
-        <Link to="/login">Login</Link>
-      )}
-    </div>
-  </Header>
-);
+        <div className="header-container-center">{children}</div>
+
+        {tokenExist ? (
+          <div className="flex flex-row items-baseline">
+            <div className="m-auto">
+              <Link to="/settings">
+                {settingsIcon(textcolor, themePrimaryColor)}
+              </Link>
+            </div>
+            {profile}
+          </div>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
+      </div>
+    </Header>
+  );
+};
 
 export default memo(HeaderContainer);
