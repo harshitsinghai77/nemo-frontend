@@ -1,43 +1,19 @@
 import { Component } from "react";
-import "../../css/lofi/music-player.css";
+import axios from "axios";
 
-import stream from "./data/streams.json";
+import apiClient from "../../apiClient";
+import { moodsCategory } from "./utility";
+import { CustomSpinner } from "../Elements";
+import "../../css/lofi/music-player.css";
 
 class MusicPlayer extends Component {
   state = {
     index: 0,
     currentTime: "0:00",
-    musicList: [
-      {
-        name: "Bloodstream",
-        author: "Royalty",
-        img: "https://www.bensound.com/bensound-img/buddy.jpg",
-        url: "https://r2---sn-gwpa-civ6.googlevideo.com/videoplayback?expire=1634990879&ei=v6ZzYf3nGJ6v3LUP-IeD8Ao&ip=2405%3A201%3A3010%3Ac088%3A5756%3Acfff%3Ac516%3A7d7a&id=o-ANevhyL_ChH53P6sG4H0UZt-vAu03u_1DvRKX1XbjWMS&itag=251&source=youtube&requiressl=yes&mh=Bx&mm=31%2C29&mn=sn-gwpa-civ6%2Csn-gwpa-cvhy&ms=au%2Crdu&mv=m&mvi=2&pl=48&gcr=in&initcwndbps=238750&vprv=1&mime=audio%2Fwebm&ns=uTZG79C52HWHB7UG6DB9ah8G&gir=yes&clen=3715036&dur=225.861&lmt=1577237881013183&mt=1634968841&fvip=2&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5531432&n=a47nGKduOdlgIDgD-y6&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRQIgZY_p2xP-Ml5_r_eNUJpzJglKCRd0_yrCmfXqd2XLs0YCIQDrs7cYJCa3e2v3yU13ZeOl2Olg7xzNkn4bgav4shtaww%3D%3D&sig=AOq0QJ8wRQIhAIzrr80L2znTUKrWOJP6zmbfXjITawGxvWZKEGBmblG8AiBGv8eifgT8hr-3dm-_JwJ-CM8UbRxKyoHJnzbsMtcyRg==",
-        duration: "2:02",
-      },
-      {
-        name: "Gentle acoustic",
-        author: "Acoustic",
-        img: "https://www.bensound.com/bensound-img/sunny.jpg",
-        url: "https://www.bensound.com//bensound-music/bensound-sunny.mp3",
-        duration: "2:20",
-      },
-      {
-        name: "Corporate motivational",
-        author: "Corporate",
-        img: "https://www.bensound.com/bensound-img/energy.jpg",
-        url: "https://www.bensound.com/bensound-music/bensound-energy.mp3",
-        duration: "2:59",
-      },
-      {
-        name: "Slow cinematic",
-        author: "Royalty",
-        img: "https://www.bensound.com/bensound-img/slowmotion.jpg",
-        url: "https://www.bensound.com/bensound-music/bensound-slowmotion.mp3",
-        duration: "3:26",
-      },
-    ],
+    musicList: [],
+    all_streams: [],
     pause: false,
+    loading: true,
   };
 
   componentDidMount() {
@@ -53,6 +29,30 @@ class MusicPlayer extends Component {
         this.playOrPause();
       }
     });
+
+    this.fetchAndUpdateStreamsList();
+  }
+
+  async fetchAndUpdateStreamsList() {
+    const all_axios = moodsCategory.map((category) =>
+      apiClient.get_streams(category)
+    );
+
+    axios.all(all_axios).then(
+      axios.spread((...args) => {
+        const allsongs = args.map((el) => el.data);
+        const merged = [].concat.apply([], allsongs);
+        const newPlaylist = merged.filter(
+          (playlist) => playlist.category === this.props.category
+        );
+        this.setState({
+          all_streams: merged,
+          musicList: newPlaylist,
+          loading: false,
+        });
+        this.updatePlayer();
+      })
+    );
   }
 
   componentWillUnmount() {
@@ -68,7 +68,7 @@ class MusicPlayer extends Component {
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     if (prevProps.category !== this.props.category) {
-      const newPlaylist = stream.filter(
+      const newPlaylist = this.state.all_streams.filter(
         (playlist) => playlist.category === this.props.category
       );
       return newPlaylist;
@@ -82,6 +82,10 @@ class MusicPlayer extends Component {
       this.setState({ musicList: snapshot });
       this.updatePlayer();
       this.playerRef.play();
+      this.setState({
+        index: 0,
+        pause: true,
+      });
     }
   }
 
@@ -96,8 +100,8 @@ class MusicPlayer extends Component {
 
     this.playheadRef.style.width = userClickWidhtInPercent + "%";
     const currentTime = (duration * userClickWidhtInPercent) / 100;
-    if (currentTime !== null) {
-      this.playerRef.currentTime = (duration * userClickWidhtInPercent) / 100;
+    if (isFinite(currentTime)) {
+      this.playerRef.currentTime = currentTime;
     }
   };
 
@@ -149,9 +153,6 @@ class MusicPlayer extends Component {
   };
 
   updatePlayer = () => {
-    const { musicList, index } = this.state;
-    const currentSong = musicList[index];
-    const audio = new Audio(currentSong.audio);
     this.playerRef.load();
   };
 
@@ -181,9 +182,7 @@ class MusicPlayer extends Component {
 
   playOrPause = () => {
     if (this.playerRef === null) return;
-    const { musicList, index, pause } = this.state;
-    const currentSong = musicList[index];
-    const audio = new Audio(currentSong.audio);
+    const { pause } = this.state;
     if (!this.state.pause) {
       this.playerRef.play();
     } else {
@@ -207,37 +206,46 @@ class MusicPlayer extends Component {
     }
   };
 
+  getAudioCard(currentSong) {
+    const { currentTime } = this.state;
+    return (
+      <>
+        {/* <div className="img-wrap">
+          <img
+            src="https://www.bensound.com/bensound-img/slowmotion.jpg"
+            alt="currentsong"
+          />
+        </div> */}
+        <span className="song-name font-serif text-white">
+          {currentSong.title}
+        </span>
+        <span className="song-autor font-bold font-serif text-white">
+          {currentSong.author}
+        </span>
+
+        <div className="time">
+          <div className="current-time font-light	text-white">{currentTime}</div>
+          <div className="end-time font-light	text-white">
+            {currentSong.duration}
+          </div>
+        </div>
+      </>
+    );
+  }
+
   render() {
-    const { musicList, index, currentTime, pause } = this.state;
+    const { musicList, index, pause, loading } = this.state;
     const currentSong = musicList[index];
+    const currentSongUrl = currentSong ? currentSong.url : null;
+
     return (
       <div className="musicplayer">
         <div className="current-song">
           <audio ref={(ref) => (this.playerRef = ref)}>
-            <source src={currentSong.url} type="audio/ogg" />
+            <source src={currentSongUrl} type="audio/ogg" />
             Your browser does not support the audio element.
           </audio>
-          {/* <div className="img-wrap">
-            <img
-              src="https://www.bensound.com/bensound-img/slowmotion.jpg"
-              alt="currentsong"
-            />
-          </div> */}
-          <span className="song-name font-serif text-white">
-            {currentSong.name}
-          </span>
-          <span className="song-autor font-bold font-serif text-white">
-            {currentSong.author}
-          </span>
-
-          <div className="time">
-            <div className="current-time font-light	text-white">
-              {currentTime}
-            </div>
-            <div className="end-time font-light	text-white">
-              {currentSong.duration}
-            </div>
-          </div>
+          {currentSong && this.getAudioCard(currentSong)}
 
           <div ref={(ref) => (this.timelineRef = ref)} id="timeline">
             <div ref={(ref) => (this.playheadRef = ref)} id="playhead"></div>
@@ -248,28 +256,34 @@ class MusicPlayer extends Component {
             ></div>
           </div>
 
-          <div className="controls">
-            <button
-              onClick={this.prevSong}
-              className="prev prev-next current-btn"
-            >
-              <i className="fas fa-backward"></i>
-            </button>
+          {loading ? (
+            <CustomSpinner />
+          ) : (
+            <>
+              <div className="controls">
+                <button
+                  onClick={this.prevSong}
+                  className="prev prev-next current-btn"
+                >
+                  <i className="fas fa-backward"></i>
+                </button>
 
-            <button onClick={this.playOrPause} className="play current-btn">
-              {!pause ? (
-                <i className="fas fa-play"></i>
-              ) : (
-                <i className="fas fa-pause"></i>
-              )}
-            </button>
-            <button
-              onClick={this.nextSong}
-              className="next prev-next current-btn"
-            >
-              <i className="fas fa-forward"></i>
-            </button>
-          </div>
+                <button onClick={this.playOrPause} className="play current-btn">
+                  {!pause ? (
+                    <i className="fas fa-play"></i>
+                  ) : (
+                    <i className="fas fa-pause"></i>
+                  )}
+                </button>
+                <button
+                  onClick={this.nextSong}
+                  className="next prev-next current-btn"
+                >
+                  <i className="fas fa-forward"></i>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
