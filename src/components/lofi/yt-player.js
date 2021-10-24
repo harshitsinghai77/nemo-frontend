@@ -1,6 +1,6 @@
 import { Component } from "react";
-import axios from "axios";
 
+import axios from "axios";
 import apiClient from "../../apiClient";
 import { moodsCategory } from "./utility";
 import { CustomSpinner } from "../Elements";
@@ -245,7 +245,7 @@ class MusicPlayer extends Component {
 
           <div
             ref={(ref) => (this.timelineRef = ref)}
-            className={!loading && "timeline"}
+            className={!loading ? "timeline" : ""}
           >
             <div
               ref={(ref) => (this.playheadRef = ref)}
