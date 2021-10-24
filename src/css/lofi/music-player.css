@@ -1,0 +1,122 @@
+.musicplayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  max-width: 371px;
+  padding: 0 5px;
+  margin-top: 100px;
+  border-radius: 20px;
+  color: rgb(252, 240, 240);
+  font-weight: 100;
+  box-shadow: 0px 0px 70px 0px #274684;
+  overflow: hidden;
+}
+.musicplayer .current-song {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0px;
+  border-radius: 20px;
+  color: #071739;
+  /* background-image: url("https://www.bensound.com/bensound-img/slowmotion.jpg");
+  background-size: cover;
+  background-repeat: no-repeat; */
+}
+.musicplayer .current-song audio {
+  display: none;
+}
+.musicplayer .current-song .img-wrap {
+  position: relative;
+  margin: 0 auto;
+  width: 270px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0px 10px 40px 0px rgba(39, 70, 132, 0.7);
+}
+.musicplayer .current-song .img-wrap img {
+  width: auto;
+  height: 100%;
+}
+.musicplayer .current-song .song-name {
+  margin-top: 30px;
+  font-size: 22px;
+}
+.musicplayer .current-song .song-autor {
+  color: #709fdc;
+}
+.musicplayer .current-song .time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 240px;
+}
+.musicplayer .current-song #timeline {
+  position: relative;
+  margin: 0 auto;
+  width: 240px;
+  height: 5px;
+  background: #709fdc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.musicplayer .current-song #timeline:hover .hover-playhead {
+  opacity: 1;
+}
+.musicplayer .current-song #timeline:hover .hover-playhead::before {
+  opacity: 1;
+}
+.musicplayer .current-song #timeline:hover .hover-playhead::after {
+  opacity: 1;
+}
+.musicplayer .current-song #timeline #playhead {
+  position: relative;
+  z-index: 2;
+  width: 0;
+  height: 5px;
+  border-radius: 5px;
+  background: #fff;
+}
+.musicplayer .current-song .controls {
+  margin-top: 10px;
+}
+.musicplayer .current-song .controls button {
+  color: #fff;
+  border-radius: 50%;
+  margin: 15px;
+  font-size: 18px;
+  text-align: center;
+  transition: 0.2s;
+  cursor: pointer;
+  border: none;
+  background: 0;
+}
+.musicplayer .current-song .controls button:focus {
+  outline: none;
+}
+.musicplayer .current-song .controls button.play {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #e2e2e2;
+}
+.musicplayer .current-song .controls button.play .fa-play {
+  transform: translateX(2px);
+}
+.musicplayer .current-song .controls button.prev-next {
+  width: 35px;
+  height: 35px;
+}
+.musicplayer .current-song .controls button.prev-next:hover {
+  transform: scale(1.2);
+}
+@keyframes play {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

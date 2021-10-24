@@ -36,6 +36,10 @@ const endpoints = {
   delete_user() {
     return axiosInstance.delete("/delete");
   },
+
+  get_streams(category) {
+    return axiosInstance.get(`/get-streams/${category}`);
+  },
 };
 
 export default endpoints;
