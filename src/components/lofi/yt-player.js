@@ -79,13 +79,9 @@ class MusicPlayer extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     // (snapshot here is the value returned from getSnapshotBeforeUpdate)
     if (snapshot !== null) {
-      this.setState({ musicList: snapshot });
+      this.setState({ musicList: snapshot, index: 0, pause: true });
       this.updatePlayer();
       this.playerRef.play();
-      this.setState({
-        index: 0,
-        pause: true,
-      });
     }
   }
 
@@ -247,8 +243,14 @@ class MusicPlayer extends Component {
           </audio>
           {currentSong && this.getAudioCard(currentSong)}
 
-          <div ref={(ref) => (this.timelineRef = ref)} id="timeline">
-            <div ref={(ref) => (this.playheadRef = ref)} id="playhead"></div>
+          <div
+            ref={(ref) => (this.timelineRef = ref)}
+            className={!loading && "timeline"}
+          >
+            <div
+              ref={(ref) => (this.playheadRef = ref)}
+              className="playhead"
+            ></div>
             <div
               ref={(ref) => (this.hoverPlayheadRef = ref)}
               className="hover-playhead"

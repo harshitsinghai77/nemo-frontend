@@ -54,7 +54,7 @@
   margin-top: 10px;
   width: 240px;
 }
-.musicplayer .current-song #timeline {
+.musicplayer .current-song .timeline {
   position: relative;
   margin: 0 auto;
   width: 240px;
@@ -63,16 +63,16 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.musicplayer .current-song #timeline:hover .hover-playhead {
+.musicplayer .current-song .timeline:hover .hover-playhead {
   opacity: 1;
 }
-.musicplayer .current-song #timeline:hover .hover-playhead::before {
+.musicplayer .current-song .timeline:hover .hover-playhead::before {
   opacity: 1;
 }
-.musicplayer .current-song #timeline:hover .hover-playhead::after {
+.musicplayer .current-song .timeline:hover .hover-playhead::after {
   opacity: 1;
 }
-.musicplayer .current-song #timeline #playhead {
+.musicplayer .current-song .timeline .playhead {
   position: relative;
   z-index: 2;
   width: 0;
