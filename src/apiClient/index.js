@@ -13,8 +13,8 @@ const endpoints = {
     return axiosInstance.get("/analytics");
   },
 
-  get_stastics() {
-    return axiosInstance.get("/statistics");
+  get_stastics(stats) {
+    return axiosInstance.get(`/statistics/${stats}`);
   },
 
   get_settings() {
@@ -24,7 +24,6 @@ const endpoints = {
   get_account() {
     return axiosInstance.get("/account");
   },
-
   update_account(account) {
     return axiosInstance.patch("/account", account);
   },
@@ -38,7 +37,10 @@ const endpoints = {
   },
 
   get_streams(category) {
-    return axiosInstance.get(`/get-streams/${category}`);
+    return axiosInstance.get(`/get-all-streams/${category}`);
+  },
+  get_stream_by_id(category, id) {
+    return axiosInstance.get(`/get-all-streams/${category}/${id}`);
   },
 };
 

@@ -34,7 +34,7 @@ const DataChartComponent = (props) => {
     },
   };
 
-  return <Bar width={551} height={350} data={data} options={options} />;
+  return <Bar width={551} height={400} data={data} options={options} />;
 };
 
 export default DataChartComponent;

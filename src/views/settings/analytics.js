@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Box } from "grommet";
+import axios from "axios";
 
+import { store } from "../../store/store";
 // import Statistics from "./statistics";
 import DataChartComponent from "../../components/DataChart";
 
@@ -8,23 +10,41 @@ import { secondsToString } from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
 import { themePrimaryColor } from "../../themes";
+import { numberToHours } from "../../js/utils";
 
 const Analytics = () => {
+  const globalState = useContext(store);
+  const { daily_goal } = globalState.state.settings;
+
   const [weeklyData, setWeeklyData] = useState([]);
   const [weeklyLabels, setWeeklyLabels] = useState([]);
+  const [currentGoal, setCurrentGoal] = useState();
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await apiClient.get_analytics();
-      const { data } = res;
-      if (data) {
-        const labels = data.map((el) => el.weekday);
-        const secToHrs = data.map((el) => secondsToString(el.total_count));
-        setWeeklyData(secToHrs);
-        setWeeklyLabels(labels);
-        setLoader(false);
-      }
+      axios
+        .all([
+          apiClient.get_analytics(),
+          apiClient.get_stastics("current-goal"),
+        ])
+        .then(
+          axios.spread((...responses) => {
+            let { current_goal } = responses[1].data;
+            current_goal = numberToHours(current_goal);
+            setCurrentGoal(current_goal);
+            const { data } = responses[0];
+            if (data) {
+              const labels = data.map((el) => el.weekday);
+              const secToHrs = data.map((el) =>
+                secondsToString(el.total_count)
+              );
+              setWeeklyData(secToHrs);
+              setWeeklyLabels(labels);
+              setLoader(false);
+            }
+          })
+        );
     }
     fetchData();
   }, []);
@@ -46,6 +66,12 @@ const Analytics = () => {
             </h1>
           </>
         )
+      )}
+      {daily_goal - currentGoal >= 0 && (
+        <h1 className="text-md mt-8" style={{ color: themePrimaryColor }}>
+          Keep going! You've done {currentGoal} hours of deep work today,
+          {daily_goal - currentGoal} hours less than your daily goal.
+        </h1>
       )}
     </Box>
   );

@@ -21,6 +21,10 @@ export function numberToSeconds(num) {
   return num % 60;
 }
 
+export function numberToHours(num) {
+  return num / 3600;
+}
+
 export function secToHourMinuteSecond(sec) {
   sec = Number(sec);
   const hour = Math.floor(sec / 3600);
