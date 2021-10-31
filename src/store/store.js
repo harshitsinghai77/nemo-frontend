@@ -88,6 +88,12 @@ const StateProvider = ({ children }) => {
           settings: { ...state.settings, timer_sessions: action.value },
         };
 
+      case types.SET_DAILY_GOAL:
+        return {
+          ...state,
+          settings: { ...state.settings, daily_goal: action.value },
+        };
+
       case types.SET_CURRENT_SESSION:
         return {
           ...state,

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Box } from "grommet";
+import { Box, Text } from "grommet";
 import axios from "axios";
 
 import { store } from "../../store/store";
@@ -9,7 +9,6 @@ import DataChartComponent from "../../components/DataChart";
 import { secondsToString } from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
-import { themePrimaryColor } from "../../themes";
 import { numberToHours } from "../../js/utils";
 
 const Analytics = () => {
@@ -51,9 +50,9 @@ const Analytics = () => {
 
   return (
     <Box alignSelf="center" className="my-12">
-      <h1 className="text-2xl mb-2" style={{ color: themePrimaryColor }}>
+      <Text size="large" color="brand">
         Last 7 days
-      </h1>
+      </Text>
       {loader && <CustomSpinner />}
       {weeklyData.length > 0 ? (
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
@@ -68,10 +67,10 @@ const Analytics = () => {
         )
       )}
       {daily_goal - currentGoal >= 0 && (
-        <h1 className="text-md mt-8" style={{ color: themePrimaryColor }}>
-          Keep going! You've done {currentGoal} hours of deep work today,
+        <Text className="mt-8" size="medium" color="brand">
+          Keep going! You've done {currentGoal} hours of deep work today, &nbsp;
           {daily_goal - currentGoal} hours less than your daily goal.
-        </h1>
+        </Text>
       )}
     </Box>
   );

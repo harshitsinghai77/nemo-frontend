@@ -7,6 +7,7 @@ import {
   SET_TIMER,
   SET_TIMER_DISPLAY,
   SET_TOTAL_SESSION,
+  SET_DAILY_GOAL,
   TOGGLE_TIME_END_NOTIFICION,
   TOGGLE_TIMER_ON_BROWSER,
   TOGGLE_AUTO_START,
@@ -37,6 +38,7 @@ const TimerSettings = () => {
     timer_web_notification,
     timer_auto_start,
     timer_sessions,
+    daily_goal,
     timer_break_end_notification,
     timer_settings_loaded_from_backend,
   } = globalState.state.settings;
@@ -161,12 +163,20 @@ const TimerSettings = () => {
 
   const setSessionValue = async (sessionValue) => {
     const session = sessionValue.replace(/[^0-9]/g, "");
-
     dispatch({
       type: SET_TOTAL_SESSION,
       value: session,
     });
     await apiClient.update_settings({ timer_sessions: Number(session) });
+  };
+
+  const setDailyGoal = async (dailyGoal) => {
+    const daily_goal = dailyGoal.replace(/[^0-9]/g, "");
+    dispatch({
+      type: SET_DAILY_GOAL,
+      value: daily_goal,
+    });
+    await apiClient.update_settings({ daily_goal: Number(daily_goal) });
   };
 
   const content = (
@@ -241,6 +251,20 @@ const TimerSettings = () => {
           />
         </Box>
       </CustomBox> */}
+
+      <CustomBox>
+        <ParagraphTitle text="Daily Goal" />
+        <Box>
+          <TextInput
+            a11yTitle="Daily Goal"
+            placeholder="Daily Goal"
+            textAlign="center"
+            size="small"
+            value={daily_goal}
+            onChange={(event) => setDailyGoal(event.target.value)}
+          />
+        </Box>
+      </CustomBox>
 
       <CustomBox>
         <ParagraphTitle text="Sessions" />
