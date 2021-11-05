@@ -1,7 +1,15 @@
 import { useEffect, useCallback } from "react";
 
-import { image_dict } from "./utility";
+import moods from "./data/mood.json";
 import "../../css/lofi/lofi.css";
+
+const mood_images = {};
+moods.forEach((m) => {
+  const img_src = (
+    <img src={require(`./wallpapers/${m.cover}`).default} alt={m.title} />
+  );
+  mood_images[m.title] = img_src;
+});
 
 const LofiSlider = ({ activeMoodTitle }) => {
   const activeImage = document.querySelector(".active");
@@ -19,8 +27,8 @@ const LofiSlider = ({ activeMoodTitle }) => {
   const loadImage = useCallback(
     (title) => {
       if (activeImage === null || newImage === null) return;
-      activeImage.src = image_dict[title].props.src;
-      newImage.src = image_dict[title].props.src;
+      activeImage.src = mood_images[title].props.src;
+      newImage.src = mood_images[title].props.src;
     },
     [activeImage, newImage]
   );

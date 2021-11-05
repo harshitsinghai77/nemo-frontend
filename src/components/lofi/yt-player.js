@@ -212,10 +212,10 @@ class MusicPlayer extends Component {
             alt="currentsong"
           />
         </div> */}
-        <span className="song-name font-serif text-white">
+        <span className="song-name font-serif text-white h-14 mb-6">
           {currentSong.title}
         </span>
-        <span className="song-autor font-bold font-serif text-white">
+        <span className="song-autor font-bold font-serif text-white h-10">
           {currentSong.author}
         </span>
 
