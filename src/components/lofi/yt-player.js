@@ -202,6 +202,14 @@ class MusicPlayer extends Component {
     }
   };
 
+  truncateString = (str, num = 50) => {
+    if (str.length > num) {
+      return str.slice(0, num) + "...";
+    } else {
+      return str;
+    }
+  };
+
   getAudioCard(currentSong) {
     const { currentTime } = this.state;
     return (
@@ -212,8 +220,8 @@ class MusicPlayer extends Component {
             alt="currentsong"
           />
         </div> */}
-        <span className="song-name font-serif text-white h-14 mb-6">
-          {currentSong.title}
+        <span className="song-name font-serif text-white h-12 mb-4">
+          {this.truncateString(currentSong.title)}
         </span>
         <span className="song-autor font-bold font-serif text-white h-10">
           {currentSong.author}

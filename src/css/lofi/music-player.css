@@ -42,7 +42,6 @@
   height: 100%;
 }
 .musicplayer .current-song .song-name {
-  margin-top: 30px;
   font-size: 22px;
 }
 .musicplayer .current-song .song-autor {
