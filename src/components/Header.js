@@ -22,9 +22,9 @@ const HeaderContainer = ({ textcolor, children, profile_pic }) => {
           <Link to="/">
             <Title title={APP_NAME} color={textcolor} />
           </Link>
-          <Link to="/lofi">
-            <Title title="Fuck this, I want lofi" color={textcolor} />
-          </Link>
+          {/* <Link to="/lofi">
+            <Title title="Nemo" color={textcolor} />
+          </Link> */}
         </div>
         <div className="header-container-center">{children}</div>
 

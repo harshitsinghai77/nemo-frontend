@@ -13,7 +13,6 @@ function Sounds() {
   const onImageClick = (title, stream_url) => {
     const { dispatch } = globalState;
     dispatch({ type: TOGGLE_ACTIVATE_IMAGE, title });
-
     playAudio(stream_url);
   };
 

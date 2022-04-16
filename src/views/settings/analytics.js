@@ -25,7 +25,7 @@ const Analytics = () => {
       axios
         .all([
           apiClient.get_analytics(),
-          apiClient.get_stastics("current-goal"),
+          apiClient.get_statistics("current-goal"),
         ])
         .then(
           axios.spread((...responses) => {
@@ -43,7 +43,10 @@ const Analytics = () => {
               setLoader(false);
             }
           })
-        );
+        )
+        .catch((err) => {
+          setLoader(false);
+        });
     }
     fetchData();
   }, []);

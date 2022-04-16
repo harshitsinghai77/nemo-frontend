@@ -13,7 +13,7 @@ const endpoints = {
     return axiosInstance.get("/analytics");
   },
 
-  get_stastics(stats) {
+  get_statistics(stats) {
     return axiosInstance.get(`/statistics/${stats}`);
   },
 

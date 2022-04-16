@@ -13,7 +13,7 @@ import { secToHourMinuteSecond } from "../js/utils";
 import "../css/timer.css";
 
 const pokemonAudio = new Audio(
-  "https://nemo-cdn-audio.s3.amazonaws.com/pokemon.mp3"
+  "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/Pok%C3%A9mon%20Theme%20Song%20Trap%20Remix.mp3"
 );
 
 const Timer = () => {
