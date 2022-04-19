@@ -37,9 +37,6 @@ const { Provider } = store;
 const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
-      case types.ACTION_DESCRIPTION:
-        return { ...state, defaultValue: "Hello World" };
-
       case types.TOGGLE_MUTE:
         return { ...state, audioMute: !state.audioMute };
 

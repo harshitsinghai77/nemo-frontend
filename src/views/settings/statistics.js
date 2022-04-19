@@ -14,7 +14,7 @@ const Statistics = () => {
   const [stats, setStats] = useState({});
   useEffect(() => {
     async function fetchData() {
-      const res = await apiClient.get_stastics();
+      const res = await apiClient.get_statistics("best-day");
       const { data } = res;
       if (data) {
         const [h, m] = secToHourMinuteSecond(data.duration);

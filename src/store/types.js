@@ -1,4 +1,3 @@
-export const ACTION_DESCRIPTION = "ACTION_DESCRIPTION";
 export const TOGGLE_MUTE = "TOGGLE_MUTE";
 export const SET_AUDIO = "SET_AUDIO";
 export const SET_TIMER = "SET_TIMER";

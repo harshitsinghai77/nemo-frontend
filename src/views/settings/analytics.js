@@ -3,7 +3,7 @@ import { Box, Text } from "grommet";
 import axios from "axios";
 
 import { store } from "../../store/store";
-// import Statistics from "./statistics";
+import Statistics from "./statistics";
 import DataChartComponent from "../../components/DataChart";
 
 import { secondsToString } from "../../js/utils";
@@ -70,11 +70,18 @@ const Analytics = () => {
         )
       )}
       {daily_goal - currentGoal >= 0 && (
-        <Text className="mt-8" size="medium" color="brand">
-          Keep going! You've done {currentGoal} hours of deep work today, &nbsp;
-          {daily_goal - currentGoal} hours less than your daily goal.
-        </Text>
+        <>
+          <Text className="mt-8" size="medium" color="brand">
+            Keep going! You've completed {currentGoal.toFixed(2)} hours of deep
+            work today.
+          </Text>
+          <Text className="mt-8" size="medium" color="brand">
+            Work for another {(daily_goal - currentGoal).toFixed(2)} hrs to
+            achieve your daily goal.
+          </Text>
+        </>
       )}
+      <Statistics />
     </Box>
   );
 };
