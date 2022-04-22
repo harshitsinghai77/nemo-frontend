@@ -9,12 +9,20 @@ const endpoints = {
     return axiosInstance.post("/analytics", analytics);
   },
 
+  save_task(task) {
+    return axiosInstance.post("/create_task", task);
+  },
+
   get_analytics() {
     return axiosInstance.get("/analytics");
   },
 
   get_statistics(stats) {
     return axiosInstance.get(`/statistics/${stats}`);
+  },
+
+  get_tasks() {
+    return axiosInstance.get("/get-tasks");
   },
 
   get_settings() {
@@ -24,6 +32,7 @@ const endpoints = {
   get_account() {
     return axiosInstance.get("/account");
   },
+
   update_account(account) {
     return axiosInstance.patch("/account", account);
   },
@@ -39,6 +48,7 @@ const endpoints = {
   get_streams(category) {
     return axiosInstance.get(`/get-all-streams/${category}`);
   },
+
   get_stream_by_id(category, id) {
     return axiosInstance.get(`/get-all-streams/${category}/${id}`);
   },

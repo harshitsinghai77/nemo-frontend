@@ -4,6 +4,7 @@ import Timer from "./timer";
 import Account from "./account";
 import Preferences from "./preferences";
 import Analytics from "./analytics";
+import AllTask from "./all-task";
 
 const Menu = () => {
   return (
@@ -19,6 +20,9 @@ const Menu = () => {
       </Tab>
       <Tab title="Analytics">
         <Analytics />
+      </Tab>
+      <Tab title="Daily Task">
+        <AllTask />
       </Tab>
     </Tabs>
   );

@@ -1,14 +1,12 @@
-import { useState, useEffect, useContext, useCallback } from "react";
-import * as workerTimers from "worker-timers";
+import { useState, useEffect, useContext } from "react";
+
+import Countdown from "./countdown";
+import AlertBox from "./Alertbox";
 
 import { store } from "../store/store";
 import apiClient from "../apiClient";
-import { SET_CURRENT_SESSION } from "../store/types";
+import { SET_CURRENT_SESSION, SET_CURRENT_TASK } from "../store/types";
 import { webNotifyMe } from "../js/notification";
-import TitleComponent from "./TitleComponent";
-import AlertBox from "./Alertbox";
-import { play, pause } from "../components/svg";
-import { secToHourMinuteSecond } from "../js/utils";
 
 import "../css/timer.css";
 
@@ -22,79 +20,66 @@ const Timer = () => {
 
   const { timer_time, current_session, timer_sessions } =
     globalState.state.settings;
+  const { currentTask } = globalState.state;
 
-  const [hours, setHours] = useState(1);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-
-  const [tabTitle, setTabTitle] = useState("");
-  const [isActive, setIsActive] = useState(false);
+  const [expiryTimestamp, setExpiryTimestamp] = useState();
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const [hour, min, sec] = secToHourMinuteSecond(timer_time);
-    setHours(hour);
-    setMinutes(min);
-    setSeconds(sec);
+    resetTimer();
   }, [timer_time]);
 
-  const reset = useCallback(() => {
-    const save_analytics = async () => {
-      const analytics = {
+  const resetTimer = () => {
+    const currentTime = new Date();
+    currentTime.setSeconds(currentTime.getSeconds() + Number(timer_time));
+    setExpiryTimestamp(currentTime);
+  };
+
+  const clearTask = () => {
+    dispatch({
+      type: SET_CURRENT_TASK,
+      value: "",
+    });
+  };
+
+  const setSessions = () => {
+    let sessionValue;
+    if (current_session + 1 >= timer_sessions) {
+      sessionValue = timer_sessions;
+    } else {
+      sessionValue = current_session + 1;
+    }
+    dispatch({
+      type: SET_CURRENT_SESSION,
+      value: sessionValue,
+    });
+  };
+
+  const send_analytics_and_task_to_backend = async () => {
+    const analytics = {
+      duration: Number(timer_time),
+    };
+    await apiClient.save_analytics(analytics);
+    // Make this API call only if user has defined the task.
+    if (currentTask) {
+      const task = {
+        task_description: currentTask,
         duration: Number(timer_time),
+        task_date: Date.now(),
       };
-      await apiClient.save_analytics(analytics);
-    };
+      await apiClient.save_task(task);
+      clearTask();
+    }
+  };
 
-    const setSessions = () => {
-      let sessionValue;
-      if (current_session + 1 >= timer_sessions) {
-        sessionValue = 0;
-      } else {
-        sessionValue = current_session + 1;
-      }
-      dispatch({
-        type: SET_CURRENT_SESSION,
-        value: sessionValue,
-      });
-    };
-
-    setIsActive(false);
-    playPokemonAudio();
-    save_analytics();
-    setTabTitle("");
+  const expireTimer = () => {
     setShowAlert(true);
+    playPokemonAudio();
+    send_analytics_and_task_to_backend();
     setSessions();
     webNotifyMe();
-  }, [current_session, dispatch, timer_sessions, timer_time]);
-
-  useEffect(() => {
-    if (!isActive) return;
-    let intervalId = workerTimers.setInterval(() => {
-      workerTimers.clearInterval(intervalId);
-
-      if (seconds === 0) {
-        if (minutes !== 0) {
-          setSeconds(59);
-          setMinutes((minutes) => minutes - 1);
-        } else {
-          let minutes = 59;
-          let seconds = 59;
-
-          setSeconds(seconds);
-          setMinutes(minutes);
-
-          if (hours !== 0) {
-            setHours((hours) => hours - 1);
-          } else {
-            reset();
-          }
-        }
-      } else {
-        setSeconds(seconds - 1);
-      }
-    }, 1000);
-  }, [seconds, minutes, hours, isActive, reset]);
+    resetTimer();
+  };
 
   const playPokemonAudio = () => {
     if (pokemonAudio) {
@@ -109,33 +94,17 @@ const Timer = () => {
     }
   };
 
-  const onChangeActive = () => {
-    if (isActive) {
-      return setIsActive(false);
-    }
-    setIsActive("backward");
-  };
-
-  const timerHours = hours > 0 ? `0${hours}` : "00";
-  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
   return (
     <>
-      <TitleComponent title={tabTitle} />
-      <div className="timer-container-left">
-        <div className="timer-container-total-cycle">
-          {current_session}/{timer_sessions}
-        </div>
-      </div>
-      <div className="timer-container-center">
-        <div className="timer-container-countdown">
-          {timerHours} : {timerMinutes} : {timerSeconds}
-        </div>
-      </div>
-      <div className="timer-container-right-reset" onClick={onChangeActive}>
-        {isActive ? play : pause}
-      </div>
+      {expiryTimestamp && (
+        <Countdown
+          expiryTimestamp={expiryTimestamp}
+          current_session={current_session}
+          timer_sessions={timer_sessions}
+          currentTask={currentTask}
+          onExpire={expireTimer}
+        />
+      )}
 
       <AlertBox
         show={showAlert}

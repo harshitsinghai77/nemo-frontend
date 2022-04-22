@@ -64,7 +64,7 @@ const Analytics = () => {
           <>
             <h1 className="mx-auto text-gray-900">No data found.</h1>
             <h1 className="mx-auto text-gray-900">
-              Complete a session and come back later.
+              No session found. Complete a session and come back later 🙂.
             </h1>
           </>
         )

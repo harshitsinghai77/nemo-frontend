@@ -22,5 +22,11 @@
   display: flex;
   user-select: none;
   width: 250px;
+  transition: width 2s;
+  /* width: 250px; */
   /* margin-left: 0%; */
+}
+
+.header-container-center:hover{
+  width: 400px;
 }

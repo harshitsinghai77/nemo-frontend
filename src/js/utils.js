@@ -61,6 +61,13 @@ export function stringToSeconds(str) {
   return totalSeconds;
 }
 
+export function truncateString(str, num) {
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+}
+
 export const colorPallete = [
   "rgb(20, 97, 75)",
   "rgb(255, 206, 26)",
