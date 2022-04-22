@@ -4,7 +4,7 @@
 }
 
 .timer-container-total-cycle {
-  position: relative;
+  /* position: relative; */
   width: 44px;
   height: 44px;
   display: flex;
@@ -24,7 +24,9 @@
 .timer-container-center {
   position: relative;
   display: flex;
-  width: 154px;
+  justify-content:row;
+  width: 144px;
+  transition: width 2s;
   height: 44px;
   -webkit-box-align: center;
   align-items: center;
@@ -39,41 +41,62 @@
   overflow: hidden;
 }
 
-.timer-container-countdown {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  display: flex;
-  width: 154px;
-  height: 44px;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
+.timer-container-center:hover {
+  width: 260px;
+}
+
+.bubble {
   background-color: rgba(255, 255, 255, 0.15);
   transition: opacity 0.2s ease-in-out 0s;
   border-radius: 22px;
   opacity: 1;
 }
 
-.timer-container-right {
-  position: relative;
-  width: 44px;
-  height: 44px;
+.timer-container-task {
   display: flex;
-  -webkit-box-pack: center;
+  width: 200px;
+  height: 44px;
+  -webkit-box-align: flex-start;
+  align-items: flex-start;
+  padding-left: 0.5rem;
+  -webkit-box-pack: flex-start;
   justify-content: center;
+}
+
+.timer-container-countdown {
+  /* position: absolute; */
+  /* top: 0px; */
+  /* left: 0px; */
+  padding: 0px 20px 0px;
+  display: flex;
+  width: 150px;
+  height: 44px;
   -webkit-box-align: center;
   align-items: center;
-  font-size: 13px;
-  line-height: 15px;
-  font-weight: 600;
-  color: rgb(255, 255, 255);
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out 0s;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: width 2s;
 }
+
+.current-task {
+  /* position: absolute; */
+  /* top: 0px; */
+  /* left: 0px; */
+  /* padding: 0px 20px 0px; */
+  display: flex;
+  width: 200px;
+  margin-bottom: 2rem;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: width 2s;
+}
+
+.current-task:hover {
+  width: 280px;
+}
+
 
 .timer-container-right-reset {
   position: relative;

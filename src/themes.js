@@ -47,4 +47,10 @@ export const theme = {
       },
     },
   },
+
+  table: {
+    extend: {
+      color: "black",
+    },
+  },
 };

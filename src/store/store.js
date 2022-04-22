@@ -30,6 +30,7 @@ const initialState = {
     profile_pic: "",
     user_account_loaded_from_backend: true,
   },
+  currentTask: "",
 };
 const store = createContext(initialState);
 const { Provider } = store;
@@ -206,6 +207,12 @@ const StateProvider = ({ children }) => {
             ...state.userAccount,
             user_account_loaded_from_backend: action.value,
           },
+        };
+
+      case types.SET_CURRENT_TASK:
+        return {
+          ...state,
+          currentTask: action.value,
         };
 
       default:

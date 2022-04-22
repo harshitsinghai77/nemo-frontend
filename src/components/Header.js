@@ -26,7 +26,7 @@ const HeaderContainer = ({ textcolor, children, profile_pic }) => {
             <Title title="Nemo" color={textcolor} />
           </Link> */}
         </div>
-        <div className="header-container-center">{children}</div>
+        <div>{children}</div>
 
         {tokenExist ? (
           <div className="flex flex-row items-baseline">

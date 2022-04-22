@@ -77,7 +77,7 @@ export const rainbow = (
   </svg>
 );
 
-export const play = (
+export const pauseIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -95,7 +95,7 @@ export const play = (
   </svg>
 );
 
-export const pause = (
+export const playIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
