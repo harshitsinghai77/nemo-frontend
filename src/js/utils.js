@@ -42,6 +42,14 @@ export function secondsToString(sec) {
   return parseFloat(`${h}.${m}`);
 }
 
+export function secondsToHrsMinString(sec) {
+  const [h, m] = secToHourMinuteSecond(sec);
+  if (h === 0) {
+    return `${m} min`;
+  }
+  return `${h}hr ${m}min`;
+}
+
 export function minuteToSeconds(min, seconds) {
   return parseInt(min) * 60 + parseInt(seconds);
 }
