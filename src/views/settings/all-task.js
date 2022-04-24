@@ -92,7 +92,7 @@ const AllTask = () => {
           </Table>
         ))}
 
-      {allTasks.length <= 0 && (
+      {!loader && allTasks.length <= 0 && (
         <Text size="large" color="brand" className="my-10">
           No Data Found. Create task, complete session and come back again. 🙂
         </Text>
