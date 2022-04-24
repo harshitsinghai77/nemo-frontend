@@ -63,9 +63,9 @@ const Timer = () => {
     // Make this API call only if user has defined the task.
     if (currentTask) {
       const task = {
+        created_at: Date.now(),
         task_description: currentTask,
         duration: Number(timer_time),
-        task_date: Date.now(),
       };
       await apiClient.save_task(task);
       clearTask();
