@@ -51,13 +51,12 @@ const AllTask = () => {
     apiClient.remove_tasks(task_id).then((resp) => {
       const { success } = resp.data;
       if (success) {
-        console.log(resp.data);
-        deleteTaskFromUI(task_id, dateKey);
+        removeTaskFromUI(task_id, dateKey);
       }
     });
   };
 
-  const deleteTaskFromUI = (task_id, dateKey) => {
+  const removeTaskFromUI = (task_id, dateKey) => {
     // Find the duration of the current index task.
     const currentIndexDuration = bucket[dateKey].tasks.find(
       (x) => x.id === task_id

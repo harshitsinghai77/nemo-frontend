@@ -4,10 +4,10 @@ import { TextInput } from "grommet";
 import Header from "../components/Header";
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
-import Introduction from "../components/Introduction";
+// import Introduction from "../components/Introduction";
 import { CustomSpinner } from "../components/Elements";
 
-import { getToken } from "../tokenStorage";
+import { getToken, getUserImage, setUserImage } from "../tokenStorage";
 import apiClient from "../apiClient";
 import { store } from "../store/store";
 import {
@@ -24,8 +24,8 @@ function Dashboard() {
   const myAudio = globalState.state.myAudio;
   const currentTask = globalState.state.currentTask;
   const { timer_settings_loaded_from_backend } = globalState.state.settings;
-  const { profile_pic } = globalState.state.userAccount;
   const [loader, setLoader] = useState(true);
+  const [profilepic, setProfilepic] = useState();
 
   const getSettings = async () => {
     const res = await apiClient.get_settings();
@@ -43,6 +43,25 @@ function Dashboard() {
     }
   };
 
+  const loadImage = async () => {
+    // Check localStorage if userImageURL is already available.
+    const userImageURL = getUserImage();
+    if (userImageURL) {
+      // If available in localStorage, set it as profile_pic
+      setProfilepic(userImageURL);
+    } else {
+      // If not available, ,ake a request and get userimage from API
+      const resp = await apiClient.get_user_image_url();
+      if (resp.data) {
+        const { profile_pic } = resp.data;
+        setProfilepic(profile_pic);
+
+        // Save it to localstorage for future reference
+        setUserImage(profile_pic);
+      }
+    }
+  };
+
   useEffect(() => {
     // if settings not loaded from backend
     if (!getToken() || !timer_settings_loaded_from_backend) {
@@ -51,7 +70,7 @@ function Dashboard() {
     if (getToken() && timer_settings_loaded_from_backend) {
       getSettings();
     }
-
+    loadImage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,7 +97,7 @@ function Dashboard() {
 
   return (
     <div id="#dashboard" className="dashboard">
-      <Header profile_pic={profile_pic}>
+      <Header profile_pic={profilepic}>
         {loader ? (
           <CustomSpinner color="#ffffff" />
         ) : (

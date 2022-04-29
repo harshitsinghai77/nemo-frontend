@@ -5,20 +5,24 @@ const endpoints = {
     return axiosInstance.post("/login", user_token);
   },
 
-  save_analytics(analytics) {
-    return axiosInstance.post("/analytics", analytics);
-  },
-
-  save_task(task) {
-    return axiosInstance.post("/create_task", task);
+  get_user_image_url() {
+    return axiosInstance.get("/user-image");
   },
 
   get_analytics() {
     return axiosInstance.get("/analytics");
   },
 
+  save_analytics(analytics) {
+    return axiosInstance.post("/analytics", analytics);
+  },
+
   get_statistics(stats) {
     return axiosInstance.get(`/statistics/${stats}`);
+  },
+
+  save_task(task) {
+    return axiosInstance.post("/create_task", task);
   },
 
   get_tasks() {

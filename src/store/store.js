@@ -27,7 +27,6 @@ const initialState = {
     email: "",
     family_name: "",
     given_name: "",
-    profile_pic: "",
     user_account_loaded_from_backend: true,
   },
   currentTask: "",
