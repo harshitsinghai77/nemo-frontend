@@ -62,8 +62,9 @@ const Timer = () => {
     await apiClient.save_analytics(analytics);
     // Make this API call only if user has defined the task.
     if (currentTask) {
+      const currentTime = new Date();
       const task = {
-        created_at: Date.now(),
+        created_at: currentTime.getTime(),
         task_description: currentTask,
         duration: Number(timer_time),
       };

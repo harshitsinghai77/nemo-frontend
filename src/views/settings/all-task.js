@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody,
 } from "grommet";
+import { Trash } from "grommet-icons";
 
 import { secondsToHrsMinString } from "../../js/utils";
 import apiClient from "../../apiClient";
@@ -44,6 +45,48 @@ const AllTask = () => {
     setBucket(dict);
   };
 
+  const deleteTask = (task_id, dateKey) => {
+    if (!task_id) return;
+
+    apiClient.remove_tasks(task_id).then((resp) => {
+      const { success } = resp.data;
+      if (success) {
+        console.log(resp.data);
+        deleteTaskFromUI(task_id, dateKey);
+      }
+    });
+  };
+
+  const deleteTaskFromUI = (task_id, dateKey) => {
+    // Find the duration of the current index task.
+    const currentIndexDuration = bucket[dateKey].tasks.find(
+      (x) => x.id === task_id
+    ).duration;
+
+    // Subtract duration of the current index from the total_sum of the corresponding date.
+    const newTotalSum = bucket[dateKey].total_sum - currentIndexDuration;
+
+    // Filter current task from all the tasks in the date
+    const alteredDataKeyBucket = bucket[dateKey].tasks.filter(
+      (task) => task.id !== task_id
+    );
+
+    // create newBucket after removing the index task
+    const newBucket = {
+      ...bucket,
+      [dateKey]: {
+        total_sum: newTotalSum,
+        tasks: alteredDataKeyBucket,
+      },
+    };
+
+    if (alteredDataKeyBucket.length <= 0) {
+      // if bucket is empty, remove they key (i.e remove date)
+      delete newBucket[dateKey];
+    }
+    setBucket(newBucket);
+  };
+
   return (
     <Box alignSelf="center" className="my-10">
       <Text size="large" color="brand" className="my-6">
@@ -78,13 +121,19 @@ const AllTask = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {bucket[dateKey].tasks.map((el, index) => (
-                <TableRow key={index}>
+              {bucket[dateKey].tasks.map((el) => (
+                <TableRow key={el.id}>
                   <TableCell scope="row">
                     <strong>{el.task_description}</strong>
                   </TableCell>
                   <TableCell>{secondsToHrsMinString(el.duration)}</TableCell>
-                  <TableCell>{el.time}</TableCell>
+                  <TableCell>
+                    {el.time} &nbsp;
+                    <Trash
+                      size="small"
+                      onClick={() => deleteTask(el.id, dateKey)}
+                    />
+                  </TableCell>
                   {/* <TableCell>{el.date}</TableCell> */}
                 </TableRow>
               ))}

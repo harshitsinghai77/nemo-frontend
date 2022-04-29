@@ -25,6 +25,10 @@ const endpoints = {
     return axiosInstance.get("/get-tasks");
   },
 
+  remove_tasks(task_id) {
+    return axiosInstance.delete(`/tasks/${task_id}`);
+  },
+
   get_settings() {
     return axiosInstance.get("/settings");
   },
