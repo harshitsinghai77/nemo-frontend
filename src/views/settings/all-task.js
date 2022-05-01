@@ -9,6 +9,7 @@ import {
   TableBody,
 } from "grommet";
 import { Trash } from "grommet-icons";
+import moment from "moment";
 
 import { secondsToHrsMinString } from "../../js/utils";
 import apiClient from "../../apiClient";
@@ -127,7 +128,8 @@ const AllTask = () => {
                   </TableCell>
                   <TableCell>{secondsToHrsMinString(el.duration)}</TableCell>
                   <TableCell>
-                    {el.time} &nbsp;
+                    {moment(el.created_at).local().format("HH:mm")}
+                    &nbsp;
                     <Trash
                       size="small"
                       onClick={() => deleteTask(el.id, dateKey)}
