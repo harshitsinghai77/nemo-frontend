@@ -41,15 +41,13 @@ const Analytics = () => {
               );
 
               // Best day is the day with the most number of hrs
-              const maximumHrs = secToHrs.indexOf(Math.max(...secToHrs));
+              const maximumHrsIndex = secToHrs.indexOf(Math.max(...secToHrs));
               const [h, m] = secToHourMinuteSecond(
-                data[maximumHrs]["total_count"]
+                data[maximumHrsIndex]["total_count"]
               );
               setBestDay({
                 bestDayDuration: `${h} hrs ${m} min`,
-                bestDayDate: new Date(
-                  data[maximumHrs]["weekday"]
-                ).toDateString(),
+                bestDayDate: data[maximumHrsIndex]["weekday"],
               });
               setWeeklyData(secToHrs);
               setWeeklyLabels(labels);
