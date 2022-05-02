@@ -69,8 +69,8 @@ function Dashboard() {
     }
     if (getToken() && timer_settings_loaded_from_backend) {
       getSettings();
+      loadImage();
     }
-    loadImage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

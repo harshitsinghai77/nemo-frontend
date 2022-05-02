@@ -9,7 +9,7 @@ import DataChartComponent from "../../components/DataChart";
 import { secondsToString } from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
-import { numberToHours } from "../../js/utils";
+import { numberToHours, secToHourMinuteSecond } from "../../js/utils";
 
 const Analytics = () => {
   const globalState = useContext(store);
@@ -19,6 +19,7 @@ const Analytics = () => {
   const [weeklyLabels, setWeeklyLabels] = useState([]);
   const [currentGoal, setCurrentGoal] = useState();
   const [loader, setLoader] = useState(true);
+  const [bestDay, setBestDay] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +39,18 @@ const Analytics = () => {
               const secToHrs = data.map((el) =>
                 secondsToString(el.total_count)
               );
+
+              // Best day is the day with the most number of hrs
+              const maximumHrs = secToHrs.indexOf(Math.max(...secToHrs));
+              const [h, m] = secToHourMinuteSecond(
+                data[maximumHrs]["total_count"]
+              );
+              setBestDay({
+                bestDayDuration: `${h} hrs ${m} min`,
+                bestDayDate: new Date(
+                  data[maximumHrs]["weekday"]
+                ).toDateString(),
+              });
               setWeeklyData(secToHrs);
               setWeeklyLabels(labels);
               setLoader(false);
@@ -81,7 +94,7 @@ const Analytics = () => {
           </Text>
         </>
       )}
-      <Statistics />
+      <Statistics bestDay={bestDay} />
     </Box>
   );
 };

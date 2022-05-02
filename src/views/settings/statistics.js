@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
 import {
   CustomBox,
@@ -9,7 +9,7 @@ import apiClient from "../../apiClient";
 import { secToHourMinuteSecond } from "../../js/utils";
 import { themePrimaryColor } from "../../themes";
 
-const Statistics = () => {
+const Statistics = ({ bestDay }) => {
   const [loader, setLoader] = useState(true);
   const [stats, setStats] = useState({});
   useEffect(() => {
@@ -31,8 +31,16 @@ const Statistics = () => {
 
   const content = (
     <>
+      {bestDay && (
+        <CustomBox>
+          <h1 className="text-base text-black mb-2">Best Day</h1>
+          <ParagraphTitle text={bestDay.bestDayDate} />
+          <ParagraphTitle text={bestDay.bestDayDuration} />
+        </CustomBox>
+      )}
+
       <CustomBox>
-        <h1 className="text-base text-black mb-2">Best Day</h1>
+        <h1 className="text-base text-black mb-2">Best Session</h1>
         <ParagraphTitle text={stats.date} />
         <ParagraphTitle text={stats.duration} />
       </CustomBox>
@@ -49,4 +57,4 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default memo(Statistics);

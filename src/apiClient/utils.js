@@ -8,5 +8,8 @@ export const get_server_url = () => {
   if (use_backend === "QOVERY") {
     return process.env.REACT_APP_SERVER_URL_QOVERY;
   }
+  if (use_backend === "DETA") {
+    return process.env.REACT_APP_SERVER_URL_DETA;
+  }
   return process.env.REACT_APP_SERVER_URL_HEROKU;
 };
