@@ -50,7 +50,7 @@ function Dashboard() {
       // If available in localStorage, set it as profile_pic
       setProfilepic(userImageURL);
     } else {
-      // If not available, ,ake a request and get userimage from API
+      // If not available, make a request and get userimage from API
       const resp = await apiClient.get_user_image_url();
       if (resp.data) {
         const { profile_pic } = resp.data;

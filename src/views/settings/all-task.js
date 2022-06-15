@@ -21,11 +21,17 @@ const AllTask = () => {
   const [bucket, setBucket] = useState();
 
   useEffect(() => {
-    apiClient.get_tasks().then((resp) => {
-      setAllTasks(resp.data);
-      createBuckets(resp.data);
-      setLoader(false);
-    });
+    apiClient
+      .get_tasks()
+      .then((resp) => {
+        setAllTasks(resp.data);
+        createBuckets(resp.data);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log("err: ", err);
+        setLoader(false);
+      });
   }, []);
 
   const createBuckets = (tasksArray) => {

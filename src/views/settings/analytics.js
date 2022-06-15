@@ -19,7 +19,7 @@ const Analytics = () => {
   const [weeklyLabels, setWeeklyLabels] = useState([]);
   const [currentGoal, setCurrentGoal] = useState();
   const [loader, setLoader] = useState(true);
-  const [bestDay, setBestDay] = useState();
+  const [bestDay, setBestDay] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -45,6 +45,7 @@ const Analytics = () => {
               const [h, m] = secToHourMinuteSecond(
                 data[maximumHrsIndex]["total_count"]
               );
+
               setBestDay({
                 bestDayDuration: `${h} hrs ${m} min`,
                 bestDayDate: data[maximumHrsIndex]["weekday"],
