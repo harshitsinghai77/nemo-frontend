@@ -50,7 +50,6 @@ const Analytics = () => {
                 bestDayDuration: `${h} hrs ${m} min`,
                 bestDayDate: data[maximumHrsIndex]["weekday"],
               });
-
               setWeeklyData(secToHrs);
               setWeeklyLabels(labels);
               setLoader(false);
