@@ -19,7 +19,7 @@ const Analytics = () => {
   const [weeklyLabels, setWeeklyLabels] = useState([]);
   const [currentGoal, setCurrentGoal] = useState();
   const [loader, setLoader] = useState(true);
-  const [bestDay, setBestDay] = useState({});
+  const [bestDay, setBestDay] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -76,7 +76,7 @@ const Analytics = () => {
           <>
             <h1 className="mx-auto text-gray-900">No data found.</h1>
             <h1 className="mx-auto text-gray-900">
-              No session found. Complete a session and come back later 🙂.
+              No Analytics found. Complete a session and come back later 🙂.
             </h1>
           </>
         )
@@ -93,7 +93,7 @@ const Analytics = () => {
           </Text>
         </>
       )}
-      <Statistics bestDay={bestDay} />
+      {bestDay && <Statistics bestDay={bestDay} />}
     </Box>
   );
 };
