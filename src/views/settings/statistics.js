@@ -11,7 +11,7 @@ import { themePrimaryColor } from "../../themes";
 
 const Statistics = ({ bestDay }) => {
   const [loader, setLoader] = useState(true);
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState();
   useEffect(() => {
     async function fetchData() {
       const res = await apiClient.get_statistics("best-day");
@@ -25,6 +25,7 @@ const Statistics = ({ bestDay }) => {
         setStats(stats);
         setLoader(false);
       }
+      setLoader(false);
     }
     fetchData();
   }, []);
@@ -39,11 +40,13 @@ const Statistics = ({ bestDay }) => {
         </CustomBox>
       )}
 
-      <CustomBox>
-        <h1 className="text-base text-black mb-2">Best Session</h1>
-        <ParagraphTitle text={stats.date} />
-        <ParagraphTitle text={stats.duration} />
-      </CustomBox>
+      {stats && (
+        <CustomBox>
+          <h1 className="text-base text-black mb-2">Best Session</h1>
+          <ParagraphTitle text={stats.date} />
+          <ParagraphTitle text={stats.duration} />
+        </CustomBox>
+      )}
     </>
   );
 
