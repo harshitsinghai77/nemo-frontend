@@ -52,21 +52,21 @@ const AllTask = () => {
     setBucket(dict);
   };
 
-  const deleteTask = (task_id, dateKey) => {
-    if (!task_id) return;
+  const deleteTask = (deketed_task_key, dateKey) => {
+    if (!deketed_task_key) return;
 
-    apiClient.remove_tasks(task_id).then((resp) => {
+    apiClient.remove_tasks(deketed_task_key).then((resp) => {
       const { success } = resp.data;
       if (success) {
-        removeTaskFromUI(task_id, dateKey);
+        removeTaskFromUI(deketed_task_key, dateKey);
       }
     });
   };
 
-  const removeTaskFromUI = (task_id, dateKey) => {
+  const removeTaskFromUI = (deketed_task_key, dateKey) => {
     // Find the duration of the current index task.
     const currentIndexDuration = bucket[dateKey].tasks.find(
-      (x) => x.id === task_id
+      (x) => x.key === deketed_task_key
     ).duration;
 
     // Subtract duration of the current index from the total_sum of the corresponding date.
@@ -74,7 +74,7 @@ const AllTask = () => {
 
     // Filter current task from all the tasks in the date
     const alteredDataKeyBucket = bucket[dateKey].tasks.filter(
-      (task) => task.id !== task_id
+      (task) => task.key !== deketed_task_key
     );
 
     // create newBucket after removing the index task
@@ -101,13 +101,13 @@ const AllTask = () => {
       {loader && <CustomSpinner />}
 
       {bucket &&
-        Object.keys(bucket).map((dateKey, index) => (
+        Object.keys(bucket).map((dateKey, key) => (
           <Table
             alignSelf="stretch"
             caption={`Tasks - ${dateKey}. Total hours ${secondsToHrsMinString(
               bucket[dateKey].total_sum
             )}`}
-            key={index}
+            key={key}
             className="mb-8"
           >
             <TableHeader>
@@ -128,7 +128,7 @@ const AllTask = () => {
             </TableHeader>
             <TableBody>
               {bucket[dateKey].tasks.map((el) => (
-                <TableRow key={el.id}>
+                <TableRow key={el.key}>
                   <TableCell scope="row">
                     <strong>{el.task_description}</strong>
                   </TableCell>
@@ -138,7 +138,7 @@ const AllTask = () => {
                     &nbsp;
                     <Trash
                       size="small"
-                      onClick={() => deleteTask(el.id, dateKey)}
+                      onClick={() => deleteTask(el.key, dateKey)}
                     />
                   </TableCell>
                   {/* <TableCell>{el.date}</TableCell> */}
