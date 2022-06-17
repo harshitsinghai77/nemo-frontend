@@ -43,6 +43,13 @@ function Dashboard() {
     }
   };
 
+  const requestAnalytics = async () => {
+    // Create a request to analytics, so that it can be cached by the database,
+    // this will result in faster query and response time when the request is made in the
+    // in the analytics page
+    await apiClient.get_analytics();
+  };
+
   const loadImage = async () => {
     // Check localStorage if userImageURL is already available.
     const userImageURL = getUserImage();
@@ -70,6 +77,7 @@ function Dashboard() {
     if (getToken() && timer_settings_loaded_from_backend) {
       getSettings();
       loadImage();
+      requestAnalytics();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
