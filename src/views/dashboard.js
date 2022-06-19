@@ -7,7 +7,13 @@ import Sounds from "../components/Sounds";
 // import Introduction from "../components/Introduction";
 import { CustomSpinner } from "../components/Elements";
 
-import { getToken, getUserImage, setUserImage } from "../tokenStorage";
+import {
+  getToken,
+  getUserImage,
+  setUserImage,
+  removeToken,
+  removeUserImage,
+} from "../tokenStorage";
 import apiClient from "../apiClient";
 import { store } from "../store/store";
 import {
@@ -27,20 +33,33 @@ function Dashboard() {
   const [loader, setLoader] = useState(true);
   const [profilepic, setProfilepic] = useState();
 
-  const getSettings = async () => {
-    const res = await apiClient.get_settings();
-    const { data } = res;
-    if (data) {
-      dispatch({
-        type: SET_SETTINGS,
-        value: data,
+  const getSettings = () => {
+    apiClient
+      .get_settings()
+      .then((res) => {
+        const { data } = res;
+        if (data) {
+          dispatch({
+            type: SET_SETTINGS,
+            value: data,
+          });
+          dispatch({
+            type: SET_SETTING_LOADED_FROM_BACKEND,
+            value: !timer_settings_loaded_from_backend,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 403) {
+          // Could not validate credentials
+          removeToken();
+          removeUserImage();
+          if (window) {
+            window.location.reload();
+          }
+        }
       });
-      dispatch({
-        type: SET_SETTING_LOADED_FROM_BACKEND,
-        value: !timer_settings_loaded_from_backend,
-      });
-      setLoader(false);
-    }
   };
 
   const requestAnalytics = async () => {
