@@ -64,7 +64,8 @@ const Timer = () => {
     if (currentTask) {
       const currentTime = new Date();
       const task = {
-        created_at: currentTime.getTime(),
+        created_at: currentTime.toISOString(),
+        task_date: currentTime.toDateString(),
         task_description: currentTask,
         duration: Number(timer_time),
       };
