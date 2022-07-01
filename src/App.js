@@ -10,7 +10,7 @@ import { store } from "./store/store";
 import { SET_AUDIO } from "./store/types";
 import { getToken } from "./tokenStorage";
 import { LoadSound } from "./js/utils";
-import { run } from "./js/nemo";
+// import { run } from "./js/nemo";
 
 import Dashboard from "./views/dashboard";
 import Settings from "./views/settings/settings";
@@ -20,17 +20,17 @@ import Lofi from "./views/lofi";
 function App() {
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const { preference_background_color, preference_shuffle_time } =
-    globalState.state.settings;
+  // const { preference_background_color, preference_shuffle_time } =
+  //   globalState.state.settings;
 
   useEffect(() => {
     const audioDict = LoadSound();
     dispatch({ type: SET_AUDIO, payload: audioDict });
   }, [dispatch]);
 
-  useEffect(() => {
-    run(preference_background_color, preference_shuffle_time);
-  }, [preference_background_color, preference_shuffle_time]);
+  // useEffect(() => {
+  //   run(preference_background_color, preference_shuffle_time);
+  // }, [preference_background_color, preference_shuffle_time]);
 
   function isLoggedIn(WrapperComponent, url) {
     return (props) => {
