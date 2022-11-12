@@ -9,7 +9,7 @@ import { Title } from "./Elements";
 import { APP_NAME } from "../js/utils";
 import "../css/header.css";
 
-const HeaderContainer = ({ textcolor, children, profile_pic }) => {
+const HeaderContainer = ({ textcolor, children, profile_pic, isHome }) => {
   const tokenExist = getToken();
   const profile = profile_pic && (
     <Avatar src={profile_pic} margin="xsmall" size="small" />
@@ -19,12 +19,15 @@ const HeaderContainer = ({ textcolor, children, profile_pic }) => {
     <Header>
       <div className="header-container" id="#timer-header">
         <div className="md:flex sm:block" style={{ maxWidth: "25%" }}>
-          <Link to="/">
-            <Title title={APP_NAME} color={textcolor} />
-          </Link>
-          {/* <Link to="/lofi">
-            <Title title="Nemo" color={textcolor} />
-          </Link> */}
+          {isHome ? (
+            <Link to="/lofi">
+              <Title title="Nemo Lofi" color={textcolor} />
+            </Link>
+          ) : (
+            <Link to="/">
+              <Title title={APP_NAME} color={textcolor} />
+            </Link>
+          )}
         </div>
         <div>{children}</div>
 

@@ -124,7 +124,7 @@ function Dashboard() {
 
   return (
     <div id="#dashboard" className="dashboard">
-      <Header profile_pic={profilepic}>
+      <Header profile_pic={profilepic} isHome={true}>
         {loader ? (
           <CustomSpinner color="#ffffff" />
         ) : (
