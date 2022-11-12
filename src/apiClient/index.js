@@ -53,12 +53,12 @@ const endpoints = {
     return axiosInstance.delete("/delete");
   },
 
-  get_streams(category) {
-    return axiosInstance.get(`/get-all-streams/${category}`);
+  get_streams_by_category(category) {
+    return axiosInstance.get(`/get-streams-by-category/${category}`);
   },
 
-  get_stream_by_id(category, id) {
-    return axiosInstance.get(`/get-all-streams/${category}/${id}`);
+  get_stream_by_id(category, video_id) {
+    return axiosInstance.get(`/get-stream-by-id/${category}/${video_id}`);
   },
 };
 

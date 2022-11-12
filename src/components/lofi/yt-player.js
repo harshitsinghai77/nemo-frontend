@@ -35,7 +35,7 @@ class MusicPlayer extends Component {
 
   async fetchAndUpdateStreamsList() {
     const all_axios = moodsCategory.map((category) =>
-      apiClient.get_streams(category)
+      apiClient.get_streams_by_category(category)
     );
 
     axios.all(all_axios).then(
