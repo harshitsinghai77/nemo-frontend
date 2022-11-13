@@ -1,6 +1,5 @@
 import { Component } from "react";
 
-import axios from "axios";
 import apiClient from "../../apiClient";
 import { moodsCategory } from "./utility";
 import { CustomSpinner } from "../Elements";
@@ -34,25 +33,48 @@ class MusicPlayer extends Component {
   }
 
   async fetchAndUpdateStreamsList() {
-    const all_axios = moodsCategory.map((category) =>
-      apiClient.get_streams_by_category(category)
-    );
+    const allStreams = [];
+    const allPromises = [];
+    const successStreams = [];
 
-    axios.all(all_axios).then(
-      axios.spread((...args) => {
-        const allsongs = args.map((el) => el.data);
-        const merged = [].concat.apply([], allsongs);
-        const newPlaylist = merged.filter(
-          (playlist) => playlist.category === this.props.category
+    moodsCategory.forEach((mood) => {
+      allPromises.push(
+        apiClient
+          .get_streams_by_category(mood)
+          .then((response) => {
+            // push response to allStreams
+            allStreams.push(...response.data);
+            successStreams.push(mood);
+          })
+          .catch((error) => {
+            console.log("Error", error.message);
+          })
+      );
+    });
+
+    Promise.all(allPromises).then(() => {
+      let newPlaylist = allStreams.filter(
+        (playlist) => playlist.category === this.props.category
+      );
+
+      // set the dropdown options to the mood with the successful API call.
+      this.props.onMoodOptionChange(successStreams);
+
+      if (newPlaylist.length === 0) {
+        const successStream = successStreams[0];
+        this.props.onMoodTitleChange(successStream);
+        newPlaylist = allStreams.filter(
+          (playlist) => playlist.category === successStream
         );
-        this.setState({
-          all_streams: merged,
-          musicList: newPlaylist,
-          loading: false,
-        });
-        this.updatePlayer();
-      })
-    );
+      }
+
+      this.setState({
+        all_streams: allStreams,
+        musicList: newPlaylist,
+        loading: false,
+      });
+      this.updatePlayer();
+    });
   }
 
   componentWillUnmount() {
@@ -149,7 +171,9 @@ class MusicPlayer extends Component {
   };
 
   updatePlayer = () => {
-    this.playerRef.load();
+    if (this.playerRef) {
+      this.playerRef.load();
+    }
   };
 
   nextSong = () => {

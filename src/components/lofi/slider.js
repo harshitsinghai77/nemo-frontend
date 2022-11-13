@@ -1,12 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
-import moods from "./data/mood.json";
+import { moodImages } from "./utility";
 import "../../css/lofi/lofi.css";
 
 const LofiSlider = ({ activeMoodTitle }) => {
   const activeImage = document.querySelector(".active");
   const newImage = document.querySelector(".new");
-  const [allImages, setAllImages] = useState();
 
   const toggleSliderAnimation = useCallback(
     (state) => {
@@ -20,22 +19,11 @@ const LofiSlider = ({ activeMoodTitle }) => {
   const loadImage = useCallback(
     (title) => {
       if (activeImage === null || newImage === null) return;
-      activeImage.src = allImages[title].props.src;
-      newImage.src = allImages[title].props.src;
+      activeImage.src = moodImages[title].props.src;
+      newImage.src = moodImages[title].props.src;
     },
-    [activeImage, newImage, allImages]
+    [activeImage, newImage]
   );
-
-  useEffect(() => {
-    const mood_images = {};
-    moods.forEach((m) => {
-      const img_src = (
-        <img src={require(`./wallpapers/${m.cover}`).default} alt={m.title} />
-      );
-      mood_images[m.title] = img_src;
-    });
-    setAllImages(mood_images);
-  }, []);
 
   useEffect(() => {
     loadImage(activeMoodTitle, "new");

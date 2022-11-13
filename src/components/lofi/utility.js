@@ -11,4 +11,4 @@ moods.forEach((m) => {
 });
 
 export const moodsCategory = category;
-export const image_dict = mood_images;
+export const moodImages = mood_images;

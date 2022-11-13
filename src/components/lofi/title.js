@@ -9,6 +9,15 @@ import "../../css/lofi/lofi.css";
 
 const LofiTitle = () => {
   const [activeMoodTitle, setActiveMoodTitle] = useState("Study & Chill");
+  const [activeMoodOption, setActiveMoodOption] = useState(moodsCategory);
+
+  const onMoodOptionChange = (newMood) => {
+    setActiveMoodOption(newMood);
+  };
+
+  const onMoodTitleChange = (newActiveMood) => {
+    setActiveMoodTitle(newActiveMood);
+  };
 
   return (
     <>
@@ -19,7 +28,7 @@ const LofiTitle = () => {
             a11yTitle="Choose your mood"
             dropHeight="medium"
             plain
-            options={moodsCategory}
+            options={activeMoodOption}
             value={activeMoodTitle}
             onChange={({ option }) => setActiveMoodTitle(option)}
           />
@@ -27,7 +36,11 @@ const LofiTitle = () => {
         <h1>{activeMoodTitle}</h1>
       </div>
       <LofiSlider activeMoodTitle={activeMoodTitle} />
-      <LofiPlayer category={activeMoodTitle} />
+      <LofiPlayer
+        category={activeMoodTitle}
+        onMoodOptionChange={onMoodOptionChange}
+        onMoodTitleChange={onMoodTitleChange}
+      />
     </>
   );
 };

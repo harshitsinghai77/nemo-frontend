@@ -29,7 +29,6 @@ const AllTask = () => {
         setLoader(false);
       })
       .catch((err) => {
-        console.log("err: ", err);
         setLoader(false);
       });
   }, []);
