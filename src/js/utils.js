@@ -4,12 +4,23 @@ export function LoadSound() {
   const audioDict = {};
 
   SoundData.forEach((el) => {
-    const { stream_url } = el;
-    let currentAudio = new Audio(stream_url);
-    currentAudio.loop = true;
-    audioDict[stream_url] = currentAudio;
-  });
+    let { imgsrc, stream_url, stream_url_gcp_backup, title } = el;
 
+    let newAudio = new Audio();
+    newAudio.loop = true;
+
+    // check if error ocucces when making the request
+    newAudio.addEventListener("error", (e) => {
+      // if the url fails, use backup url
+      newAudio.src = stream_url_gcp_backup;
+    });
+    newAudio.src = stream_url;
+    // removing event listener
+    newAudio.removeEventListener("error", () => {});
+
+    // add audio to object
+    audioDict[title] = { imgsrc, stream_url, title, currentAudio: newAudio };
+  });
   return audioDict;
 }
 

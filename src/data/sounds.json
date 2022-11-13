@@ -4,6 +4,7 @@
     "file_name": "rain.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
     "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
     "imgsrc": "rain.png"
   },
@@ -12,6 +13,7 @@
     "file_name": "thunderstorm.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/thunderstorm.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/thunderstorm.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/thunderstorm.ogg?alt=media",
     "ipfs_hash": "QmPS4aAcAaPuCtr3EMM1ckkbcetkiPV2JzDzdD6vdhFrro",
     "imgsrc": "thunderstorm.png"
   },
@@ -20,6 +22,7 @@
     "file_name": "wind.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/wind.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/wind.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/wind.ogg?alt=media",
     "ipfs_hash": "QmP74V3VEYRH3impCYeud9z1qBtViAbK4KJV5P1ZpVaCCw",
     "imgsrc": "wind.png"
   },
@@ -28,6 +31,7 @@
     "file_name": "forest.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/forest.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/forest.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/forest.ogg?alt=media",
     "ipfs_hash": "QmRuu1VPcpDLqYrUViworHn8xi18J8v2gdvb8gfEPfCZko",
     "imgsrc": "forest.png"
   },
@@ -36,6 +40,7 @@
     "file_name": "leaves.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/leaves.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/leaves.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/leaves.ogg?alt=media",
     "ipfs_hash": "QmTFFyXpvwzdHR2xgzv2k87scrauN5h57D3x579uPcp4aN",
     "imgsrc": "leaves.png"
   },
@@ -44,6 +49,7 @@
     "file_name": "waterstream.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/waterstream.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/waterstream.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/waterstream.ogg?alt=media",
     "ipfs_hash": "QmevMPzVu7SMxS7t6BkPgi6xHbCZ91YFLPFy9brbxD4obp",
     "imgsrc": "waterstream.png"
   },
@@ -52,6 +58,7 @@
     "file_name": "seaside.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/seaside.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/seaside.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/seaside.ogg?alt=media",
     "ipfs_hash": "QmNeQV9n63js6Qoxw1oCfMC8dRKDCtXL9ZTJb2yAaGKBYU",
     "imgsrc": "seaside.png"
   },
@@ -60,6 +67,7 @@
     "file_name": "water.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/water.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/water.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/water.ogg?alt=media",
     "ipfs_hash": "QmSvoW9raB17vermgCESs2y2JRVzVxjh25mbHkwLX8csZU",
     "imgsrc": "water.png"
   },
@@ -68,6 +76,7 @@
     "file_name": "fire.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/fire.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/fire.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/fire.ogg?alt=media",
     "ipfs_hash": "QmX5ZbRSBtAQKveWKd8tEM82QfBnxWs5HVYFeuQa1n3CBr",
     "imgsrc": "fire.png"
   },
@@ -76,6 +85,7 @@
     "file_name": "coffee.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/coffee.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/coffee.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/coffee.ogg?alt=media",
     "ipfs_hash": "QmaHf9a9S4nZPhvderocTaGvEUYEdyZajTm5KYR1NyVqbD",
     "imgsrc": "coffee.png"
   },
@@ -84,6 +94,7 @@
     "file_name": "summernight.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazon.com/summernight.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/summernight.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/summernight.ogg?alt=media",
     "ipfs_hash": "QmRvv7xGdbZXLm2hqB5fZma7Sc2vWkkYewDBzSFQDaHFvg",
     "imgsrc": "summernight.png"
   },
@@ -92,6 +103,7 @@
     "file_name": "train.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazon.com/train.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/train.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/train.ogg?alt=media",
     "ipfs_hash": "QmNu8BfC9fSihoyxfi6yKQcsxGDja5uZPWPxrC5FFxrazT",
     "imgsrc": "train.png"
   },
@@ -100,6 +112,7 @@
     "file_name": "fan.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/fan.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/fan.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/fan.ogg?alt=media",
     "ipfs_hash": "QmasGiSgRxowzi9c3nUHUenWYuai3WDXbM8wpEK5AXEoxH",
     "imgsrc": "fan.png"
   },
@@ -108,6 +121,7 @@
     "file_name": "whitenoise.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/whitenoise.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/whitenoise.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/whitenoise.ogg?alt=media",
     "ipfs_hash": "QmUXuy6dikeTbiwJsqjVG6gMS6vrjE5YscofHQ27aVWNxF",
     "imgsrc": "whitenoise.png"
   },
@@ -116,6 +130,7 @@
     "file_name": "pinknoise.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/pinknoise.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/pinknoise.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/pinknoise.ogg?alt=media",
     "ipfs_hash": "QmdbDXDfxwgx7hJuYUAdzMpK5kb7tzB8vF59niuowfPynq",
     "imgsrc": "pinknoise.png"
   },
@@ -124,6 +139,7 @@
     "file_name": "brownnoise.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/brownnoise.ogg",
     "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/brownnoise.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/brownnoise.ogg?alt=media",
     "ipfs_hash": "QmPQQDNy56fmTVnsvHFe2j7XaHW5pqkY2SYxoamuYhmCt3",
     "imgsrc": "brownnoise.png"
   }

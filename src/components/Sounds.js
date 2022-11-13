@@ -4,44 +4,42 @@ import { RangeInput } from "grommet";
 import { store } from "../store/store";
 import { TOGGLE_ACTIVATE_IMAGE } from "../store/types";
 
-import SoundData from "../data/sounds.json";
-
 function Sounds() {
   const globalState = useContext(store);
   const { myAudio, myImages } = globalState.state;
 
-  const onImageClick = (title, stream_url) => {
+  const onImageClick = async (title) => {
     const { dispatch } = globalState;
     dispatch({ type: TOGGLE_ACTIVATE_IMAGE, title });
-    playAudio(stream_url);
+    playAudio(title);
   };
 
-  const playAudio = (stream_url) => {
-    const audio = myAudio[stream_url];
+  const playAudio = (stream_name) => {
+    const audio = myAudio[stream_name].currentAudio;
     if (audio) audio.paused ? audio.play() : audio.pause();
   };
 
-  const onSliderChange = (event, stream_url) => {
+  const onSliderChange = (event, stream_name) => {
     const { value, min, max } = event.target;
-    const audio = myAudio[stream_url];
+    const audio = myAudio[stream_name].currentAudio;
     if (audio) audio.volume = value / (max - min);
   };
 
   return (
     <div className="flex-container sound-types">
-      {SoundData.map((el, index) => {
-        const { imgsrc, stream_url, title } = el;
+      {Object.values(myAudio).map((el, index) => {
+        const { imgsrc, title } = el;
         return (
           <div
             key={index}
-            data-key={stream_url}
+            data-key={title}
             className="flex-container sound-container"
           >
             <img
               src={require(`../images/${imgsrc}`).default}
               alt={title}
               title={title}
-              onClick={() => onImageClick(title, stream_url)}
+              onClick={() => onImageClick(title)}
               className={myImages[title] ? "active sound-img" : "sound-img"}
             />
             <RangeInput
@@ -52,7 +50,7 @@ function Sounds() {
                   ? "dashboard-input slider-active "
                   : "dashboard-input"
               }
-              onChange={(event) => onSliderChange(event, stream_url)}
+              onChange={(event) => onSliderChange(event, title)}
             />
             {/* <input
                 type="range"

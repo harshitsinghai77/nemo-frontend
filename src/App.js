@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     const audioDict = LoadSound();
     dispatch({ type: SET_AUDIO, payload: audioDict });
-  }, [dispatch]);
+  }, []);
 
   // useEffect(() => {
   //   run(preference_background_color, preference_shuffle_time);
