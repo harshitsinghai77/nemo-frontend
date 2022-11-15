@@ -32,12 +32,38 @@ class MusicPlayer extends Component {
     this.fetchAndUpdateStreamsList();
   }
 
+  async fetchFirstStream(mood) {
+    try {
+      const res = await apiClient.get_streams_by_category(mood);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async fetchAndUpdateStreamsList() {
     const allStreams = [];
     const allPromises = [];
     const successStreams = [];
 
+    const firstMood = this.props.category;
+    let newPlaylist = await this.fetchFirstStream(firstMood);
+
+    // First API success, show playlist on the screen and process other requests in background.
+    if (newPlaylist.length > 0) {
+      this.setState({
+        loading: false,
+        musicList: newPlaylist,
+      });
+      this.updatePlayer();
+    }
+    allStreams.push(...newPlaylist);
+
     moodsCategory.forEach((mood) => {
+      if (mood === firstMood && newPlaylist.length > 0) {
+        return;
+      }
+
       allPromises.push(
         apiClient
           .get_streams_by_category(mood)
@@ -53,26 +79,24 @@ class MusicPlayer extends Component {
     });
 
     Promise.all(allPromises).then(() => {
-      let newPlaylist = allStreams.filter(
-        (playlist) => playlist.category === this.props.category
-      );
+      // let newPlaylist = allStreams.filter(
+      //   (playlist) => playlist.category === this.props.category
+      // );
 
-      // set the dropdown options to the mood with the successful API call.
-      this.props.onMoodOptionChange(successStreams);
-
+      // First Call API failed.
       if (newPlaylist.length === 0) {
         const successStream = successStreams[0];
         this.props.onMoodTitleChange(successStream);
         newPlaylist = allStreams.filter(
           (playlist) => playlist.category === successStream
         );
+        this.setState({ musicList: newPlaylist });
       }
 
-      this.setState({
-        all_streams: allStreams,
-        musicList: newPlaylist,
-        loading: false,
-      });
+      // set the dropdown options to the mood with the successful API call.
+      this.props.onMoodOptionChange(successStreams);
+
+      this.setState({ all_streams: allStreams });
       this.updatePlayer();
     });
   }
