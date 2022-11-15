@@ -18,7 +18,7 @@ import {
   CustomBox,
   CustomSpinner,
 } from "../../components/Elements";
-import { removeToken } from "../../tokenStorage";
+import { removeToken, removeUserImage } from "../../tokenStorage";
 import { APP_NAME } from "../../js/utils";
 
 const AccountSettings = () => {
@@ -106,6 +106,7 @@ const AccountSettings = () => {
     const { success } = res.data;
     if (success) {
       removeToken();
+      removeUserImage();
       history.push("/");
     }
   };
