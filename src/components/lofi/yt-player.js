@@ -49,15 +49,16 @@ class MusicPlayer extends Component {
     const firstMood = this.props.category;
     let newPlaylist = await this.fetchFirstStream(firstMood);
 
-    // First API success, show playlist on the screen and process other requests in background.
+    // If first API is successful, show playlist on the screen and process other requests in background.
     if (newPlaylist.length > 0) {
       this.setState({
         loading: false,
         musicList: newPlaylist,
       });
+      allStreams.push(...newPlaylist);
+      successStreams.push(firstMood);
       this.updatePlayer();
     }
-    allStreams.push(...newPlaylist);
 
     moodsCategory.forEach((mood) => {
       if (mood === firstMood && newPlaylist.length > 0) {
