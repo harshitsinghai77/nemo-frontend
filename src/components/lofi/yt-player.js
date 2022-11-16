@@ -295,7 +295,7 @@ class MusicPlayer extends Component {
       <div className="musicplayer">
         <div className="current-song">
           <audio ref={(ref) => (this.playerRef = ref)}>
-            <source src={currentSongUrl} type="audio/ogg" />
+            <source src={currentSongUrl} type="audio/webm" />
             Your browser does not support the audio element.
           </audio>
           {currentSong && this.getAudioCard(currentSong)}
