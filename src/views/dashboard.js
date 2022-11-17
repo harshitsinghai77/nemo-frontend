@@ -106,7 +106,7 @@ function Dashboard() {
     dispatch({ type: TOGGLE_MUTE });
 
     for (const audio of Object.values(myAudio)) {
-      audio.muted = !audio.muted;
+      audio.currentAudio.muted = !audio.currentAudio.muted;
     }
   };
 
