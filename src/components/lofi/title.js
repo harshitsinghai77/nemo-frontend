@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Select } from "grommet";
 
+// import { store } from "../../store/store";
+import { SET_LOFI_MOOD } from "../../store/types";
 import LofiSlider from "./slider";
 import LofiPlayer from "./yt-player";
 import { moodsCategory } from "./utility";
@@ -8,6 +10,11 @@ import { moodsCategory } from "./utility";
 import "../../css/lofi/lofi.css";
 
 const LofiTitle = () => {
+  // const globalState = useContext(store);
+  // const { dispatch } = globalState;
+
+  // const activeMoodTitle = globalState.state.lofiMood;
+
   const [activeMoodTitle, setActiveMoodTitle] = useState("Study & Chill");
   const [activeMoodOption, setActiveMoodOption] = useState(moodsCategory);
 
@@ -15,7 +22,15 @@ const LofiTitle = () => {
     setActiveMoodOption(newMood);
   };
 
+  const onActiveMoodChange = ({ option }) => {
+    onMoodTitleChange(option);
+  };
+
   const onMoodTitleChange = (newActiveMood) => {
+    // dispatch({
+    //   type: SET_LOFI_MOOD,
+    //   value: newActiveMood,
+    // });
     setActiveMoodTitle(newActiveMood);
   };
 
@@ -30,7 +45,7 @@ const LofiTitle = () => {
             plain
             options={activeMoodOption}
             value={activeMoodTitle}
-            onChange={({ option }) => setActiveMoodTitle(option)}
+            onChange={onActiveMoodChange}
           />
         </div>
         <h1>{activeMoodTitle}</h1>

@@ -30,6 +30,8 @@ const initialState = {
     user_account_loaded_from_backend: true,
   },
   currentTask: "",
+  lofiStreams: [],
+  lofiMood: "Study & Chill",
 };
 const store = createContext(initialState);
 const { Provider } = store;
@@ -212,6 +214,18 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           currentTask: action.value,
+        };
+
+      case types.SET_LOFI_STREAMS:
+        return {
+          ...state,
+          lofiStreams: action.value,
+        };
+
+      case types.SET_LOFI_MOOD:
+        return {
+          ...state,
+          lofiMood: action.value,
         };
 
       default:

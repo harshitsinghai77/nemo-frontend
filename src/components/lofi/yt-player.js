@@ -1,11 +1,15 @@
 import { Component } from "react";
 
 import apiClient from "../../apiClient";
+import { store } from "../../store/store";
+import { SET_LOFI_STREAMS } from "../../store/types";
 import { moodsCategory } from "./utility";
 import { CustomSpinner } from "../Elements";
 import "../../css/lofi/music-player.css";
 
 class MusicPlayer extends Component {
+  static contextType = store;
+
   state = {
     index: 0,
     currentTime: "0:00",
@@ -15,7 +19,7 @@ class MusicPlayer extends Component {
     loading: true,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.playerRef.addEventListener("timeupdate", this.timeUpdate, false);
     this.playerRef.addEventListener("ended", this.nextSong, false);
 
@@ -29,7 +33,28 @@ class MusicPlayer extends Component {
       }
     });
 
-    this.fetchAndUpdateStreamsList();
+    // Check if lofiStreams in global state
+    const context = this.context;
+    const { dispatch } = context;
+    const { lofiStreams } = context.state;
+
+    if (lofiStreams && lofiStreams.length > 0) {
+      const filteredStream = lofiStreams.filter(
+        (playlist) => playlist.category === this.props.category
+      );
+
+      this.setState({ all_streams: lofiStreams });
+      this.updateNewPlaylist(filteredStream);
+    } else {
+      // if global lofiStream is empty, fetch stream from backend
+      const allStreams = await this.fetchAndUpdateStreamsList();
+
+      // Put it in globalState for future use
+      dispatch({
+        type: SET_LOFI_STREAMS,
+        value: allStreams,
+      });
+    }
   }
 
   async fetchFirstStream(mood) {
@@ -38,6 +63,7 @@ class MusicPlayer extends Component {
       return res.data;
     } catch (error) {
       console.log(error);
+      return [];
     }
   }
 
@@ -45,19 +71,20 @@ class MusicPlayer extends Component {
     const allStreams = [];
     const allPromises = [];
     const successStreams = [];
+    let playerUpdated = false;
 
     const firstMood = this.props.category;
     let newPlaylist = await this.fetchFirstStream(firstMood);
 
     // If first API is successful, show playlist on the screen and process other requests in background.
-    if (newPlaylist.length > 0) {
-      this.setState({
-        loading: false,
-        musicList: newPlaylist,
-      });
+    if (newPlaylist && newPlaylist.length > 0) {
+      // set new playlist in state
+      this.updateNewPlaylist(newPlaylist);
+
       allStreams.push(...newPlaylist);
       successStreams.push(firstMood);
       this.updatePlayer();
+      playerUpdated = true;
     }
 
     moodsCategory.forEach((mood) => {
@@ -88,18 +115,27 @@ class MusicPlayer extends Component {
       if (newPlaylist.length === 0) {
         const successStream = successStreams[0];
         this.props.onMoodTitleChange(successStream);
+
         newPlaylist = allStreams.filter(
           (playlist) => playlist.category === successStream
         );
-        this.setState({ musicList: newPlaylist });
+        this.updateNewPlaylist(newPlaylist);
       }
 
       // set the dropdown options to the mood with the successful API call.
       this.props.onMoodOptionChange(successStreams);
 
       this.setState({ all_streams: allStreams });
-      this.updatePlayer();
+      if (!playerUpdated) {
+        this.updatePlayer();
+      }
     });
+
+    return allStreams;
+  }
+
+  updateNewPlaylist(newPlaylist) {
+    this.setState({ musicList: newPlaylist, loading: false });
   }
 
   componentWillUnmount() {
