@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 import { useTimer } from "react-timer-hook";
 import { Grid, Box } from "grommet";
 
@@ -69,7 +69,6 @@ const Countdown = ({
             {truncateString(currentTask, 20)}
           </Box>
         )}
-        {/* Working on deliverables to Mr.Harshit Singhai and presentation and doing other stuff for Mr.Harshit as well */}
         <Box gridArea="block4">
           <div className="timer-container-right-reset" onClick={onChangeActive}>
             {isRunning ? pauseIcon : playIcon}
@@ -80,4 +79,4 @@ const Countdown = ({
   );
 };
 
-export default Countdown;
+export default memo(Countdown);

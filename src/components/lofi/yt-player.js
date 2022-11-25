@@ -57,15 +57,32 @@ class MusicPlayer extends Component {
     }
   }
 
-  async fetchFirstStream(mood) {
+  async fetchFirstStream(firstMood) {
     try {
-      const res = await apiClient.get_streams_by_category(mood);
+      const res = await apiClient.get_streams_by_category(firstMood);
       return res.data;
     } catch (error) {
       console.log(error);
       return [];
     }
   }
+
+  // async fetchCategory(mood) {
+  //   const moodStream = [];
+  //   const moodPromises = [];
+  //   LofiStreams[mood].forEach(function (video_id) {
+  //     moodPromises.push(
+  //       apiClient
+  //         .get_streams_by_category(mood)
+  //         .then((response) => {
+  //           moodStream.push(...response.data);
+  //         })
+  //         .catch((error) => {
+  //           console.log("Error", error.message);
+  //         })
+  //     );
+  //   });
+  // }
 
   async fetchAndUpdateStreamsList() {
     const allStreams = [];

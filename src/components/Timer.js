@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 import Countdown from "./countdown";
 import AlertBox from "./Alertbox";
@@ -25,15 +25,15 @@ const Timer = () => {
   const [expiryTimestamp, setExpiryTimestamp] = useState();
   const [showAlert, setShowAlert] = useState(false);
 
-  useEffect(() => {
-    resetTimer();
-  }, [timer_time]);
-
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     const currentTime = new Date();
     currentTime.setSeconds(currentTime.getSeconds() + Number(timer_time));
     setExpiryTimestamp(currentTime);
-  };
+  }, [timer_time]);
+
+  useEffect(() => {
+    resetTimer();
+  }, [timer_time, resetTimer]);
 
   const clearTask = () => {
     dispatch({
@@ -95,7 +95,6 @@ const Timer = () => {
       pokemonAudio.currentTime = 0;
     }
   };
-
   return (
     <>
       {expiryTimestamp && (
