@@ -1,121 +1,113 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import Countdown from "./countdown";
-import AlertBox from "./Alertbox";
+import Header from "../components/Header";
+import TimerComponent from "../components/TimerComponent";
+import { CustomSpinner } from "../components/Elements";
 
-import { store } from "../store/store";
+import {
+  getToken,
+  getUserImage,
+  setUserImage,
+  removeToken,
+  removeUserImage,
+} from "../tokenStorage";
 import apiClient from "../apiClient";
-import { SET_CURRENT_SESSION, SET_CURRENT_TASK } from "../store/types";
-import { webNotifyMe } from "../js/notification";
+import { store } from "../store/store";
+import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS } from "../store/types";
 
-import "../css/timer.css";
-
-const pokemonAudio = new Audio(
-  "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/Pok%C3%A9mon%20Theme%20Song%20Trap%20Remix.mp3"
-);
-
-const Timer = () => {
+function Timer() {
   const globalState = useContext(store);
   const { dispatch } = globalState;
+  const myAudio = globalState.state.myAudio;
+  const { timer_settings_loaded_from_backend } = globalState.state.settings;
+  const [loader, setLoader] = useState(true);
+  const [profilepic, setProfilepic] = useState();
 
-  const { timer_time, current_session, timer_sessions } =
-    globalState.state.settings;
-  const { currentTask } = globalState.state;
+  const getSettings = () => {
+    apiClient
+      .get_settings()
+      .then((res) => {
+        const { data } = res;
+        if (data) {
+          dispatch({
+            type: SET_SETTINGS,
+            value: data,
+          });
+          dispatch({
+            type: SET_SETTING_LOADED_FROM_BACKEND,
+            value: !timer_settings_loaded_from_backend,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 403) {
+          // Could not validate credentials
+          removeToken();
+          removeUserImage();
+          if (window) {
+            window.location.reload();
+          }
+        }
+      });
+  };
 
-  const [expiryTimestamp, setExpiryTimestamp] = useState();
-  const [showAlert, setShowAlert] = useState(false);
+  //   const requestAnalytics = async () => {
+  //     // Create a request to analytics, so that it can be cached by the database,
+  //     // this will result in faster query and response time when the request is made in the
+  //     // in the analytics page
+  //     await apiClient.get_analytics();
+  //   };
 
-  const resetTimer = useCallback(() => {
-    const currentTime = new Date();
-    currentTime.setSeconds(currentTime.getSeconds() + Number(timer_time));
-    setExpiryTimestamp(currentTime);
-  }, [timer_time]);
+  const loadImage = async () => {
+    // Check localStorage if userImageURL is already available.
+    const userImageURL = getUserImage();
+    if (userImageURL) {
+      // If available in localStorage, set it as profile_pic
+      setProfilepic(userImageURL);
+    } else {
+      // If not available, make a request and get userimage from API
+      const resp = await apiClient.get_user_image_url();
+      if (resp.data) {
+        const { profile_pic } = resp.data;
+        setProfilepic(profile_pic);
+
+        // Save it to localstorage for future reference
+        setUserImage(profile_pic);
+      }
+    }
+  };
 
   useEffect(() => {
-    resetTimer();
-  }, [timer_time, resetTimer]);
-
-  const clearTask = () => {
-    dispatch({
-      type: SET_CURRENT_TASK,
-      value: "",
-    });
-  };
-
-  const setSessions = () => {
-    let sessionValue;
-    if (current_session + 1 >= timer_sessions) {
-      sessionValue = timer_sessions;
-    } else {
-      sessionValue = current_session + 1;
+    // if settings not loaded from backend
+    if (!getToken() || !timer_settings_loaded_from_backend) {
+      setLoader(false);
     }
-    dispatch({
-      type: SET_CURRENT_SESSION,
-      value: sessionValue,
-    });
-  };
+    if (getToken() && timer_settings_loaded_from_backend) {
+      getSettings();
+      loadImage();
+      //   requestAnalytics();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const send_analytics_and_task_to_backend = async () => {
-    const analytics = {
-      duration: Number(timer_time),
-    };
-    await apiClient.save_analytics(analytics);
-    // Make this API call only if user has defined the task.
-    if (currentTask) {
-      const currentTime = new Date();
-      const task = {
-        created_at: currentTime.toISOString(),
-        task_date: currentTime.toDateString(),
-        task_description: currentTask,
-        duration: Number(timer_time),
-      };
-      await apiClient.save_task(task);
-      clearTask();
+  const onMusicStop = () => {
+    if (myAudio) {
+      for (const audio of Object.values(myAudio)) {
+        audio.muted = true;
+      }
     }
   };
 
-  const expireTimer = () => {
-    setShowAlert(true);
-    playPokemonAudio();
-    send_analytics_and_task_to_backend();
-    setSessions();
-    webNotifyMe();
-    resetTimer();
-  };
-
-  const playPokemonAudio = () => {
-    if (pokemonAudio) {
-      pokemonAudio.play();
-    }
-  };
-
-  const stopPokemonAudio = () => {
-    if (pokemonAudio && pokemonAudio.played) {
-      pokemonAudio.pause();
-      pokemonAudio.currentTime = 0;
-    }
-  };
   return (
-    <>
-      {expiryTimestamp && (
-        <Countdown
-          expiryTimestamp={expiryTimestamp}
-          current_session={current_session}
-          timer_sessions={timer_sessions}
-          currentTask={currentTask}
-          onExpire={expireTimer}
-        />
+    <Header profile_pic={profilepic}>
+      {loader ? (
+        <CustomSpinner color="#ffffff" />
+      ) : (
+        <TimerComponent onMusicStop={onMusicStop} />
       )}
-
-      <AlertBox
-        show={showAlert}
-        onClose={() => {
-          setShowAlert(false);
-          stopPokemonAudio();
-        }}
-      />
-    </>
+    </Header>
   );
-};
+}
 
 export default Timer;
