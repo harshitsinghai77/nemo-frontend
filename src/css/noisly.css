@@ -103,15 +103,15 @@ a {
 
   /* margin: 84px auto auto; */
   /* padding-bottom: 60px; */
-  max-width: 330px;
+  max-width: 600px;
   /* margin-top: 50px; */
-  /* max-width: 100vh;
-  min-height: 100vh; */
+  /* max-width: 100vh; */
+  min-height: 200vh; 
 }
 
 @media (min-width: 576px) {
   .sound-types {
-    max-width: 540px;
+    max-width: 640px;
   }
 }
 
