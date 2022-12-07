@@ -16,7 +16,8 @@ a {
 
 .dashboard {
   /* background-color: rgb(92, 229, 180); */
-  background-image: url('../images/stacked-waves-haikei.svg');
+  /* background-image: url('../images/stacked-waves-haikei.svg'); */
+  background-image: url('../images/stacked-waves-haikei.png');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

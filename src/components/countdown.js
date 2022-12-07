@@ -4,6 +4,7 @@ import { Grid, Box } from "grommet";
 
 import TitleComponent from "./TitleComponent";
 import { playIcon, pauseIcon } from "../components/svg";
+import { InputTaskWhatAreYouWorkingOn } from "../components/TaskInput";
 
 import { truncateString } from "../js/utils";
 import "../css/timer.css";
@@ -51,6 +52,7 @@ const Countdown = ({
         rows={["xxsmall"]}
         columns={[120, 120, 120]}
         gap="xsmall"
+        className="pr-10"
         areas={[
           { name: "block1", start: [0, 0], end: [0, 0] },
           { name: "block2", start: [1, 0], end: [1, 0] },
@@ -64,10 +66,12 @@ const Countdown = ({
         <Box gridArea="block2" className="timer-container-countdown bubble">
           {ShowTime}
         </Box>
-        {currentTask && isRunning && (
+        {currentTask && isRunning ? (
           <Box gridArea="block3" className="timer-container-task bubble">
             {truncateString(currentTask, 20)}
           </Box>
+        ) : (
+          <InputTaskWhatAreYouWorkingOn />
         )}
         <Box gridArea="block4">
           <div className="timer-container-right-reset" onClick={onChangeActive}>

@@ -1,18 +1,16 @@
 import { useContext } from "react";
-import { TextInput } from "grommet";
 
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
 
 import { store } from "../store/store";
-import { TOGGLE_MUTE, SET_CURRENT_TASK } from "../store/types";
+import { TOGGLE_MUTE } from "../store/types";
+import { InputTaskWhatAreYouWorkingOn } from "../components/TaskInput";
 
 function Dashboard() {
   const globalState = useContext(store);
-  const { dispatch } = globalState;
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
-  const currentTask = globalState.state.currentTask;
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;
@@ -23,24 +21,14 @@ function Dashboard() {
     }
   };
 
-  const onCurrentTaskChange = (e) => {
-    dispatch({ type: SET_CURRENT_TASK, value: e.target.value });
-  };
-
   return (
     <div id="#dashboard" className="dashboard">
       <Timer />
       <div className="flex-container">
         {/* <Introduction /> */}
-        <div className="current-task bubble">
-          <TextInput
-            placeholder="What are you working on?"
-            value={currentTask}
-            onChange={onCurrentTaskChange}
-            focusIndicator={false}
-            plain
-          />
-        </div>
+        {/* <div className="current-task bubble">
+          <InputTaskWhatAreYouWorkingOn />
+        </div> */}
         <button
           className={
             mute

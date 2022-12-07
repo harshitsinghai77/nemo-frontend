@@ -67,23 +67,6 @@ class MusicPlayer extends Component {
     }
   }
 
-  // async fetchCategory(mood) {
-  //   const moodStream = [];
-  //   const moodPromises = [];
-  //   LofiStreams[mood].forEach(function (video_id) {
-  //     moodPromises.push(
-  //       apiClient
-  //         .get_streams_by_category(mood)
-  //         .then((response) => {
-  //           moodStream.push(...response.data);
-  //         })
-  //         .catch((error) => {
-  //           console.log("Error", error.message);
-  //         })
-  //     );
-  //   });
-  // }
-
   async fetchAndUpdateStreamsList() {
     const allStreams = [];
     const allPromises = [];
