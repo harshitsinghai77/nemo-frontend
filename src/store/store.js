@@ -31,6 +31,7 @@ const initialState = {
   },
   currentTask: "",
   lofiStreams: [],
+  lofiCategories: [],
   lofiMood: "Study & Chill",
 };
 const store = createContext(initialState);
@@ -220,6 +221,12 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           lofiStreams: action.value,
+        };
+
+      case types.SET_LOFI_CATEGORIES:
+        return {
+          ...state,
+          lofiCategories: action.value,
         };
 
       case types.SET_LOFI_MOOD:

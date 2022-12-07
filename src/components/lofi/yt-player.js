@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import apiClient from "../../apiClient";
 import { store } from "../../store/store";
-import { SET_LOFI_STREAMS } from "../../store/types";
+import { SET_LOFI_STREAMS, SET_LOFI_CATEGORIES } from "../../store/types";
 import { moodsCategory } from "./utility";
 import { CustomSpinner } from "../Elements";
 import "../../css/lofi/music-player.css";
@@ -36,7 +36,7 @@ class MusicPlayer extends Component {
     // Check if lofiStreams in global state
     const context = this.context;
     const { dispatch } = context;
-    const { lofiStreams } = context.state;
+    const { lofiStreams, lofiCategories } = context.state;
 
     if (lofiStreams && lofiStreams.length > 0) {
       const filteredStream = lofiStreams.filter(
@@ -45,14 +45,21 @@ class MusicPlayer extends Component {
 
       this.setState({ all_streams: lofiStreams });
       this.updateNewPlaylist(filteredStream);
+      this.props.onMoodOptionChange(lofiCategories);
     } else {
       // if global lofiStream is empty, fetch stream from backend
-      const allStreams = await this.fetchAndUpdateStreamsList();
+      const { allStreams, moodCategories } =
+        await this.fetchAndUpdateStreamsList();
 
       // Put it in globalState for future use
       dispatch({
         type: SET_LOFI_STREAMS,
         value: allStreams,
+      });
+
+      dispatch({
+        type: SET_LOFI_CATEGORIES,
+        value: moodCategories,
       });
     }
   }
@@ -131,7 +138,7 @@ class MusicPlayer extends Component {
       }
     });
 
-    return allStreams;
+    return { allStreams, moodCategories: successStreams };
   }
 
   updateNewPlaylist(newPlaylist) {

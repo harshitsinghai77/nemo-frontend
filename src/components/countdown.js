@@ -71,7 +71,7 @@ const Countdown = ({
             {truncateString(currentTask, 20)}
           </Box>
         ) : (
-          <InputTaskWhatAreYouWorkingOn />
+          !isRunning && <InputTaskWhatAreYouWorkingOn />
         )}
         <Box gridArea="block4">
           <div className="timer-container-right-reset" onClick={onChangeActive}>
