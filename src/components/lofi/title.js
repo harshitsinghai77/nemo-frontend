@@ -26,7 +26,7 @@ const LofiTitle = () => {
     <>
       <div className="title">
         <div className="title__mood flex flex-row	items-baseline justify-center">
-          <p className="toggle_title">Choose your mood</p>
+          <p className="toggle_title mr-2">Choose your mood</p>
           {activeMoodOption.length > 0 ? (
             <Select
               a11yTitle="Choose your mood"

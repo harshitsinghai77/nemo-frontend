@@ -19,8 +19,8 @@ const LofiSlider = ({ activeMoodTitle }) => {
   const loadImage = useCallback(
     (title) => {
       if (activeImage === null || newImage === null) return;
-      activeImage.src = moodImages[title].props.src;
-      newImage.src = moodImages[title].props.src;
+      activeImage.src = moodImages[title].src;
+      newImage.src = moodImages[title].src;
     },
     [activeImage, newImage]
   );
