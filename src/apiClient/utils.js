@@ -11,5 +11,8 @@ export const get_server_url = () => {
   if (use_backend === "DETA") {
     return process.env.REACT_APP_SERVER_URL_DETA;
   }
-  return process.env.REACT_APP_SERVER_URL_HEROKU;
+  if (use_backend === "HEROKU") {
+    return process.env.REACT_APP_SERVER_URL_HEROKU;
+  }
+  return process.env.REACT_APP_SERVER_URL_DETA;
 };

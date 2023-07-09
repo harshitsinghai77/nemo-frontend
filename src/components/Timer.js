@@ -41,13 +41,11 @@ function Timer() {
         }
       })
       .catch((err) => {
-        if (err.response && err.response.status === 403) {
-          // Could not validate credentials
-          removeToken();
-          removeUserImage();
-          if (window) {
-            window.location.reload();
-          }
+        // Could not validate credentials
+        removeToken();
+        removeUserImage();
+        if (window) {
+          window.location.reload();
         }
       });
   };

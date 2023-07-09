@@ -15,7 +15,7 @@ import { LoadSound } from "./js/utils";
 import Dashboard from "./views/dashboard";
 import Settings from "./views/settings/settings";
 import GoogleSignIn from "./views/google_signin";
-import Lofi from "./views/lofi";
+// import Lofi from "./views/lofi";
 
 function App() {
   const globalState = useContext(store);
@@ -51,7 +51,7 @@ function App() {
       <Switch>
         <Route path="/settings">{isLoggedIn(Settings)}</Route>
         <Route path="/login">{checkedLogedIn(GoogleSignIn)}</Route>
-        <Route path="/lofi">{Lofi}</Route>
+        {/* <Route path="/lofi">{Lofi}</Route> */}
         <Route path="/">
           <Dashboard />
         </Route>
