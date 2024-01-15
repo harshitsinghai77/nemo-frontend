@@ -1,6 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Box, TextInput, Button } from "grommet";
+import { Box, TextInput, Button, Notification } from "grommet";
 
 import apiClient from "../../apiClient";
 import { store } from "../../store/store";
@@ -21,8 +20,8 @@ import {
 import { APP_NAME, onLogout } from "../../js/utils";
 
 const AccountSettings = () => {
-  const history = useHistory();
   const [loader, setLoader] = useState(true);
+  const [visible, setVisible] = useState(false);
   const globalState = useContext(store);
   const { dispatch } = globalState;
   const {
@@ -64,35 +63,15 @@ const AccountSettings = () => {
     };
     const resp = await apiClient.update_account(account);
     const { data } = resp;
+    setVisible(true);
     dispatch({
       type: SET_USER_ACCOUNT,
       value: data,
     });
   };
 
-  const onChangeUsername = (value) =>
-    dispatch({
-      type: SET_USERNAME,
-      value: value,
-    });
-
-  const onChangeEmail = (value) =>
-    dispatch({
-      type: SET_EMAIL,
-      value: value,
-    });
-
-  const onChangeFirstName = (value) =>
-    dispatch({
-      type: SET_GIVEN_NAME,
-      value: value,
-    });
-
-  const onChangeLastName = (value) => {
-    dispatch({
-      type: SET_FAMILY_NAME,
-      value: value,
-    });
+  const handleInputChange = (type, value) => {
+    dispatch({ type, value });
   };
 
   const deleteUser = async () => {
@@ -112,7 +91,9 @@ const AccountSettings = () => {
             placeholder="username"
             value={username || ""}
             size="xsmall"
-            onChange={(event) => onChangeUsername(event.target.value)}
+            onChange={(event) =>
+              handleInputChange(SET_USERNAME, event.target.value)
+            }
           />
         </Box>
       </CustomBox>
@@ -124,7 +105,9 @@ const AccountSettings = () => {
             placeholder="type here"
             value={email}
             size="xsmall"
-            onChange={(event) => onChangeEmail(event.target.value)}
+            onChange={(event) =>
+              handleInputChange(SET_EMAIL, event.target.value)
+            }
           />
         </Box>
       </CustomBox>
@@ -135,7 +118,9 @@ const AccountSettings = () => {
             placeholder="type here"
             value={given_name}
             size="xsmall"
-            onChange={(event) => onChangeFirstName(event.target.value)}
+            onChange={(event) =>
+              handleInputChange(SET_GIVEN_NAME, event.target.value)
+            }
           />
         </Box>
       </CustomBox>
@@ -146,7 +131,9 @@ const AccountSettings = () => {
             placeholder="type here"
             value={family_name}
             size="xsmall"
-            onChange={(event) => onChangeLastName(event.target.value)}
+            onChange={(event) =>
+              handleInputChange(SET_FAMILY_NAME, event.target.value)
+            }
           />
         </Box>
       </CustomBox>
@@ -171,6 +158,18 @@ const AccountSettings = () => {
       <div className="mb-20">
         <Button label="Delete Account" color="red" onClick={deleteUser} />
       </div>
+
+      {visible && (
+        <Notification
+          toast
+          status="normal"
+          title="Your account information has been updated!"
+          // message="This is an example of a notification message"
+          onClose={() => setVisible((prevVisible) => !prevVisible)}
+          background="#f6f8f9"
+          time={3000}
+        />
+      )}
     </div>
   );
 

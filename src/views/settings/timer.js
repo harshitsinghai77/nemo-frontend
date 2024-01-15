@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Box, CheckBox, TextInput } from "grommet";
+import { useContext, useEffect, useState } from "react";
+import { Box, CheckBox, TextInput, Notification } from "grommet";
 
 import { store } from "../../store/store";
 import {
@@ -29,6 +29,7 @@ import { browserSupportsNotification } from "../../js/notification";
 import { stringToSeconds } from "../../js/utils";
 
 const TimerSettings = () => {
+  const [visible, setVisible] = useState(false);
   const globalState = useContext(store);
   const { dispatch } = globalState;
   const {
@@ -58,6 +59,12 @@ const TimerSettings = () => {
     }
   };
 
+  const updateSettings = async (payload) => {
+    setVisible(false);
+    await apiClient.update_settings(payload);
+    setVisible(true);
+  };
+
   useEffect(() => {
     // if settings not loaded from backend
     if (timer_settings_loaded_from_backend) {
@@ -81,7 +88,7 @@ const TimerSettings = () => {
               type: TOGGLE_WEB_NOTIFICATION,
               value: notification_value,
             });
-            await apiClient.update_settings({
+            await updateSettings({
               timer_web_notification: notification_value,
             });
           }
@@ -92,7 +99,7 @@ const TimerSettings = () => {
         type: TOGGLE_WEB_NOTIFICATION,
         value: customNotification,
       });
-      await apiClient.update_settings({
+      await updateSettings({
         timer_web_notification: customNotification,
       });
     }
@@ -103,7 +110,7 @@ const TimerSettings = () => {
       type: TOGGLE_TIME_END_NOTIFICION,
       value: !timer_end_notification,
     });
-    await apiClient.update_settings({
+    await updateSettings({
       timer_end_notification: !timer_end_notification,
     });
   };
@@ -120,7 +127,7 @@ const TimerSettings = () => {
       type: TOGGLE_AUTO_START,
       value: !timer_auto_start,
     });
-    await apiClient.update_settings({ timer_auto_start: !timer_auto_start });
+    await updateSettings({ timer_auto_start: !timer_auto_start });
   };
 
   const setBreakEndNotification = async () => {
@@ -128,7 +135,7 @@ const TimerSettings = () => {
       type: TOGGLE_BREAK_END_NOTIFICATION,
       value: !timer_break_end_notification,
     });
-    await apiClient.update_settings({
+    await updateSettings({
       timer_break_end_notification: !timer_break_end_notification,
     });
   };
@@ -138,7 +145,7 @@ const TimerSettings = () => {
       type: TOGGLE_TIMER_ON_BROWSER,
       value: !timer_show_timer_on_browser_tab,
     });
-    await apiClient.update_settings({
+    await updateSettings({
       timer_show_timer_on_browser_tab: !timer_show_timer_on_browser_tab,
     });
   };
@@ -154,7 +161,7 @@ const TimerSettings = () => {
       value: totalSeconds,
     });
     if (totalSeconds && timerValue) {
-      await apiClient.update_settings({
+      await updateSettings({
         timer_time: totalSeconds.toString(),
         display_time: timerValue,
       });
@@ -167,7 +174,7 @@ const TimerSettings = () => {
       type: SET_TOTAL_SESSION,
       value: session,
     });
-    await apiClient.update_settings({ timer_sessions: Number(session) });
+    await updateSettings({ timer_sessions: Number(session) });
   };
 
   const setDailyGoal = async (dailyGoal) => {
@@ -176,7 +183,7 @@ const TimerSettings = () => {
       type: SET_DAILY_GOAL,
       value: daily_goal,
     });
-    await apiClient.update_settings({ daily_goal: Number(daily_goal) });
+    await updateSettings({ daily_goal: Number(daily_goal) });
   };
 
   const content = (
@@ -209,7 +216,7 @@ const TimerSettings = () => {
           onChange={setToggleOnBrowser}
         />
       </CustomBox>
-      <CustomBox>
+      {/* <CustomBox>
         <ParagraphTitle text="Web Notification" />
         <CheckBox
           name="web notification toggle"
@@ -217,7 +224,7 @@ const TimerSettings = () => {
           checked={timer_web_notification}
           onChange={askForNotification}
         />
-      </CustomBox>
+      </CustomBox> */}
 
       <BorderLine />
 
@@ -300,6 +307,18 @@ const TimerSettings = () => {
       </CustomBox>
 
       <BorderLine />
+
+      {visible && (
+        <Notification
+          toast
+          status="normal"
+          title="Your account information has been updated!"
+          // message="This is an example of a notification message"
+          onClose={() => setVisible((prevVisible) => !prevVisible)}
+          background="#f6f8f9"
+          time={2000}
+        />
+      )}
     </div>
   );
 
