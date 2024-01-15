@@ -18,8 +18,7 @@ import {
   CustomBox,
   CustomSpinner,
 } from "../../components/Elements";
-import { removeToken, removeUserImage } from "../../tokenStorage";
-import { APP_NAME } from "../../js/utils";
+import { APP_NAME, onLogout } from "../../js/utils";
 
 const AccountSettings = () => {
   const history = useHistory();
@@ -96,18 +95,11 @@ const AccountSettings = () => {
     });
   };
 
-  const onLogout = () => {
-    removeToken();
-    history.push("/");
-  };
-
   const deleteUser = async () => {
     const res = await apiClient.delete_user();
     const { success } = res.data;
     if (success) {
-      removeToken();
-      removeUserImage();
-      history.push("/");
+      onLogout();
     }
   };
 

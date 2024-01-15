@@ -9,12 +9,10 @@ import "./css/noisly.css";
 import "./index.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Grommet theme={theme}>
-      <StateProvider>
-        <App />
-      </StateProvider>
-    </Grommet>
-  </React.StrictMode>,
+  <Grommet theme={theme}>
+    <StateProvider>
+      <App />
+    </StateProvider>
+  </Grommet>,
   document.getElementById("root")
 );

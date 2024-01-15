@@ -1,4 +1,5 @@
 import SoundData from "../data/sounds.json";
+import { removeToken, removeUserImage } from "../tokenStorage";
 
 export function LoadSound() {
   const audioDict = {};
@@ -22,6 +23,14 @@ export function LoadSound() {
     audioDict[title] = { imgsrc, stream_url, title, currentAudio: newAudio };
   });
   return audioDict;
+}
+
+export function onLogout() {
+  removeToken();
+  removeUserImage();
+  if (window) {
+    window.location.href = "/";
+  }
 }
 
 export function numberToMinute(num) {

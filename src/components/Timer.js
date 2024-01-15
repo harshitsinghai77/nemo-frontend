@@ -4,16 +4,11 @@ import Header from "../components/Header";
 import TimerComponent from "../components/TimerComponent";
 import { CustomSpinner } from "../components/Elements";
 
-import {
-  getToken,
-  getUserImage,
-  setUserImage,
-  removeToken,
-  removeUserImage,
-} from "../tokenStorage";
+import { getToken, getUserImage, setUserImage } from "../tokenStorage";
 import apiClient from "../apiClient";
 import { store } from "../store/store";
 import { SET_SETTING_LOADED_FROM_BACKEND, SET_SETTINGS } from "../store/types";
+import { onLogout } from "../js/utils";
 
 function Timer() {
   const globalState = useContext(store);
@@ -42,11 +37,7 @@ function Timer() {
       })
       .catch((err) => {
         // Could not validate credentials
-        removeToken();
-        removeUserImage();
-        if (window) {
-          window.location.reload();
-        }
+        onLogout();
       });
   };
 
