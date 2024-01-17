@@ -1,37 +1,14 @@
-import { useEffect, useState, memo } from "react";
+import { memo } from "react";
 
-import {
-  CustomBox,
-  ParagraphTitle,
-  CustomSpinner,
-} from "../../components/Elements";
-import apiClient from "../../apiClient";
-import { secToHourMinuteSecond } from "../../js/utils";
+import { CustomBox, ParagraphTitle } from "../../components/Elements";
 import { themePrimaryColor } from "../../themes";
 
-const Statistics = ({ bestDay }) => {
-  const [loader, setLoader] = useState(true);
-  const [stats, setStats] = useState();
-  useEffect(() => {
-    async function fetchData() {
-      const res = await apiClient.get_statistics("best-day");
-      const { data } = res;
-      if (data) {
-        const [h, m] = secToHourMinuteSecond(data.duration);
-        const stats = {
-          date: new Date(data.full_date).toDateString(),
-          duration: `${h} hrs ${m} min`,
-        };
-        setStats(stats);
-        setLoader(false);
-      }
-      setLoader(false);
-    }
-    fetchData();
-  }, []);
-
-  const content = (
-    <>
+const Statistics = ({ bestDay, bestSession }) => {
+  return (
+    <div className="my-8">
+      <h1 className="text-2xl mb-2" style={{ color: themePrimaryColor }}>
+        Statistics
+      </h1>
       {bestDay && (
         <CustomBox>
           <h1 className="text-base text-black mb-2">Best Day</h1>
@@ -40,22 +17,13 @@ const Statistics = ({ bestDay }) => {
         </CustomBox>
       )}
 
-      {stats && (
+      {bestSession && (
         <CustomBox>
           <h1 className="text-base text-black mb-2">Best Session</h1>
-          <ParagraphTitle text={stats.date} />
-          <ParagraphTitle text={stats.duration} />
+          <ParagraphTitle text={bestSession.best_day_full_date} />
+          <ParagraphTitle text={bestSession.best_day_duration} />
         </CustomBox>
       )}
-    </>
-  );
-
-  return (
-    <div className="my-8">
-      <h1 className="text-2xl mb-2" style={{ color: themePrimaryColor }}>
-        Statistics
-      </h1>
-      {loader ? <CustomSpinner /> : content}
     </div>
   );
 };

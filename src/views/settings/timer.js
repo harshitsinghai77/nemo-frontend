@@ -73,37 +73,37 @@ const TimerSettings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer_settings_loaded_from_backend]);
 
-  const askForNotification = async () => {
-    if (browserSupportsNotification()) {
-      let customNotification = false;
-      if (Notification.permission === "granted") {
-        customNotification = true && !timer_web_notification;
-      } else if (!timer_web_notification) {
-        Notification.requestPermission().then(async function (permission) {
-          if (permission === "granted") {
-            customNotification = true;
-            const notification_value =
-              customNotification && !timer_web_notification;
-            dispatch({
-              type: TOGGLE_WEB_NOTIFICATION,
-              value: notification_value,
-            });
-            await updateSettings({
-              timer_web_notification: notification_value,
-            });
-          }
-        });
-      }
+  // const askForNotification = async () => {
+  //   if (browserSupportsNotification()) {
+  //     let customNotification = false;
+  //     if (Notification.permission === "granted") {
+  //       customNotification = true && !timer_web_notification;
+  //     } else if (!timer_web_notification) {
+  //       Notification.requestPermission().then(async function (permission) {
+  //         if (permission === "granted") {
+  //           customNotification = true;
+  //           const notification_value =
+  //             customNotification && !timer_web_notification;
+  //           dispatch({
+  //             type: TOGGLE_WEB_NOTIFICATION,
+  //             value: notification_value,
+  //           });
+  //           await updateSettings({
+  //             timer_web_notification: notification_value,
+  //           });
+  //         }
+  //       });
+  //     }
 
-      dispatch({
-        type: TOGGLE_WEB_NOTIFICATION,
-        value: customNotification,
-      });
-      await updateSettings({
-        timer_web_notification: customNotification,
-      });
-    }
-  };
+  //     dispatch({
+  //       type: TOGGLE_WEB_NOTIFICATION,
+  //       value: customNotification,
+  //     });
+  //     await updateSettings({
+  //       timer_web_notification: customNotification,
+  //     });
+  //   }
+  // };
 
   const setTimeEndNotification = async () => {
     dispatch({

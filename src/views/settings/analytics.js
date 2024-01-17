@@ -6,7 +6,7 @@ import { store } from "../../store/store";
 import Statistics from "./statistics";
 import DataChartComponent from "../../components/DataChart";
 
-import { secondsToString } from "../../js/utils";
+import { secondsToString, generateRandomNoDataMessage } from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
 import { numberToHours, secToHourMinuteSecond } from "../../js/utils";
@@ -20,6 +20,7 @@ const Analytics = () => {
   const [currentGoal, setCurrentGoal] = useState();
   const [loader, setLoader] = useState(true);
   const [bestDay, setBestDay] = useState();
+  const [bestSession, setBestSession] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -27,6 +28,7 @@ const Analytics = () => {
         .all([
           apiClient.get_analytics(),
           apiClient.get_statistics("current-goal"),
+          apiClient.get_statistics("best-day"),
         ])
         .then(
           axios.spread((...responses) => {
@@ -45,11 +47,22 @@ const Analytics = () => {
               const [h, m] = secToHourMinuteSecond(
                 data[maximumHrsIndex]["total_count"]
               );
-
               setBestDay({
                 bestDayDuration: `${h} hrs ${m} min`,
                 bestDayDate: data[maximumHrsIndex]["weekday"],
               });
+
+              // Handling response from statistics/best-day
+              if (responses[2].data) {
+                const [h, m] = secToHourMinuteSecond(
+                  responses[2].data.best_day_duration
+                );
+                const current_stats = {
+                  best_day_full_date: responses[2].data["best_day_full_date"],
+                  best_day_duration: `${h} hrs ${m} min`,
+                };
+                setBestSession(current_stats);
+              }
               setWeeklyData(secToHrs);
               setWeeklyLabels(labels);
               setLoader(false);
@@ -73,12 +86,9 @@ const Analytics = () => {
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
       ) : (
         !loader && (
-          <>
-            <h1 className="mx-auto text-gray-900">No data found.</h1>
-            <h1 className="mx-auto text-gray-900">
-              No Analytics found. Complete a session and come back later 🙂.
-            </h1>
-          </>
+          <h1 className="mx-auto text-gray-900">
+            {generateRandomNoDataMessage()}
+          </h1>
         )
       )}
       {daily_goal - currentGoal >= 0 && (
@@ -93,7 +103,7 @@ const Analytics = () => {
           </Text>
         </>
       )}
-      {bestDay && <Statistics bestDay={bestDay} />}
+      {bestDay && <Statistics bestDay={bestDay} bestSession={bestSession} />}
     </Box>
   );
 };

@@ -11,7 +11,10 @@ import {
 import { Trash } from "grommet-icons";
 import moment from "moment";
 
-import { secondsToHrsMinString } from "../../js/utils";
+import {
+  secondsToHrsMinString,
+  generateRandomNoDataMessage,
+} from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
 
@@ -149,7 +152,7 @@ const AllTask = () => {
 
       {!loader && allTasks.length <= 0 && (
         <Text size="large" color="brand" className="my-10">
-          No Data Found. Create task, complete session and come back again. 🙂
+          {generateRandomNoDataMessage()}
         </Text>
       )}
     </Box>

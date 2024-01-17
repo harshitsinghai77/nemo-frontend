@@ -96,6 +96,23 @@ export function truncateString(str, num) {
   return str.slice(0, num) + "...";
 }
 
+export const noDataMessages = [
+  "Hmm, your focus oasis seems quiet lately. Time to create a new task and break your deep work record! ",
+  "No recent sessions yet? Take a breather, recharge, and return when inspiration strikes. Your calm corner awaits. ",
+  "Let's fill this space with your achievements! Add a task, conquer your goals, and see your deep work hours blossom. ✨",
+  "The soundscape is empty, waiting for your focus to fill it. Choose a white noise, set a timer, and dive into your next deep work session. ",
+  "Peace and quiet reign here. Pick a calming sound, set your intention, and let your productivity bloom amidst the serenity. ",
+  "No distraction symphonies yet? Find the perfect white noise blend, set your focus sail, and navigate the seas of productivity. ⛵",
+  "Your deep work dashboard awaits! Create a task, conquer your goals, and watch your focus flourish in the stats. ",
+  "The canvas of your achievements is blank. Let's paint it with deep work hours, starting with your next focused session. ",
+  "No recent entries in your focus log? Time to write a new chapter! Set a timer, unleash your potential, and witness your productivity story unfold.",
+];
+
+export function generateRandomNoDataMessage() {
+  const randomIndex = Math.floor(Math.random() * noDataMessages.length);
+  return noDataMessages[randomIndex];
+}
+
 export const colorPallete = [
   "rgb(20, 97, 75)",
   "rgb(255, 206, 26)",
