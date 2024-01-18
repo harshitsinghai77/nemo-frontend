@@ -1,8 +1,7 @@
 import { useState } from "react";
-import GoogleLogin from "react-google-login";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-
 import { CustomSpinner } from "../components/Elements";
 import { setToken } from "../tokenStorage";
 import apiClient from "../apiClient";
@@ -12,10 +11,11 @@ const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const GoogleSignIn = () => {
   const [loader, setLoader] = useState(false);
   const history = useHistory();
-  const responseGoogle = async (response) => {
+  const responseGoogle = async (credentialResponse) => {
     setLoader(true);
-    const id_token = response.getAuthResponse().id_token;
-    const res = await apiClient.user_login({ google_token: id_token });
+    const res = await apiClient.user_login({
+      google_token: credentialResponse.credential,
+    });
     const { data } = res;
     if (data) {
       setToken(data["access_token"]);
@@ -25,16 +25,6 @@ const GoogleSignIn = () => {
   };
 
   const onFailureResponse = () => {};
-
-  const googleButton = (
-    <GoogleLogin
-      clientId={CLIENT_ID}
-      buttonText="Connect with Google"
-      onSuccess={responseGoogle}
-      onFailure={onFailureResponse}
-      cookiePolicy={"single_host_origin"}
-    />
-  );
 
   return (
     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
@@ -46,7 +36,19 @@ const GoogleSignIn = () => {
               : "Connect with Google to get started."}
             {loader && <CustomSpinner />}
           </h1>
-          <div className="mt-8 mb-2">{googleButton}</div>
+          <div className="mt-8 mb-2 flex justify-center">
+            <GoogleOAuthProvider clientId={CLIENT_ID}>
+              <GoogleLogin
+                text="Connect with Google"
+                onSuccess={responseGoogle}
+                onFailure={onFailureResponse}
+                size="large"
+                // width="480"
+                theme="filled_blue"
+                cookiePolicy={"single_host_origin"}
+              />
+            </GoogleOAuthProvider>
+          </div>
           <Link to="/">
             <p className="text-sm" style={{ color: "rgb(92, 229, 180)" }}>
               I'll connect later
