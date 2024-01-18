@@ -97,8 +97,8 @@ const AllTask = () => {
 
   return (
     <Box alignSelf="center" className="my-10">
-      <Text size="large" color="brand" className="my-6">
-        Your Last 10 Days Report
+      <Text size="large" color="brand" className="my-4">
+        Productivity Overview: Task Completion & Time Spent
       </Text>
       {loader && <CustomSpinner />}
 
@@ -151,7 +151,7 @@ const AllTask = () => {
         ))}
 
       {!loader && allTasks.length <= 0 && (
-        <Text size="large" color="brand" className="my-10">
+        <Text size="large" color="brand" className="my-5">
           {generateRandomNoDataMessage()}
         </Text>
       )}

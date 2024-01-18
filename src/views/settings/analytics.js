@@ -77,18 +77,18 @@ const Analytics = () => {
   }, []);
 
   return (
-    <Box alignSelf="center" className="my-12">
-      <Text size="large" color="brand">
-        Last 7 days
+    <Box alignSelf="center" className="my-10">
+      <Text size="large" color="brand" className="my-4">
+        Deep Work Trends: Insights from the Past Week
       </Text>
       {loader && <CustomSpinner />}
       {weeklyData.length > 0 ? (
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
       ) : (
         !loader && (
-          <h1 className="mx-auto text-gray-900">
+          <Text size="large" color="brand" className="my-5">
             {generateRandomNoDataMessage()}
-          </h1>
+          </Text>
         )
       )}
       {daily_goal - currentGoal >= 0 && (

@@ -1,5 +1,12 @@
 import { Bar } from "react-chartjs-2";
 
+const getCategoryPercentage = (totalLength) => {
+  if (totalLength <= 4) {
+    return totalLength / 10;
+  }
+  return 0.8;
+};
+
 const DataChartComponent = (props) => {
   const data = {
     labels: props.labels,
@@ -7,9 +14,10 @@ const DataChartComponent = (props) => {
       {
         label: "# of hrs",
         data: props.data,
-        backgroundColor: "rgb(92, 229, 180)",
-        borderColor: "rgb(92, 229, 180)",
+        backgroundColor: "#6FFFB0",
+        borderColor: "#6FFFB0",
         borderWidth: 1,
+        categoryPercentage: getCategoryPercentage(props.labels.length), // Set category width to 80% if multiple labels
       },
     ],
   };
