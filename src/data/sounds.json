@@ -1,5 +1,50 @@
 [
   {
+    "title": "Morning Murmur",
+    "file_name": "morning-murmur.mp3",
+    "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
+    "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
+    "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
+    "imgsrc": "morning_murmur.png"
+  },
+  {
+    "title": "Lunchtime Lounge",
+    "file_name": "lunchtime-lounge.mp3",
+    "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
+    "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
+    "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
+    "imgsrc": "lunchtime_lounge.png"
+  },
+  {
+    "title": "University Undertones",
+    "file_name": "university-undertones.mp3",
+    "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
+    "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
+    "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
+    "imgsrc": "university_undertones.png"
+  },
+  {
+    "title": "Paris Paradise",
+    "file_name": "paris-paradise.mp3",
+    "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
+    "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
+    "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
+    "imgsrc": "paris_paradise.png"
+  },
+  {
+    "title": "Brazil Bistro",
+    "file_name": "brazil-bistro.mp3",
+    "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
+    "stream_url": "https://storage.googleapis.com/todobase-2770f.appspot.com/nemo-sounds/rain.ogg",
+    "stream_url_gcp_backup": "https://firebasestorage.googleapis.com/v0/b/newagent-f16bb.appspot.com/o/rain.ogg?alt=media",
+    "ipfs_hash": "QmZriB3AWoKWj6A74Fbvgyjr3zBJjpScdKdW3dPJmGyQMC",
+    "imgsrc": "brazil_bistro.png"
+  },
+  {
     "title": "Rain",
     "file_name": "rain.ogg",
     "stream_url_aws": "https://nemo-cdn-audio.s3.amazonaws.com/rain.ogg",
