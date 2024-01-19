@@ -1,6 +1,5 @@
-// const env = process.env.REACT_APP_ENVIRONMENT;
+const env = process.env.REACT_APP_ENVIRONMENT;
 const use_backend = process.env.REACT_APP_USE_BACKEND;
-const env = "prod";
 
 export const get_server_url = () => {
   if (env === "dev") {
