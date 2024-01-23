@@ -30,14 +30,14 @@ function Dashboard() {
 
   return (
     <div id="#dashboard" className="dashboard">
-      <Timer />
-      <div className="flex-container">
-        {/* <Introduction /> */}
-        {/* <div className="current-task bubble">
+      {/* <Introduction /> */}
+      {/* <div className="current-task bubble">
           <InputTaskWhatAreYouWorkingOn />
         </div> */}
-        {isBackgroundLoaded && (
-          <>
+      {isBackgroundLoaded && (
+        <>
+          <Timer />
+          <div className="flex-container">
             <button
               className={
                 mute
@@ -48,10 +48,10 @@ function Dashboard() {
               onClick={onMuteClickToggle}
             ></button>
             <Sounds />
-          </>
-        )}
-        {/* <Footer /> */}
-      </div>
+          </div>
+        </>
+      )}
+      {/* <Footer /> */}
     </div>
   );
 }
