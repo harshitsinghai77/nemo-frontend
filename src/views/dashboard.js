@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import Timer from "../components/Timer";
 import Sounds from "../components/Sounds";
@@ -11,6 +11,7 @@ function Dashboard() {
   const globalState = useContext(store);
   const mute = globalState.state.audioMute || false;
   const myAudio = globalState.state.myAudio;
+  const [isBackgroundLoaded, setIsBackgroundLoaded] = useState(false);
 
   const onMuteClickToggle = () => {
     const { dispatch } = globalState;
@@ -21,6 +22,12 @@ function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    const bgImage = new Image();
+    bgImage.src = require("../images/stacked-waves-haikei.svg").default;
+    bgImage.onload = () => setIsBackgroundLoaded(true);
+  }, []);
+
   return (
     <div id="#dashboard" className="dashboard">
       <Timer />
@@ -29,16 +36,20 @@ function Dashboard() {
         {/* <div className="current-task bubble">
           <InputTaskWhatAreYouWorkingOn />
         </div> */}
-        <button
-          className={
-            mute
-              ? "fa fa-volume-off active btn-mute dashboard-button"
-              : "fa fa-volume-up active btn-mute dashboard-button"
-          }
-          title="Mute/Unmute"
-          onClick={() => onMuteClickToggle()}
-        ></button>
-        <Sounds />
+        {isBackgroundLoaded && (
+          <>
+            <button
+              className={
+                mute
+                  ? "fa fa-volume-off active btn-mute dashboard-button"
+                  : "fa fa-volume-up active btn-mute dashboard-button"
+              }
+              title="Mute/Unmute"
+              onClick={onMuteClickToggle}
+            ></button>
+            <Sounds />
+          </>
+        )}
         {/* <Footer /> */}
       </div>
     </div>
