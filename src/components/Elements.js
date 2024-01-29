@@ -1,4 +1,5 @@
-import { Heading, Paragraph, Button, Box, Spinner } from "grommet";
+import { Heading, Text, Paragraph, Button, Box, Spinner } from "grommet";
+import { CircleInformation } from "grommet-icons";
 import { themePrimaryColor } from "../themes";
 import "../css/elements.css";
 
@@ -18,13 +19,27 @@ export const Title = ({ title, color, ...props }) => (
   </Heading>
 );
 
-export const ParagraphTitle = ({ text }) => (
+export const ParagraphTitle = ({ text, helperText }) => (
   <Paragraph
     className="elements-paragraph mr-10"
     textAlign="start"
     size="small"
   >
     {text}
+    {helperText && (
+      <Button
+        tip={{
+          dropProps: { align: { left: "right" } },
+          content: (
+            <Box width={{ max: "small" }} round="xsmall">
+              <Text>{helperText}</Text>
+            </Box>
+          ),
+        }}
+        a11yTitle={helperText}
+        icon={<CircleInformation size="small" />}
+      />
+    )}
   </Paragraph>
 );
 

@@ -260,7 +260,10 @@ const TimerSettings = () => {
       </CustomBox> */}
 
       <CustomBox>
-        <ParagraphTitle text="Daily Goal" />
+        <ParagraphTitle
+          text="Daily Goal"
+          helperText="Set your daily target for focused, productive work (e.g., 4 hrs, 6 hrs)"
+        />
         <Box>
           <TextInput
             a11yTitle="Daily Goal"
@@ -274,7 +277,10 @@ const TimerSettings = () => {
       </CustomBox>
 
       <CustomBox>
-        <ParagraphTitle text="Sessions" />
+        <ParagraphTitle
+          text="Sessions"
+          helperText="Set your daily number of session (e.g., 3 session)"
+        />
         <Box>
           <TextInput
             a11yTitle="Sessions"
