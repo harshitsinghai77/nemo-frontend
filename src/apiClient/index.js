@@ -42,11 +42,11 @@ const endpoints = {
   },
 
   update_account(account) {
-    return axiosInstance.patch("/account", account);
+    return axiosInstance.post("/account", account);
   },
 
   update_settings(settings) {
-    return axiosInstance.patch("/settings", settings);
+    return axiosInstance.post("/settings", settings);
   },
 
   delete_user() {
