@@ -54,21 +54,21 @@ const AllTask = () => {
     setBucket(dict);
   };
 
-  const deleteTask = (deketed_task_key, dateKey) => {
-    if (!deketed_task_key) return;
+  const deleteTask = (deleted_task_id, dateKey) => {
+    if (!deleted_task_id) return;
 
-    apiClient.remove_tasks(deketed_task_key).then((resp) => {
+    apiClient.remove_tasks(deleted_task_id).then((resp) => {
       const { success } = resp.data;
       if (success) {
-        removeTaskFromUI(deketed_task_key, dateKey);
+        removeTaskFromUI(deleted_task_id, dateKey);
       }
     });
   };
 
-  const removeTaskFromUI = (deketed_task_key, dateKey) => {
+  const removeTaskFromUI = (deleted_task_id, dateKey) => {
     // Find the duration of the current index task.
     const currentIndexDuration = bucket[dateKey].tasks.find(
-      (x) => x.key === deketed_task_key
+      (x) => x.id === deleted_task_id
     ).duration;
 
     // Subtract duration of the current index from the total_sum of the corresponding date.
@@ -76,7 +76,7 @@ const AllTask = () => {
 
     // Filter current task from all the tasks in the date
     const alteredDataKeyBucket = bucket[dateKey].tasks.filter(
-      (task) => task.key !== deketed_task_key
+      (task) => task.id !== deleted_task_id
     );
 
     // create newBucket after removing the index task
@@ -123,14 +123,11 @@ const AllTask = () => {
                 <TableCell scope="col" border="bottom">
                   Time
                 </TableCell>
-                {/* <TableCell scope="col" border="bottom">
-                  Date
-                </TableCell> */}
               </TableRow>
             </TableHeader>
             <TableBody>
               {bucket[dateKey].tasks.map((el) => (
-                <TableRow key={el.key}>
+                <TableRow key={el.id}>
                   <TableCell scope="row">
                     <strong>{el.task_description}</strong>
                   </TableCell>
@@ -140,7 +137,7 @@ const AllTask = () => {
                     &nbsp;
                     <Trash
                       size="small"
-                      onClick={() => deleteTask(el.key, dateKey)}
+                      onClick={() => deleteTask(el.id, dateKey)}
                     />
                   </TableCell>
                   {/* <TableCell>{el.date}</TableCell> */}

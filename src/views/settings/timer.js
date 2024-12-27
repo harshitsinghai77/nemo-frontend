@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Box, CheckBox, TextInput, Notification } from "grommet";
+import { Box, CheckBox, TextInput, Notification, Button } from "grommet";
 
 import { store } from "../../store/store";
 import {
@@ -25,11 +25,12 @@ import {
   CustomSpinner,
 } from "../../components/Elements";
 
-import { browserSupportsNotification } from "../../js/notification";
+// import { browserSupportsNotification } from "../../js/notification";
 import { stringToSeconds } from "../../js/utils";
 
 const TimerSettings = () => {
   const [visible, setVisible] = useState(false);
+  const [updateSetting, setUpdateSetting] = useState({})
   const globalState = useContext(store);
   const { dispatch } = globalState;
   const {
@@ -44,6 +45,7 @@ const TimerSettings = () => {
     timer_settings_loaded_from_backend,
   } = globalState.state.settings;
 
+  
   const getSettings = async () => {
     const res = await apiClient.get_settings();
     const { data } = res;
@@ -59,11 +61,17 @@ const TimerSettings = () => {
     }
   };
 
-  const updateSettings = async (payload) => {
+  const onSubmit = async () => {
     setVisible(false);
-    await apiClient.update_settings(payload);
+    await apiClient.update_settings(updateSetting);
     setVisible(true);
   };
+
+  const updateSettingPayload = (payload) => {
+    setUpdateSetting((prevState) => ({
+      ...prevState, ...payload,
+    }));
+  }
 
   useEffect(() => {
     // if settings not loaded from backend
@@ -110,9 +118,7 @@ const TimerSettings = () => {
       type: TOGGLE_TIME_END_NOTIFICION,
       value: !timer_end_notification,
     });
-    await updateSettings({
-      timer_end_notification: !timer_end_notification,
-    });
+    updateSettingPayload({timer_end_notification: !timer_end_notification})
   };
 
   // const setWorkInSession = () => {
@@ -127,7 +133,7 @@ const TimerSettings = () => {
       type: TOGGLE_AUTO_START,
       value: !timer_auto_start,
     });
-    await updateSettings({ timer_auto_start: !timer_auto_start });
+    updateSettingPayload({ timer_auto_start: !timer_auto_start })
   };
 
   const setBreakEndNotification = async () => {
@@ -135,9 +141,7 @@ const TimerSettings = () => {
       type: TOGGLE_BREAK_END_NOTIFICATION,
       value: !timer_break_end_notification,
     });
-    await updateSettings({
-      timer_break_end_notification: !timer_break_end_notification,
-    });
+    updateSettingPayload({ timer_break_end_notification: !timer_break_end_notification })
   };
 
   const setToggleOnBrowser = async () => {
@@ -145,9 +149,7 @@ const TimerSettings = () => {
       type: TOGGLE_TIMER_ON_BROWSER,
       value: !timer_show_timer_on_browser_tab,
     });
-    await updateSettings({
-      timer_show_timer_on_browser_tab: !timer_show_timer_on_browser_tab,
-    });
+    updateSettingPayload({ timer_show_timer_on_browser_tab: !timer_show_timer_on_browser_tab })
   };
 
   const setTimerValue = async (timerValue) => {
@@ -161,10 +163,10 @@ const TimerSettings = () => {
       value: totalSeconds,
     });
     if (totalSeconds && timerValue) {
-      await updateSettings({
+      updateSettingPayload({
         timer_time: totalSeconds.toString(),
         display_time: timerValue,
-      });
+      })
     }
   };
 
@@ -174,7 +176,7 @@ const TimerSettings = () => {
       type: SET_TOTAL_SESSION,
       value: session,
     });
-    await updateSettings({ timer_sessions: Number(session) });
+    updateSettingPayload({ timer_sessions: Number(session) })
   };
 
   const setDailyGoal = async (dailyGoal) => {
@@ -183,7 +185,7 @@ const TimerSettings = () => {
       type: SET_DAILY_GOAL,
       value: daily_goal,
     });
-    await updateSettings({ daily_goal: Number(daily_goal) });
+    updateSettingPayload({ daily_goal: Number(daily_goal) })
   };
 
   const content = (
@@ -311,6 +313,12 @@ const TimerSettings = () => {
           onChange={setBreakEndNotification}
         />
       </CustomBox>
+    
+      <Button 
+        secondary
+        label="Update"
+        onClick={onSubmit}
+      />
 
       <BorderLine />
 

@@ -43,10 +43,6 @@ export const ParagraphTitle = ({ text, helperText }) => (
   </Paragraph>
 );
 
-export const PrimaryButton = ({ label, onClick }) => (
-  <Button alignSelf="center" margin="small" label={label} onClick={onClick} />
-);
-
 export const BorderLine = () => (
   <div className="mt-10	pt-10 border-t border-solid text-light"></div>
 );
