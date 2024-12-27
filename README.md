@@ -13,3 +13,14 @@ docker build -t nemo-frontend .
 ```bash
 docker run -d -p 3000:3000 --name nemo-frontend nemo-frontend
 ```
+
+### Get inside the running container
+```bash
+docker exec -it container_id bash
+```
+
+### Get the build folder to local directory
+```bash
+docker cp <container_id>:/usr/src/app/build /path/to/local/directory
+```
+ 

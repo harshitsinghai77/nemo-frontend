@@ -1,5 +1,4 @@
-import { Box, Layer, Image } from "grommet";
-import { PrimaryButton } from "./Elements";
+import { Box, Layer, Image, Button } from "grommet";
 import HurrayGif from "../images/giphy.webp";
 import "../css/alertbox.css";
 
@@ -16,7 +15,7 @@ function AlertBox(props) {
           responsive={true}
         >
           <Image fit="cover" src={HurrayGif} className="alertbox-img" />
-          <PrimaryButton label="Time's up take a break" onClick={onClose} />
+          <Button label="Time's up take a break" onClick={onClose} />
         </Layer>
       )}
     </Box>
