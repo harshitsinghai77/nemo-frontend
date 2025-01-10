@@ -21,57 +21,56 @@ const Analytics = () => {
   const [loader, setLoader] = useState(true);
   const [bestDay, setBestDay] = useState();
   const [bestSession, setBestSession] = useState();
-
+  
   useEffect(() => {
-    async function fetchData() {
-      axios
-        .all([
-          apiClient.get_analytics(),
-          apiClient.get_statistics("current-goal"),
-          apiClient.get_statistics("best-day"),
-        ])
-        .then(
-          axios.spread((...responses) => {
-            let { current_goal } = responses[1].data;
-            current_goal = numberToHours(current_goal);
+    function fetchData() {
+      axios.all([
+        apiClient.get_analytics(),
+        apiClient.get_statistics("current-goal"),
+        apiClient.get_statistics("best-day"),
+      ])
+      .then(
+        axios.spread((analytics, currentGoalResponse, bestDayResponse) => {
+          
+          const currentGoal = currentGoalResponse?.data?.currentGoal;
+          if (currentGoal){
+            // Extract and process current goal
+            const current_goal = numberToHours(currentGoal);
             setCurrentGoal(current_goal);
-            const { data } = responses[0];
-            if (data) {
-              const labels = data.map((el) => el.weekday);
-              const secToHrs = data.map((el) =>
-                secondsToString(el.total_count)
-              );
-
-              // Best day is the day with the most number of hrs
-              const maximumHrsIndex = secToHrs.indexOf(Math.max(...secToHrs));
-              const [h, m] = secToHourMinuteSecond(
-                data[maximumHrsIndex]["total_count"]
-              );
-              setBestDay({
-                bestDayDuration: `${h} hrs ${m} min`,
-                bestDayDate: data[maximumHrsIndex]["weekday"],
-              });
-
-              // Handling response from statistics/best-day
-              if (responses[2].data) {
-                const [h, m] = secToHourMinuteSecond(
-                  responses[2].data.best_day_duration
-                );
-                const current_stats = {
-                  best_day_full_date: responses[2].data["best_day_full_date"],
-                  best_day_duration: `${h} hrs ${m} min`,
-                };
-                setBestSession(current_stats);
-              }
-              setWeeklyData(secToHrs);
-              setWeeklyLabels(labels);
-              setLoader(false);
-            }
-          })
-        )
-        .catch((err) => {
-          setLoader(false);
-        });
+          }
+    
+          // Process analytics data
+          const { data } = analytics;
+          if (data) {
+            const labels = data.map((el) => el.weekday);
+            const secToHrs = data.map((el) => secondsToString(el.total_count));
+            setWeeklyData(secToHrs);
+            setWeeklyLabels(labels);
+    
+            // Determine best day from analytics
+            const maxHrsIndex = secToHrs.indexOf(Math.max(...secToHrs));
+            const [h, m] = secToHourMinuteSecond(data[maxHrsIndex].total_count);
+            setBestDay({
+              bestDayDuration: `${h} hrs ${m} min`,
+              bestDayDate: data[maxHrsIndex].weekday,
+            });
+          }
+    
+          // Process best day response
+          if (bestDayResponse.data) {
+            const [h, m] = secToHourMinuteSecond(bestDayResponse.data.best_day_duration);
+            setBestSession({
+              best_day_full_date: bestDayResponse.data.best_day_full_date,
+              best_day_duration: `${h} hrs ${m} min`,
+            });
+          }
+    
+          setLoader(false); // Data fetch complete
+        })
+      )
+      .catch((error) => {
+        setLoader(false);
+      });
     }
     fetchData();
   }, []);
