@@ -30,9 +30,17 @@ const initialState = {
     user_account_loaded_from_backend: true,
   },
   currentTask: "",
-  lofiStreams: [],
-  lofiCategories: [],
-  lofiMood: "Study & Chill",
+  analytics: {
+    analyticsData: [],
+    bestSessionData: null,
+    currentGoal: -1,
+    bestSession: null,
+    analytics_loaded_from_backend: false
+  },
+  tasks: {
+    tasksData: [],
+    tasks_loaded_from_backend: false
+  }
 };
 const store = createContext(initialState);
 const { Provider } = store;
@@ -217,24 +225,23 @@ const StateProvider = ({ children }) => {
           currentTask: action.value,
         };
 
-      case types.SET_LOFI_STREAMS:
+      case types.SET_ANALYTICS:
         return {
           ...state,
-          lofiStreams: action.value,
-        };
-
-      case types.SET_LOFI_CATEGORIES:
+          analytics: {
+            ...state.analytics,
+            ...action.value
+          }
+        }
+      case types.SET_TASKS:
         return {
           ...state,
-          lofiCategories: action.value,
-        };
-
-      case types.SET_LOFI_MOOD:
-        return {
-          ...state,
-          lofiMood: action.value,
-        };
-
+          tasks: {
+            ...state.tasks,
+            ...action.value
+          }
+        }
+      
       default:
         throw new Error();
     }

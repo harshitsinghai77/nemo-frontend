@@ -5,8 +5,8 @@ import AlertBox from "./Alertbox";
 
 import { store } from "../store/store";
 import apiClient from "../apiClient";
-import { SET_CURRENT_SESSION, SET_CURRENT_TASK } from "../store/types";
-import { webNotifyMe } from "../js/notification";
+import { SET_CURRENT_SESSION, SET_CURRENT_TASK, SET_ANALYTICS, SET_TASKS } from "../store/types";
+// import { webNotifyMe } from "../js/notification";
 
 import "../css/timer.css";
 
@@ -18,8 +18,9 @@ const Timer = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
 
-  const { timer_time, current_session, timer_sessions } =
-    globalState.state.settings;
+  const { timer_time, current_session, timer_sessions } = globalState.state.settings;
+  const { analyticsData } = globalState.state.analytics;
+  const { tasksData } = globalState.state.tasks;
   const { currentTask } = globalState.state;
 
   const [expiryTimestamp, setExpiryTimestamp] = useState();
@@ -55,11 +56,50 @@ const Timer = () => {
     });
   };
 
-  const send_analytics_and_task_to_backend = async () => {
+  const getUpdateAnalyticsState = (newDuration) => {
+    // Get today’s date in the desired format (e.g., "January 12")
+    const today = new Date();
+    const options = { month: "long", day: "2-digit" };
+    const todayWeekday = today.toLocaleDateString("en-US", options);
+
+    const existingDataIndex = analyticsData.findIndex(
+      (entry) => entry.weekday === todayWeekday
+    );
+
+    if (existingDataIndex !== -1) {
+      // Update the existing entry
+      const updatedAnalytics = [...analyticsData];
+      updatedAnalytics[existingDataIndex].total_count += newDuration;
+      return updatedAnalytics;
+    } else {
+      // Add a new entry for today
+      return [
+        ...analyticsData,
+        {
+          weekday: todayWeekday,
+          total_count: newDuration,
+          month_number: today.getMonth() + 1, // Month is 0-indexed
+        },
+      ];
+    }
+  }
+
+  const sendAnalyticsTaskToBackend = async () => {
     const analytics = {
       duration: Number(timer_time),
     };
-    await apiClient.save_analytics(analytics);
+    let response = await apiClient.save_analytics(analytics);
+    if (response && response.status === 200) {
+      // Update local store only on success
+      const updatedLocalAnalyticsStore = {
+        analyticsData: getUpdateAnalyticsState(Number(timer_time)),
+      };
+      dispatch({
+        type: SET_ANALYTICS,
+        value: updatedLocalAnalyticsStore,
+      });
+    }
+
     // Make this API call only if user has defined the task.
     if (currentTask) {
       const currentTime = new Date();
@@ -69,7 +109,17 @@ const Timer = () => {
         task_description: currentTask,
         duration: Number(timer_time),
       };
-      await apiClient.save_task(task);
+      response = await apiClient.save_task(task);
+      if (response && response.status === 200) {
+        // Update local store only on success
+        const newTask = response?.data
+        newTask['date'] = new Date(newTask.created_at).toLocaleDateString("en-US", {month: "short", day: "2-digit", year: "numeric" }).replace(",", "");;
+        
+        dispatch({
+          type: SET_TASKS,
+          value: {'tasksData': [newTask, ...tasksData]},
+        });
+      }
       clearTask();
     }
   };
@@ -77,9 +127,9 @@ const Timer = () => {
   const expireTimer = () => {
     setShowAlert(true);
     playPokemonAudio();
-    send_analytics_and_task_to_backend();
+    sendAnalyticsTaskToBackend();
     setSessions();
-    webNotifyMe();
+    // webNotifyMe();
     resetTimer();
   };
 

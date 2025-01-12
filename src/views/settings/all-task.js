@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Box,
   Text,
@@ -11,35 +11,48 @@ import {
 import { Trash } from "grommet-icons";
 import moment from "moment";
 
-import {
-  secondsToHrsMinString,
-  generateRandomNoDataMessage,
-} from "../../js/utils";
+import { store } from "../../store/store";
+import { SET_TASKS } from "../../store/types";
+import { secondsToHrsMinString, generateRandomNoDataMessage } from "../../js/utils";
 import apiClient from "../../apiClient";
 import { CustomSpinner } from "../../components/Elements";
 
 const AllTask = () => {
-  const [loader, setLoader] = useState(true);
-  const [allTasks, setAllTasks] = useState([]);
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+  const { tasksData, tasks_loaded_from_backend } = globalState.state.tasks
+  const [loader, setLoader] = useState(false);
   const [bucket, setBucket] = useState();
 
-  useEffect(() => {
-    apiClient
-      .get_tasks()
-      .then((resp) => {
-        setAllTasks(resp.data);
-        createBuckets(resp.data);
+  const fetchData = () => {
+    setLoader(true)
+    apiClient.get_tasks().then((resp) => {
+        const backendTasks = {
+          tasksData: resp?.data,
+          tasks_loaded_from_backend: true
+        }
+        dispatch({
+          type: SET_TASKS,
+          value: backendTasks
+        });
         setLoader(false);
-      })
-      .catch((err) => {
-        setLoader(false);
-      });
-  }, []);
+    })
+    .catch((err) => {
+      setLoader(false);
+    });
+  }
 
-  const createBuckets = (tasksArray) => {
+  useEffect(() => {
+    if(!tasks_loaded_from_backend){
+      fetchData()
+    }
+    createBuckets()
+  }, [tasks_loaded_from_backend]);
+
+  const createBuckets = () => {
     const dict = {};
 
-    tasksArray.forEach((task) => {
+    tasksData.forEach((task) => {
       if (dict.hasOwnProperty(task.date)) {
         // if date exists in dict, group all task belonging to same date
         dict[task.date].tasks.push(task);
@@ -106,9 +119,11 @@ const AllTask = () => {
         Object.keys(bucket).map((dateKey, key) => (
           <Table
             alignSelf="stretch"
-            caption={`Tasks - ${dateKey}. Total hours ${secondsToHrsMinString(
-              bucket[dateKey].total_sum
-            )}`}
+            caption={`Tasks - ${dateKey}${
+              bucket[dateKey]?.total_sum
+                ? `. Total hours ${secondsToHrsMinString(bucket[dateKey].total_sum)}`
+                : ""
+            }`}
             key={key}
             className="mb-8"
           >
@@ -147,7 +162,7 @@ const AllTask = () => {
           </Table>
         ))}
 
-      {!loader && allTasks.length <= 0 && (
+      {!loader && tasksData.length <= 0 && (
         <Text size="large" color="brand" className="my-5">
           {generateRandomNoDataMessage()}
         </Text>
