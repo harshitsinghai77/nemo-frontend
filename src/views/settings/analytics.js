@@ -16,24 +16,24 @@ const Analytics = () => {
   const globalState = useContext(store);
   const { dispatch } = globalState;
   const { daily_goal } = globalState.state.settings;
-  const { analyticsData, currentGoal, bestSessionData, analytics_loaded_from_backend} = globalState.state.analytics
-  
+  const { analyticsData, currentGoal, bestSessionData, analytics_loaded_from_backend } = globalState.state.analytics
+
   const [loader, setLoader] = useState(false);
   const [weeklyData, setWeeklyData] = useState([]);
   const [weeklyLabels, setWeeklyLabels] = useState([]);
   const [bestDay, setBestDay] = useState()
   const [bestSession, setBestSession] = useState()
-  
+
   function prepareData() {
     if (analyticsData.length == 0) return
 
     const labels = analyticsData.map((el) => el.weekday);
     const secToHrs = analyticsData.map((el) => secondsToString(el.total_count));
-    
+
     // Determine best day from analytics
     const maxHrsIndex = secToHrs.indexOf(Math.max(...secToHrs));
     let [h, m] = secToHourMinuteSecond(analyticsData[maxHrsIndex].total_count);
-   
+
     setWeeklyData(secToHrs)
     setWeeklyLabels(labels)
     setBestDay({
@@ -44,13 +44,13 @@ const Analytics = () => {
     if (!bestSessionData) return
 
     [h, m] = secToHourMinuteSecond(bestSessionData.best_day_duration);
-    
+
     setBestSession({
       best_day_full_date: bestSessionData.best_day_full_date,
       best_day_duration: `${h} hrs ${m} min`,
     })
   }
-  
+
   function fetchData() {
     setLoader(true)
     axios.all([
@@ -58,36 +58,36 @@ const Analytics = () => {
       apiClient.get_statistics("current-goal"),
       apiClient.get_statistics("best-day"),
     ])
-    .then(
-      axios.spread((analytics, currentGoalResponse, bestDayResponse) => {
+      .then(
+        axios.spread((analytics, currentGoalResponse, bestDayResponse) => {
 
-        // let currentGoal = currentGoalResponse?.data?.currentGoal;
-        // if (currentGoal){
-        //   // Extract and process current goal
-        //   currentGoal = numberToHours(currentGoal);
-        //   backendAnalytics['currentGoal'] = currentGoal
-        // }
-  
-        const backendAnalytics = {
-          analyticsData: analytics?.data,
-          bestSessionData: bestDayResponse?.data,
-          analytics_loaded_from_backend: true
-        }
+          // let currentGoal = currentGoalResponse?.data?.currentGoal;
+          // if (currentGoal){
+          //   // Extract and process current goal
+          //   currentGoal = numberToHours(currentGoal);
+          //   backendAnalytics['currentGoal'] = currentGoal
+          // }
 
-        dispatch({
-          type: SET_ANALYTICS,
-          value: backendAnalytics,
-        });
-        setLoader(false); // Data fetch complete
-      })
-    )
-    .catch((error) => {
-      setLoader(false);
-    });
+          const backendAnalytics = {
+            analyticsData: analytics?.data,
+            bestSessionData: bestDayResponse?.data,
+            analytics_loaded_from_backend: true
+          }
+
+          dispatch({
+            type: SET_ANALYTICS,
+            value: backendAnalytics,
+          });
+          setLoader(false); // Data fetch complete
+        })
+      )
+      .catch((error) => {
+        setLoader(false);
+      });
   }
 
   useEffect(() => {
-    if(!analytics_loaded_from_backend){
+    if (!analytics_loaded_from_backend) {
       fetchData();
     }
     prepareData()
@@ -98,15 +98,14 @@ const Analytics = () => {
       <Text size="large" color="brand" className="my-4">
         Deep Work Trends: Insights from the Past Week
       </Text>
-      {loader && <CustomSpinner />}
-      {weeklyData.length > 0 ? (
+      {loader ? (
+        <CustomSpinner />
+      ) : weeklyData.length > 0 ? (
         <DataChartComponent labels={weeklyLabels} data={weeklyData} />
       ) : (
-        !loader && (
-          <Text size="large" color="brand" className="my-5">
-            {generateRandomNoDataMessage()}
-          </Text>
-        )
+        <Text size="large" color="brand" className="my-5">
+          {generateRandomNoDataMessage()}
+        </Text>
       )}
       {/* {daily_goal - currentGoal >= 0 && (
         <>

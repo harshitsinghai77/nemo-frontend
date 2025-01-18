@@ -27,23 +27,23 @@ const AllTask = () => {
   const fetchData = () => {
     setLoader(true)
     apiClient.get_tasks().then((resp) => {
-        const backendTasks = {
-          tasksData: resp?.data,
-          tasks_loaded_from_backend: true
-        }
-        dispatch({
-          type: SET_TASKS,
-          value: backendTasks
-        });
-        setLoader(false);
-    })
-    .catch((err) => {
+      const backendTasks = {
+        tasksData: resp?.data,
+        tasks_loaded_from_backend: true
+      }
+      dispatch({
+        type: SET_TASKS,
+        value: backendTasks
+      });
       setLoader(false);
-    });
+    })
+      .catch((err) => {
+        setLoader(false);
+      });
   }
 
   useEffect(() => {
-    if(!tasks_loaded_from_backend){
+    if (!tasks_loaded_from_backend) {
       fetchData()
     }
     createBuckets()
@@ -113,17 +113,16 @@ const AllTask = () => {
       <Text size="large" color="brand" className="my-4">
         Productivity Overview: Task Completion & Time Spent
       </Text>
-      {loader && <CustomSpinner />}
-
-      {bucket &&
+      {loader ? (
+        <CustomSpinner />
+      ) : bucket ? (
         Object.keys(bucket).map((dateKey, key) => (
           <Table
             alignSelf="stretch"
-            caption={`Tasks - ${dateKey}${
-              bucket[dateKey]?.total_sum
-                ? `. Total hours ${secondsToHrsMinString(bucket[dateKey].total_sum)}`
-                : ""
-            }`}
+            caption={`Tasks - ${dateKey}${bucket[dateKey]?.total_sum
+              ? `. Total hours ${secondsToHrsMinString(bucket[dateKey].total_sum)}`
+              : ""
+              }`}
             key={key}
             className="mb-8"
           >
@@ -160,13 +159,12 @@ const AllTask = () => {
               ))}
             </TableBody>
           </Table>
-        ))}
-
-      {!loader && tasksData.length <= 0 && (
+        ))
+      ) : tasksData.length == 0 ? (
         <Text size="large" color="brand" className="my-5">
           {generateRandomNoDataMessage()}
         </Text>
-      )}
+      ) : null}
     </Box>
   );
 };
