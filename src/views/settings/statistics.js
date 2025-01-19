@@ -20,8 +20,8 @@ const Statistics = ({ bestDay, bestSession }) => {
       {bestSession && (
         <CustomBox>
           <h1 className="text-base text-black mb-2">Best Session</h1>
-          <ParagraphTitle text={bestSession.best_day_full_date} />
-          <ParagraphTitle text={bestSession.best_day_duration} />
+          <ParagraphTitle text={bestSession.best_session_full_date} />
+          <ParagraphTitle text={bestSession.best_session_duration} />
         </CustomBox>
       )}
     </div>

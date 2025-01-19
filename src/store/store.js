@@ -33,7 +33,7 @@ const initialState = {
   analytics: {
     analyticsData: [],
     bestSessionData: null,
-    currentGoal: -1,
+    currentGoal: 0,
     bestSession: null,
     analytics_loaded_from_backend: false
   },
