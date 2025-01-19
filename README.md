@@ -16,7 +16,7 @@ docker run -d -p 3000:3000 --name nemo-frontend nemo-frontend
 
 ### Get inside the running container
 ```bash
-docker exec -it container_id bash
+docker exec -it $(docker ps -q -f name=nemo-frontend) bash
 ```
 
 ### Get the build folder to local directory
