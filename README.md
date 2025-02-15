@@ -21,6 +21,6 @@ docker exec -it $(docker ps -q -f name=nemo-frontend) bash
 
 ### Get the build folder to local directory
 ```bash
-docker cp <container_id>:/usr/src/app/build /path/to/local/directory
+docker cp $(docker ps -q -f name=nemo-frontend):/usr/src/app/build $(pwd)
 ```
  
